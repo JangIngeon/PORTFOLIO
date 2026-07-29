@@ -444,15 +444,15 @@ ul {
 }
 
 .case-label {
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--accent);
   margin-bottom: 1.1rem;
 }
 
 .case-text {
-  color: var(--text-dim);
-  font-size: 1.02rem;
+  color: var(--text);
+  font-size: 1.08rem;
   margin-bottom: 1.1rem;
 }
 
@@ -469,8 +469,8 @@ ul {
 .case-list li {
   position: relative;
   padding-left: 1.2rem;
-  color: var(--text-dim);
-  font-size: 0.98rem;
+  color: var(--text);
+  font-size: 1.05rem;
   line-height: 1.6;
 }
 
@@ -564,8 +564,8 @@ ul {
 
 .feature-item > p {
   max-width: 42rem;
-  color: var(--text-dim);
-  font-size: 0.98rem;
+  color: var(--text);
+  font-size: 1.05rem;
   margin-bottom: 1.2rem;
 }
 
@@ -601,6 +601,7 @@ ul {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
+  align-items: end;
 }
 
 .problem-card {
@@ -624,8 +625,8 @@ ul {
 
 .problem-card p {
   max-width: 44rem;
-  color: var(--text-dim);
-  font-size: 0.95rem;
+  color: var(--text);
+  font-size: 1.02rem;
 }
 
 /* ---------- Footer ---------- */
