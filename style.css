@@ -364,6 +364,12 @@ ul {
   -webkit-text-stroke: 1px var(--accent);
 }
 
+.project-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  margin-top: 0.3rem;
+}
+
 .project-desc {
   max-width: 40rem;
   font-size: 1.05rem;
@@ -387,7 +393,7 @@ ul {
 }
 
 .project-panel {
-  max-width: 34rem;
+  max-width: 38rem;
   padding: 1.4rem 1.6rem;
 }
 
