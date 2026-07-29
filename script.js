@@ -120,9 +120,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const projectIds = ['#project1', '#project2', '#project3', '#project4'];
+  // matches the sidebar nav order exactly: CAREER, SKILL, STRENGTH, then the 4 projects
+  const sectionIds = ['#career', '#skills', '#strength', '#project1', '#project2', '#project3', '#project4'];
 
-  projectIds.forEach((id, index) => {
+  sectionIds.forEach((id, index) => {
     const section = document.querySelector(id);
     if (!section) return;
 
@@ -137,13 +138,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // outside the project list (hero / about / skills) -> hide the indicator
-  ['#hero', '#about', '#skills'].forEach((id) => {
-    const section = document.querySelector(id);
-    if (!section) return;
-
+  // hero has no matching nav item -> hide the indicator while it's in view
+  const hero = document.querySelector('#hero');
+  if (hero) {
     ScrollTrigger.create({
-      trigger: section,
+      trigger: hero,
       scroller: mainContent,
       start: 'top center',
       end: 'bottom center',
@@ -151,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (self.isActive) setActiveNav(-1);
       }
     });
-  });
+  }
 
   window.addEventListener('resize', () => ScrollTrigger.refresh());
 });
