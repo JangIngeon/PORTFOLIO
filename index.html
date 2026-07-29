@@ -23,7 +23,7 @@
 
 <div class="app">
 
-  <!-- ============ LEFT : FIXED SIDEBAR (30%) ============ -->
+  <!-- ============ LEFT : FIXED SIDEBAR (20%) ============ -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-inner">
 
@@ -32,9 +32,29 @@
         <h2 class="sidebar-logo">Portfolio<span class="dot">.</span></h2>
       </div>
 
-      <nav class="project-nav" aria-label="프로젝트 목차">
-        <p class="nav-caption">PROJECTS</p>
+      <nav class="project-nav" aria-label="포트폴리오 목차">
+        <p class="nav-caption">PROFILE</p>
         <ul id="navList">
+          <li class="nav-item nav-item--meta" data-target="#career">
+            <a href="#career" class="nav-link">
+              <span class="nav-title">CAREER</span>
+            </a>
+          </li>
+          <li class="nav-item nav-item--meta" data-target="#skills">
+            <a href="#skills" class="nav-link">
+              <span class="nav-title">SKILL</span>
+            </a>
+          </li>
+          <li class="nav-item nav-item--meta" data-target="#strength">
+            <a href="#strength" class="nav-link">
+              <span class="nav-title">STRENGTH</span>
+            </a>
+          </li>
+
+          <li class="nav-caption-row">
+            <span class="nav-caption nav-caption--projects">PROJECTS</span>
+          </li>
+
           <li class="nav-item" data-target="#project1">
             <a href="#project1" class="nav-link">
               <span class="nav-index">01</span>
@@ -63,12 +83,6 @@
         <span class="nav-indicator" id="navIndicator" aria-hidden="true"></span>
       </nav>
 
-      <div class="sidebar-quicklinks">
-        <a href="#hero" class="quick-link" data-target="#hero">Intro</a>
-        <a href="#about" class="quick-link" data-target="#about">이력</a>
-        <a href="#skills" class="quick-link" data-target="#skills">Skill</a>
-      </div>
-
       <div class="sidebar-bottom">
         <p class="sidebar-note">Scroll to explore &darr;</p>
       </div>
@@ -76,7 +90,7 @@
     </div>
   </aside>
 
-  <!-- ============ RIGHT : SCROLLABLE MAIN CONTENT (70%) ============ -->
+  <!-- ============ RIGHT : SCROLLABLE MAIN CONTENT (80%) ============ -->
   <main class="main-content" id="mainContent">
 
     <!-- HERO -->
@@ -96,10 +110,10 @@
       </div>
     </section>
 
-    <!-- 이력 -->
-    <section class="section about" id="about">
-      <p class="section-tag reveal">CAREER</p>
-      <h3 class="section-title reveal">이력</h3>
+    <!-- CAREER -->
+    <section class="section about" id="career">
+      <p class="section-tag reveal">PROFILE</p>
+      <h3 class="section-title reveal">CAREER</h3>
       <p class="about-text reveal">
         <strong>통계학</strong> 및 <strong>산업경영공학</strong>을 전공했습니다.
         데이터를 기반으로 한 <strong>의사결정</strong>과 <strong>마케팅 전략 수립</strong>에 강점이 있습니다.
@@ -109,25 +123,20 @@
         <div class="about-card reveal">
           <span class="about-card-num">01</span>
           <h4>전공</h4>
-          <p>통계학 &amp; 산업경영공학</p>
+          <p>통계학</p>
         </div>
         <div class="about-card reveal">
           <span class="about-card-num">02</span>
-          <h4>강점</h4>
-          <p>데이터 기반 의사결정</p>
-        </div>
-        <div class="about-card reveal">
-          <span class="about-card-num">03</span>
-          <h4>관심 분야</h4>
-          <p>마케팅 전략 수립</p>
+          <h4>전공</h4>
+          <p>산업경영공학</p>
         </div>
       </div>
     </section>
 
-    <!-- Skill -->
+    <!-- SKILL -->
     <section class="section skills" id="skills">
       <p class="section-tag reveal">TOOLKIT</p>
-      <h3 class="section-title reveal">Skill</h3>
+      <h3 class="section-title reveal">SKILL</h3>
       <p class="skills-desc reveal">
         분석부터 시각화, 인사이트 전달까지 활용하는 주요 도구입니다.
       </p>
@@ -146,6 +155,28 @@
             <h5>데이터 시각화</h5>
             <p>인사이트 전달을 위한 시각화</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STRENGTH -->
+    <section class="section strength" id="strength">
+      <p class="section-tag reveal">WHY ME</p>
+      <h3 class="section-title reveal">STRENGTH</h3>
+      <p class="about-text reveal">
+        데이터를 기반으로 한 <strong>의사결정</strong>과 <strong>마케팅 전략 수립</strong>에 강점이 있습니다.
+      </p>
+
+      <div class="about-cards">
+        <div class="about-card reveal">
+          <span class="about-card-num">01</span>
+          <h4>강점</h4>
+          <p>데이터 기반 의사결정</p>
+        </div>
+        <div class="about-card reveal">
+          <span class="about-card-num">02</span>
+          <h4>강점</h4>
+          <p>마케팅 전략 수립</p>
         </div>
       </div>
     </section>
