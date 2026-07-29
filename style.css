@@ -8,14 +8,14 @@
 }
 
 :root {
-  --bg: #0b0c10;
-  --bg-soft: #101218;
-  --panel: #14161d;
-  --border: rgba(255, 255, 255, 0.08);
-  --text: #f4f4f6;
-  --text-dim: #9a9ba5;
-  --accent: #7dffb3;
-  --accent-soft: rgba(125, 255, 179, 0.12);
+  --bg: #ffffff;
+  --bg-soft: #f7f7f8;
+  --panel: #f4f5f7;
+  --border: rgba(15, 17, 21, 0.09);
+  --text: #14161d;
+  --text-dim: #6b6d76;
+  --accent: #0e9f6e;
+  --accent-soft: rgba(14, 159, 110, 0.1);
   --font-kr: "Noto Sans KR", sans-serif;
   --font-en: "Space Grotesk", sans-serif;
 }
@@ -42,7 +42,7 @@ ul {
 }
 
 /* =========================================================
-   App layout — left fixed sidebar (30%) / right scroll area (70%)
+   App layout — left fixed sidebar (20%) / right scroll area (80%)
 ========================================================= */
 .app {
   display: flex;
@@ -102,8 +102,19 @@ ul {
   margin-bottom: 1.2rem;
 }
 
+.nav-caption--projects {
+  display: block;
+  margin-top: 1.8rem;
+}
+
 .nav-item {
   position: relative;
+}
+
+.nav-item--meta .nav-title {
+  font-family: var(--font-en);
+  font-size: 0.92rem;
+  letter-spacing: 0.04em;
 }
 
 .nav-link {
@@ -135,7 +146,7 @@ ul {
 /* moving indicator bar next to the currently active project */
 .nav-indicator {
   position: absolute;
-  left: -1.1rem;
+  left: -0.9rem;
   top: 0;
   width: 2px;
   height: 2.7rem;
@@ -143,28 +154,6 @@ ul {
   border-radius: 2px;
   opacity: 0;
   transform: translateY(0);
-}
-
-/* quick links */
-.sidebar-quicklinks {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.9rem 1.1rem;
-  margin-top: 2.4rem;
-  padding-left: 0.9rem;
-}
-
-.quick-link {
-  font-size: 0.85rem;
-  color: var(--text-dim);
-  border-bottom: 1px solid transparent;
-  padding-bottom: 2px;
-  transition: color 0.3s ease, border-color 0.3s ease;
-}
-
-.quick-link:hover {
-  color: var(--accent);
-  border-color: var(--accent);
 }
 
 .sidebar-note {
@@ -281,7 +270,7 @@ ul {
 
 .about-cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.2rem;
 }
 
@@ -291,6 +280,7 @@ ul {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(15, 17, 21, 0.04);
 }
 
 .about-card {
