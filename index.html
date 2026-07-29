@@ -97,10 +97,12 @@
     <section class="section hero" id="hero">
       <p class="hero-eyebrow reveal">PORTFOLIO / 2026</p>
       <h1 class="hero-title">
-        <span class="reveal">장인건 포트폴리오</span>
+        <span class="reveal">데이터/비즈니스</span>
+        <span class="reveal">분석가 포트폴리오</span>
       </h1>
       <p class="hero-desc reveal">
-        데이터를 근거로 질문하고, 데이터를 근거로 답하는 장인건입니다.
+        데이터를 근거로 질문하고, 데이터를 근거로 답하는 분석가입니다.
+        아래 목차를 통해 이력과 프로젝트를 확인해보세요.
       </p>
       <div class="hero-scroll-cue reveal">
         <span></span>
@@ -186,21 +188,26 @@
         <div>
           <p class="section-tag">PROJECT</p>
           <h3 class="section-title">프로젝트1</h3>
+          <p class="project-subtitle">AI 데이터센터(AIDC) 일일동향 자동화 시스템</p>
         </div>
       </div>
       <p class="project-desc reveal">
-        판매 데이터를 분석하여 매출 추이와 핵심 지표를 한눈에 볼 수 있는 대시보드를 설계·구축한 프로젝트입니다.
-        데이터를 정제하고 시각화하여 의사결정에 필요한 인사이트를 도출했습니다.
+        AI 데이터센터(AIDC) 관련 정부기관·공기업 보도자료와 지자체·국내외 기업 뉴스를 매시간 자동으로 수집하고,
+        Claude API로 동향을 분석·요약해 실시간 웹사이트로 배포하는 업무 자동화 시스템입니다. 기획부터 개발·배포·운영까지
+        전 과정을 직접 담당하며, 사람이 매일 여러 기관 사이트를 일일이 확인하던 모니터링 업무를 수집 → 분석 → 배포가
+        자동으로 이어지는 파이프라인으로 전환했습니다.
       </p>
       <ul class="project-tags reveal">
         <li>Python</li>
-        <li>Pandas</li>
-        <li>데이터 시각화</li>
+        <li>Cloudflare Workers</li>
+        <li>Claude API</li>
+        <li>GitHub Actions</li>
       </ul>
       <div class="project-panel reveal">
-        <div class="panel-row"><span>역할</span><span>데이터 분석 &amp; 시각화</span></div>
-        <div class="panel-row"><span>내용</span><span>매출 데이터 분석 및 대시보드 구축</span></div>
-        <div class="panel-row"><span>사용 도구</span><span>Python, Pandas</span></div>
+        <div class="panel-row"><span>역할</span><span>기획·개발·배포·운영 전담 (1인)</span></div>
+        <div class="panel-row"><span>자동화 구조</span><span>로컬 Python 수집 + Cloudflare Workers(Cron) 실시간 수집·분석 + GitHub Actions 자동 배포</span></div>
+        <div class="panel-row"><span>해결한 문제</span><span>정부기관 사이트의 클라우드 IP 차단을 요청 로그로 진단 → 로컬 환경 이전 및 Cloudflare AI Gateway 우회 경로로 해결</span></div>
+        <div class="panel-row"><span>사용 도구</span><span>Python, BeautifulSoup, Cloudflare Workers, Claude API, GitHub Actions</span></div>
       </div>
     </section>
 
