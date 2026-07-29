@@ -444,7 +444,7 @@ ul {
 }
 
 .case-label {
-  font-size: 1.5rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--accent);
   margin-bottom: 1.1rem;
@@ -577,6 +577,7 @@ ul {
   background: var(--panel);
   box-shadow: 0 1px 2px rgba(15, 17, 21, 0.04);
 }
+
 .case-figure img {
   display: block;
   width: 100%;
@@ -596,8 +597,8 @@ ul {
 .figure-pair {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
   align-items: end;
+  gap: 1rem;
 }
 
 .problem-card {
