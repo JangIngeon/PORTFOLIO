@@ -25,44 +25,53 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ============================================================
-     2) Sidebar hover "spotlight" effect
-        Hovered project scales up; every other nav item AND the
-        entire right-hand content dims / blurs to keep focus.
+     2) Sidebar nav visual state
+        - Hover: hovered project scales up; every other nav item
+          AND the entire right-hand content dims / blurs.
+        - No hover: the project currently in view while scrolling
+          (activeIndex, set in section 4) stays scaled up instead,
+          so the sidebar always shows "where am I" on the page.
   ============================================================ */
-  navItems.forEach((item) => {
-    const link = item.querySelector('.nav-link');
-    const others = navItems.filter((n) => n !== item);
+  let hoveredItem = null;
+  let activeIndex = -1;
 
+  function refreshNavVisualState() {
+    navItems.forEach((item, i) => {
+      const link = item.querySelector('.nav-link');
+
+      if (hoveredItem) {
+        const isHovered = item === hoveredItem;
+        gsap.to(link, { scale: isHovered ? 1.08 : 1, duration: 0.35, ease: 'power3.out' });
+        gsap.to(item, {
+          opacity: isHovered ? 1 : 0.28,
+          filter: isHovered ? 'blur(0px)' : 'blur(1.5px)',
+          duration: 0.4,
+          ease: 'power2.out'
+        });
+      } else {
+        const isActive = i === activeIndex;
+        gsap.to(link, { scale: isActive ? 1.08 : 1, duration: 0.35, ease: 'power3.out' });
+        gsap.to(item, { opacity: 1, filter: 'blur(0px)', duration: 0.4, ease: 'power2.out' });
+      }
+    });
+
+    gsap.to(mainContent, {
+      opacity: hoveredItem ? 0.45 : 1,
+      filter: hoveredItem ? 'blur(2px)' : 'blur(0px)',
+      duration: 0.4,
+      ease: 'power2.out'
+    });
+  }
+
+  navItems.forEach((item) => {
     item.addEventListener('mouseenter', () => {
-      gsap.to(link, { scale: 1.08, duration: 0.35, ease: 'power3.out' });
-      gsap.to(others, {
-        opacity: 0.28,
-        filter: 'blur(1.5px)',
-        duration: 0.4,
-        ease: 'power2.out'
-      });
-      gsap.to(mainContent, {
-        opacity: 0.45,
-        filter: 'blur(2px)',
-        duration: 0.4,
-        ease: 'power2.out'
-      });
+      hoveredItem = item;
+      refreshNavVisualState();
     });
 
     item.addEventListener('mouseleave', () => {
-      gsap.to(link, { scale: 1, duration: 0.35, ease: 'power3.out' });
-      gsap.to(navItems, {
-        opacity: 1,
-        filter: 'blur(0px)',
-        duration: 0.4,
-        ease: 'power2.out'
-      });
-      gsap.to(mainContent, {
-        opacity: 1,
-        filter: 'blur(0px)',
-        duration: 0.4,
-        ease: 'power2.out'
-      });
+      hoveredItem = null;
+      refreshNavVisualState();
     });
   });
 
@@ -90,7 +99,11 @@ document.addEventListener('DOMContentLoaded', () => {
         tracks whichever project section is currently in view
   ============================================================ */
   function setActiveNav(index) {
+    if (activeIndex === index) return;
+    activeIndex = index;
+
     navItems.forEach((item, i) => item.classList.toggle('is-active', i === index));
+    refreshNavVisualState();
 
     if (index === -1) {
       gsap.to(navIndicator, { opacity: 0, duration: 0.3 });
