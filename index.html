@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>포트폴리오 | 데이터·비즈니스 분석가</title>
+<meta name="description" content="데이터/비즈니스 분석가 포트폴리오 - Python, 데이터 시각화 기반 프로젝트 소개">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+<!-- Stylesheet -->
+<link rel="stylesheet" href="style.css">
+
+<!-- GSAP (CDN) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ============ LEFT : FIXED SIDEBAR (30%) ============ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-inner">
+
+      <div class="sidebar-top">
+        <p class="sidebar-eyebrow">DATA &amp; BUSINESS ANALYST</p>
+        <h2 class="sidebar-logo">Portfolio<span class="dot">.</span></h2>
+      </div>
+
+      <nav class="project-nav" aria-label="프로젝트 목차">
+        <p class="nav-caption">PROJECTS</p>
+        <ul id="navList">
+          <li class="nav-item" data-target="#project1">
+            <a href="#project1" class="nav-link">
+              <span class="nav-index">01</span>
+              <span class="nav-title">프로젝트1</span>
+            </a>
+          </li>
+          <li class="nav-item" data-target="#project2">
+            <a href="#project2" class="nav-link">
+              <span class="nav-index">02</span>
+              <span class="nav-title">프로젝트2</span>
+            </a>
+          </li>
+          <li class="nav-item" data-target="#project3">
+            <a href="#project3" class="nav-link">
+              <span class="nav-index">03</span>
+              <span class="nav-title">프로젝트3</span>
+            </a>
+          </li>
+          <li class="nav-item" data-target="#project4">
+            <a href="#project4" class="nav-link">
+              <span class="nav-index">04</span>
+              <span class="nav-title">프로젝트4</span>
+            </a>
+          </li>
+        </ul>
+        <span class="nav-indicator" id="navIndicator" aria-hidden="true"></span>
+      </nav>
+
+      <div class="sidebar-quicklinks">
+        <a href="#hero" class="quick-link" data-target="#hero">Intro</a>
+        <a href="#about" class="quick-link" data-target="#about">이력</a>
+        <a href="#skills" class="quick-link" data-target="#skills">Skill</a>
+      </div>
+
+      <div class="sidebar-bottom">
+        <p class="sidebar-note">Scroll to explore &darr;</p>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- ============ RIGHT : SCROLLABLE MAIN CONTENT (70%) ============ -->
+  <main class="main-content" id="mainContent">
+
+    <!-- HERO -->
+    <section class="section hero" id="hero">
+      <p class="hero-eyebrow reveal">PORTFOLIO / 2026</p>
+      <h1 class="hero-title">
+        <span class="reveal">데이터/비즈니스</span>
+        <span class="reveal">분석가 포트폴리오</span>
+      </h1>
+      <p class="hero-desc reveal">
+        데이터를 근거로 질문하고, 데이터를 근거로 답하는 분석가입니다.
+        아래 목차를 통해 이력과 프로젝트를 확인해보세요.
+      </p>
+      <div class="hero-scroll-cue reveal">
+        <span></span>
+        <p>SCROLL DOWN</p>
+      </div>
+    </section>
+
+    <!-- 이력 -->
+    <section class="section about" id="about">
+      <p class="section-tag reveal">CAREER</p>
+      <h3 class="section-title reveal">이력</h3>
+      <p class="about-text reveal">
+        <strong>통계학</strong> 및 <strong>산업경영공학</strong>을 전공했습니다.
+        데이터를 기반으로 한 <strong>의사결정</strong>과 <strong>마케팅 전략 수립</strong>에 강점이 있습니다.
+      </p>
+
+      <div class="about-cards">
+        <div class="about-card reveal">
+          <span class="about-card-num">01</span>
+          <h4>전공</h4>
+          <p>통계학 &amp; 산업경영공학</p>
+        </div>
+        <div class="about-card reveal">
+          <span class="about-card-num">02</span>
+          <h4>강점</h4>
+          <p>데이터 기반 의사결정</p>
+        </div>
+        <div class="about-card reveal">
+          <span class="about-card-num">03</span>
+          <h4>관심 분야</h4>
+          <p>마케팅 전략 수립</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skill -->
+    <section class="section skills" id="skills">
+      <p class="section-tag reveal">TOOLKIT</p>
+      <h3 class="section-title reveal">Skill</h3>
+      <p class="skills-desc reveal">
+        분석부터 시각화, 인사이트 전달까지 활용하는 주요 도구입니다.
+      </p>
+
+      <div class="skill-grid">
+        <div class="skill-chip reveal">
+          <span class="skill-chip-icon">Py</span>
+          <div>
+            <h5>Python</h5>
+            <p>데이터 수집·가공·분석</p>
+          </div>
+        </div>
+        <div class="skill-chip reveal">
+          <span class="skill-chip-icon">Viz</span>
+          <div>
+            <h5>데이터 시각화</h5>
+            <p>인사이트 전달을 위한 시각화</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECT 1 -->
+    <section class="section project" id="project1">
+      <div class="project-head reveal">
+        <span class="project-num">01</span>
+        <div>
+          <p class="section-tag">PROJECT</p>
+          <h3 class="section-title">프로젝트1</h3>
+        </div>
+      </div>
+      <p class="project-desc reveal">
+        판매 데이터를 분석하여 매출 추이와 핵심 지표를 한눈에 볼 수 있는 대시보드를 설계·구축한 프로젝트입니다.
+        데이터를 정제하고 시각화하여 의사결정에 필요한 인사이트를 도출했습니다.
+      </p>
+      <ul class="project-tags reveal">
+        <li>Python</li>
+        <li>Pandas</li>
+        <li>데이터 시각화</li>
+      </ul>
+      <div class="project-panel reveal">
+        <div class="panel-row"><span>역할</span><span>데이터 분석 &amp; 시각화</span></div>
+        <div class="panel-row"><span>내용</span><span>매출 데이터 분석 및 대시보드 구축</span></div>
+        <div class="panel-row"><span>사용 도구</span><span>Python, Pandas</span></div>
+      </div>
+    </section>
+
+    <!-- PROJECT 2 -->
+    <section class="section project" id="project2">
+      <div class="project-head reveal">
+        <span class="project-num">02</span>
+        <div>
+          <p class="section-tag">PROJECT</p>
+          <h3 class="section-title">프로젝트2</h3>
+        </div>
+      </div>
+      <p class="project-desc reveal">
+        고객 데이터를 세그먼트별로 분류하고, 세그먼트 특성에 맞는 타겟 마케팅 전략을 제안한 프로젝트입니다.
+        통계 기법을 활용해 유의미한 고객 그룹을 도출했습니다.
+      </p>
+      <ul class="project-tags reveal">
+        <li>Python</li>
+        <li>통계 분석</li>
+        <li>마케팅 전략</li>
+      </ul>
+      <div class="project-panel reveal">
+        <div class="panel-row"><span>역할</span><span>고객 세그먼트 분석</span></div>
+        <div class="panel-row"><span>내용</span><span>타겟 마케팅 전략 제안</span></div>
+        <div class="panel-row"><span>사용 도구</span><span>Python, 데이터 시각화</span></div>
+      </div>
+    </section>
+
+    <!-- PROJECT 3 -->
+    <section class="section project" id="project3">
+      <div class="project-head reveal">
+        <span class="project-num">03</span>
+        <div>
+          <p class="section-tag">PROJECT</p>
+          <h3 class="section-title">프로젝트3</h3>
+        </div>
+      </div>
+      <p class="project-desc reveal">
+        여러 채널에서 수집한 원시 데이터를 정제·가공하여 분석 가능한 형태로 재구성한 프로젝트입니다.
+        반복적인 데이터 처리 과정을 자동화하여 분석 효율을 높였습니다.
+      </p>
+      <ul class="project-tags reveal">
+        <li>Python</li>
+        <li>데이터 전처리</li>
+        <li>자동화</li>
+      </ul>
+      <div class="project-panel reveal">
+        <div class="panel-row"><span>역할</span><span>데이터 전처리 &amp; 자동화</span></div>
+        <div class="panel-row"><span>내용</span><span>데이터 파이프라인 구성</span></div>
+        <div class="panel-row"><span>사용 도구</span><span>Python, Pandas</span></div>
+      </div>
+    </section>
+
+    <!-- PROJECT 4 -->
+    <section class="section project" id="project4">
+      <div class="project-head reveal">
+        <span class="project-num">04</span>
+        <div>
+          <p class="section-tag">PROJECT</p>
+          <h3 class="section-title">프로젝트4</h3>
+        </div>
+      </div>
+      <p class="project-desc reveal">
+        분석 결과를 비전문가도 이해하기 쉬운 형태로 시각화하여 보고서와 발표 자료로 전달한 프로젝트입니다.
+        데이터 스토리텔링을 통해 의사결정권자의 설득력 있는 근거를 마련했습니다.
+      </p>
+      <ul class="project-tags reveal">
+        <li>데이터 시각화</li>
+        <li>리포팅</li>
+        <li>인사이트 도출</li>
+      </ul>
+      <div class="project-panel reveal">
+        <div class="panel-row"><span>역할</span><span>데이터 시각화 &amp; 리포팅</span></div>
+        <div class="panel-row"><span>내용</span><span>분석 결과 시각화 및 보고</span></div>
+        <div class="panel-row"><span>사용 도구</span><span>Python, 데이터 시각화</span></div>
+      </div>
+    </section>
+
+    <footer class="footer reveal">
+      <p>© 2026 Data &amp; Business Analyst Portfolio</p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

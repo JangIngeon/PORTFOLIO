@@ -1,0 +1,469 @@
+/* =========================================================
+   Reset & base
+========================================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #0b0c10;
+  --bg-soft: #101218;
+  --panel: #14161d;
+  --border: rgba(255, 255, 255, 0.08);
+  --text: #f4f4f6;
+  --text-dim: #9a9ba5;
+  --accent: #7dffb3;
+  --accent-soft: rgba(125, 255, 179, 0.12);
+  --font-kr: "Noto Sans KR", sans-serif;
+  --font-en: "Space Grotesk", sans-serif;
+}
+
+html {
+  scroll-behavior: auto; /* GSAP handles smooth scroll */
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-kr);
+  line-height: 1.6;
+  overflow: hidden; /* the scroll happens inside .main-content */
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+/* =========================================================
+   App layout — left fixed sidebar (30%) / right scroll area (70%)
+========================================================= */
+.app {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+  position: relative;
+  flex: 0 0 30%;
+  max-width: 30%;
+  height: 100vh;
+  background: var(--bg-soft);
+  border-right: 1px solid var(--border);
+  transition: opacity 0.5s ease, filter 0.5s ease;
+}
+
+.sidebar-inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 3rem 2.4rem;
+}
+
+.sidebar-eyebrow {
+  font-family: var(--font-en);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+}
+
+.sidebar-logo {
+  font-family: var(--font-en);
+  font-size: 1.9rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.sidebar-logo .dot {
+  color: var(--accent);
+}
+
+/* Project nav */
+.project-nav {
+  position: relative;
+  padding-left: 1.1rem;
+}
+
+.nav-caption {
+  font-family: var(--font-en);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: var(--text-dim);
+  margin-bottom: 1.2rem;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-link {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  padding: 0.85rem 0;
+  transform-origin: left center;
+  will-change: transform, opacity, filter;
+}
+
+.nav-index {
+  font-family: var(--font-en);
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+.nav-title {
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.nav-item.is-active .nav-title {
+  color: var(--accent);
+}
+
+/* moving indicator bar next to the currently active project */
+.nav-indicator {
+  position: absolute;
+  left: -1.1rem;
+  top: 0;
+  width: 2px;
+  height: 2.7rem;
+  background: var(--accent);
+  border-radius: 2px;
+  opacity: 0;
+  transform: translateY(0);
+}
+
+/* quick links */
+.sidebar-quicklinks {
+  display: flex;
+  gap: 1.4rem;
+  margin-top: 2.4rem;
+  padding-left: 1.1rem;
+}
+
+.quick-link {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.quick-link:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.sidebar-note {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+/* ---------- Main content (scrollable) ---------- */
+.main-content {
+  flex: 0 0 70%;
+  max-width: 70%;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+  transition: opacity 0.5s ease, filter 0.5s ease;
+}
+
+.main-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.section {
+  padding: 7rem 5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-tag {
+  font-family: var(--font-en);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.6rem;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-en);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  margin-bottom: 1.6rem;
+}
+
+.hero-title {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(2.6rem, 5vw, 4.2rem);
+  font-weight: 900;
+  line-height: 1.22;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+}
+
+.hero-desc {
+  max-width: 32rem;
+  font-size: 1.05rem;
+  color: var(--text-dim);
+  margin-bottom: 4rem;
+}
+
+.hero-scroll-cue {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.hero-scroll-cue span {
+  width: 1px;
+  height: 2.6rem;
+  background: linear-gradient(var(--accent), transparent);
+}
+
+.hero-scroll-cue p {
+  font-family: var(--font-en);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: var(--text-dim);
+}
+
+/* ---------- About / 이력 ---------- */
+.about-text {
+  max-width: 38rem;
+  font-size: 1.15rem;
+  color: var(--text-dim);
+  margin-bottom: 3rem;
+}
+
+.about-text strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.about-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+}
+
+.about-card,
+.skill-chip,
+.project-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.about-card {
+  padding: 1.6rem;
+}
+
+.about-card-num {
+  font-family: var(--font-en);
+  font-size: 0.75rem;
+  color: var(--accent);
+}
+
+.about-card h4 {
+  font-size: 1rem;
+  margin: 0.7rem 0 0.4rem;
+}
+
+.about-card p {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+
+/* ---------- Skill ---------- */
+.skills-desc {
+  color: var(--text-dim);
+  margin-bottom: 2.4rem;
+  max-width: 34rem;
+}
+
+.skill-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+}
+
+.skill-chip {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  padding: 1.4rem 1.5rem;
+}
+
+.skill-chip-icon {
+  flex: 0 0 auto;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-family: var(--font-en);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.skill-chip h5 {
+  font-size: 1.02rem;
+  margin-bottom: 0.25rem;
+}
+
+.skill-chip p {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+/* ---------- Project sections ---------- */
+.project-head {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  margin-bottom: 1.6rem;
+}
+
+.project-num {
+  font-family: var(--font-en);
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--accent-soft);
+  -webkit-text-stroke: 1px var(--accent);
+}
+
+.project-desc {
+  max-width: 40rem;
+  font-size: 1.05rem;
+  color: var(--text-dim);
+  margin-bottom: 1.6rem;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 2rem;
+}
+
+.project-tags li {
+  font-size: 0.8rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-dim);
+}
+
+.project-panel {
+  max-width: 34rem;
+  padding: 1.4rem 1.6rem;
+}
+
+.panel-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 0;
+  font-size: 0.92rem;
+}
+
+.panel-row + .panel-row {
+  border-top: 1px solid var(--border);
+}
+
+.panel-row span:first-child {
+  color: var(--text-dim);
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  padding: 3rem 5rem;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}
+
+/* =========================================================
+   Reveal (scroll fade-in / slide-up) — initial state.
+   Final state is animated by GSAP ScrollTrigger in script.js
+========================================================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(48px);
+}
+
+/* =========================================================
+   Responsive
+========================================================= */
+@media (max-width: 900px) {
+  body {
+    overflow: auto;
+  }
+
+  .app {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .sidebar,
+  .main-content {
+    flex: 1 1 100%;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .section {
+    padding: 4rem 1.6rem;
+  }
+
+  .about-cards,
+  .skill-grid {
+    grid-template-columns: 1fr;
+  }
+}
