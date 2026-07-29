@@ -53,8 +53,8 @@ ul {
 /* ---------- Sidebar ---------- */
 .sidebar {
   position: relative;
-  flex: 0 0 30%;
-  max-width: 30%;
+  flex: 0 0 20%;
+  max-width: 20%;
   height: 100vh;
   background: var(--bg-soft);
   border-right: 1px solid var(--border);
@@ -66,7 +66,7 @@ ul {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 3rem 2.4rem;
+  padding: 2.6rem 1.7rem;
 }
 
 .sidebar-eyebrow {
@@ -79,7 +79,7 @@ ul {
 
 .sidebar-logo {
   font-family: var(--font-en);
-  font-size: 1.9rem;
+  font-size: 1.6rem;
   font-weight: 600;
   letter-spacing: -0.02em;
 }
@@ -91,7 +91,7 @@ ul {
 /* Project nav */
 .project-nav {
   position: relative;
-  padding-left: 1.1rem;
+  padding-left: 0.9rem;
 }
 
 .nav-caption {
@@ -109,7 +109,7 @@ ul {
 .nav-link {
   display: flex;
   align-items: baseline;
-  gap: 0.9rem;
+  gap: 0.6rem;
   padding: 0.85rem 0;
   transform-origin: left center;
   will-change: transform, opacity, filter;
@@ -117,14 +117,15 @@ ul {
 
 .nav-index {
   font-family: var(--font-en);
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   color: var(--text-dim);
 }
 
 .nav-title {
-  font-size: 1.15rem;
+  font-size: 1.02rem;
   font-weight: 500;
   color: var(--text);
+  white-space: nowrap;
 }
 
 .nav-item.is-active .nav-title {
@@ -147,9 +148,10 @@ ul {
 /* quick links */
 .sidebar-quicklinks {
   display: flex;
-  gap: 1.4rem;
+  flex-wrap: wrap;
+  gap: 0.9rem 1.1rem;
   margin-top: 2.4rem;
-  padding-left: 1.1rem;
+  padding-left: 0.9rem;
 }
 
 .quick-link {
@@ -172,8 +174,8 @@ ul {
 
 /* ---------- Main content (scrollable) ---------- */
 .main-content {
-  flex: 0 0 70%;
-  max-width: 70%;
+  flex: 0 0 80%;
+  max-width: 80%;
   height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
