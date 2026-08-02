@@ -13,91 +13,1415 @@
 <!-- Pretendard (Korean editorial sans) -->
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
 
-<!-- Stylesheet -->
-<link rel="stylesheet" href="style.css">
+<style>
+/* =========================================================
+   Reset & base
+========================================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #f7f7f5;
+  --bg-soft: #f1f1ee;
+  --panel: #ececea;
+  --card: #ffffff;
+  --border: rgba(15, 17, 21, 0.1);
+  --text: #111318;
+  --text-dim: #6b6d76;
+  --accent: #111318;
+  --accent-soft: rgba(15, 17, 21, 0.06);
+  --warn: #c2410c;
+  --warn-soft: rgba(194, 65, 12, 0.08);
+  --font-kr: "Pretendard Variable", Pretendard, -apple-system, sans-serif;
+  --font-en: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", "Space Grotesk", "Fira Code", monospace;
+
+  /* dark editorial scope */
+  --dark-bg: #0a0c10;
+  --dark-panel: #15181f;
+  --dark-border: rgba(255, 255, 255, 0.12);
+  --dark-text: #f5f5f3;
+  --dark-text-dim: rgba(245, 245, 243, 0.62);
+  --ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html {
+  font-size: 19.5px;
+  scroll-behavior: auto;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-kr);
+  line-height: 1.6;
+  overflow: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+/* =========================================================
+   App layout — left fixed sidebar (20%) / right scroll area (80%)
+========================================================= */
+.app {
+  display: flex;
+  flex-direction: row-reverse;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* ---------- Sidebar (right rail) ---------- */
+.sidebar {
+  position: relative;
+  flex: 0 0 20%;
+  max-width: 20%;
+  height: 100vh;
+  background: var(--bg-soft);
+  border-left: 1px solid var(--border);
+  transition: opacity 0.5s ease, filter 0.5s ease;
+}
+
+.sidebar-inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2.6rem 1.7rem;
+}
+
+.sidebar-eyebrow {
+  font-family: var(--font-en);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+}
+
+.sidebar-logo {
+  font-family: var(--font-en);
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+}
+
+.sidebar-logo .dot {
+  color: var(--warn);
+}
+
+.project-nav {
+  position: relative;
+  padding-left: 0.9rem;
+}
+
+.nav-caption {
+  font-family: var(--font-en);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: var(--text-dim);
+  margin-bottom: 1.2rem;
+}
+
+.nav-caption--projects {
+  display: block;
+  margin-top: 1.8rem;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-item--meta .nav-title {
+  font-family: var(--font-en);
+  font-size: 0.92rem;
+  letter-spacing: 0.04em;
+}
+
+.nav-link {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.75rem 0;
+  transform-origin: left center;
+  will-change: transform, opacity, filter;
+}
+
+.nav-index {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-dim);
+}
+
+.nav-title {
+  font-size: 1.02rem;
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.nav-item.is-active .nav-title {
+  color: var(--warn);
+  font-weight: 700;
+}
+
+/* moving indicator bar */
+.nav-indicator {
+  position: absolute;
+  left: -0.9rem;
+  top: 0;
+  width: 3px;
+  height: 2.5rem;
+  background: var(--warn);
+  border-radius: 999px;
+  opacity: 0;
+  transition: transform 0.4s var(--ease-soft), height 0.4s var(--ease-soft), opacity 0.3s ease;
+}
+
+.sidebar-note {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+/* ---------- Main content stage (80%) ---------- */
+.main-content {
+  flex: 0 0 80%;
+  max-width: 80%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.stage-viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* =========================================================
+   Panels — slide-in stage transitions
+========================================================= */
+.panel {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 4.6rem 5rem 7rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+  opacity: 0;
+  transform: translateX(40px);
+  pointer-events: none;
+  transition: opacity 0.6s var(--ease-soft), transform 0.6s var(--ease-soft);
+}
+
+.panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.panel::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.panel.is-active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+  z-index: 2;
+}
+
+.panel.is-leaving {
+  opacity: 0;
+  transform: translateX(-24px);
+  z-index: 1;
+}
+
+.panel-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.section-tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--warn);
+  margin-bottom: 0.6rem;
+}
+
+.section-title {
+  font-family: var(--font-en), var(--font-kr);
+  font-size: 3.4rem;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.6rem;
+}
+
+/* ---------- Dark editorial scope: hero + skills ---------- */
+#panel-home #hero,
+#panel-skills {
+  --bg: var(--dark-bg);
+  --bg-soft: var(--dark-panel);
+  --panel: var(--dark-panel);
+  --border: var(--dark-border);
+  --text: var(--dark-text);
+  --text-dim: var(--dark-text-dim);
+  --accent: var(--dark-text);
+  --accent-soft: rgba(245, 245, 243, 0.1);
+  background: var(--bg);
+  color: var(--text);
+  padding: 3rem 3.5rem;
+  border-radius: 24px;
+  margin-bottom: 3.5rem;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3.5rem;
+}
+
+.hero-content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.hero-photo {
+  flex: 0 0 auto;
+  width: 15rem;
+  aspect-ratio: 3 / 4;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--panel);
+  border: 1px solid var(--border);
+}
+
+.hero-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  object-fit: cover;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-en);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  color: var(--warn);
+  margin-bottom: 1.6rem;
+}
+
+.hero-title {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(2.6rem, 5vw, 4.2rem);
+  font-weight: 900;
+  line-height: 1.22;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+}
+
+.hero-tagline {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 1.6rem;
+}
+
+.hero-tagline strong {
+  font-weight: 800;
+}
+
+.hero-desc {
+  max-width: none;
+  font-size: 1.05rem;
+  color: var(--text-dim);
+  margin-bottom: 3rem;
+}
+
+.hero-scroll-cue {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.hero-scroll-cue span {
+  width: 1px;
+  height: 2.6rem;
+  background: linear-gradient(var(--warn), transparent);
+}
+
+.hero-scroll-cue p {
+  font-family: var(--font-en);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: var(--text-dim);
+}
+
+/* ---------- Home index grid ---------- */
+.home-section-title {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  color: var(--text-dim);
+  margin: 3.4rem 0 1.2rem;
+  text-transform: uppercase;
+}
+
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.home-card {
+  display: block;
+  padding: 1.9rem 1.7rem;
+  background: var(--card);
+  border-radius: 22px;
+  border: 1px solid var(--border);
+  transition: transform 0.35s var(--ease-soft), border-color 0.35s var(--ease-soft);
+}
+
+.home-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--text);
+}
+
+.home-card-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--warn);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.home-card-title {
+  font-family: var(--font-en), var(--font-kr);
+  font-size: 1.7rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.home-project-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+}
+
+.home-project-card {
+  display: block;
+  padding: 2rem 1.8rem;
+  background: var(--card);
+  border-radius: 22px;
+  border: 1px solid var(--border);
+  transition: transform 0.35s var(--ease-soft), border-color 0.35s var(--ease-soft);
+}
+
+.home-project-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--text);
+}
+
+.home-project-num {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--warn);
+  margin-bottom: 0.6rem;
+  display: block;
+}
+
+.home-project-title {
+  font-family: var(--font-en), var(--font-kr);
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin-bottom: 0.4rem;
+}
+
+.home-project-sub {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  line-height: 1.55;
+}
+
+/* ---------- About / Career ---------- */
+.about-text {
+  max-width: none;
+  font-size: 1.15rem;
+  color: var(--text-dim);
+  margin-bottom: 3rem;
+}
+
+.about-text strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.about-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+}
+
+.about-card,
+.skill-chip,
+.project-panel,
+.competency-card {
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--card);
+  transition: border-color 0.2s ease, transform 0.25s ease;
+}
+
+.about-card:hover,
+.competency-card:hover {
+  border-color: var(--text);
+  transform: translateY(-2px);
+}
+
+.about-card {
+  padding: 1.6rem;
+}
+
+.about-card-num {
+  font-family: var(--font-en);
+  font-size: 0.75rem;
+  color: var(--warn);
+}
+
+.about-card h4 {
+  font-size: 1rem;
+  margin: 0.7rem 0 0.4rem;
+}
+
+.about-card p {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+
+/* compact resume-style grouping */
+.resume-block {
+  margin-top: 2.4rem;
+  padding-top: 1.8rem;
+  border-top: 1px solid var(--border);
+}
+
+.resume-subgroup {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  margin: 1.2rem 0 0.6rem;
+}
+
+.resume-subgroup:first-child {
+  margin-top: 0;
+}
+
+.timeline-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.timeline-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  font-size: 0.98rem;
+}
+
+.timeline-row .t-label {
+  color: var(--text);
+  flex: 0 1 auto;
+}
+
+.timeline-row .t-fill {
+  flex: 1 1 auto;
+  min-width: 1rem;
+  border-bottom: 1px dotted var(--border);
+  margin-bottom: 0.35em;
+}
+
+.timeline-row .t-date {
+  flex: 0 0 auto;
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  font-family: var(--font-en);
+  white-space: nowrap;
+}
+
+/* ---------- Skill ---------- */
+.skills-desc {
+  color: var(--text-dim);
+  margin-bottom: 2.4rem;
+  max-width: 34rem;
+}
+
+.competency-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+}
+
+.competency-grid--3col {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.competency-card {
+  padding: 1.6rem;
+}
+
+.competency-card h4 {
+  font-size: 1.05rem;
+  margin: 0.7rem 0 0.5rem;
+}
+
+.competency-card p {
+  font-size: 0.92rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+.skill-subheading {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 2.4rem 0 1.2rem;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+
+.strength-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.strength-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.strength-photo {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  margin-bottom: 1.8rem;
+}
+
+.strength-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 160px;
+  object-fit: cover;
+}
+
+.strength-tag {
+  position: absolute;
+  left: 50%;
+  bottom: -1rem;
+  transform: translateX(-50%);
+  background: var(--card);
+  border: 1px solid var(--text);
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+.strength-desc {
+  font-size: 0.95rem;
+  color: var(--text);
+  line-height: 1.65;
+}
+
+/* ---------- Project sections Header ---------- */
+.project-header-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  margin-bottom: 1.8rem;
+}
+
+.project-header-wrap .section-tag {
+  margin-bottom: 0.15rem;
+}
+
+.index-row {
+  display: flex;
+  align-items: baseline;
+  gap: 2rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 2rem 0;
+  margin-bottom: 0;
+  cursor: default;
+}
+
+.index-num {
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-dim);
+}
+
+.index-title {
+  font-size: clamp(2.8rem, 5.5vw, 4.8rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 0;
+}
+
+.project-left .index-title {
+  font-size: clamp(2rem, 2.6vw, 2.8rem);
+}
+
+.project-subtitle {
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-top: 0.3rem;
+  line-height: 1.45;
+}
+
+.project-desc {
+  max-width: none;
+  font-size: 1.05rem;
+  color: var(--text);
+  margin-bottom: 1.6rem;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 2rem;
+}
+
+.project-tags li {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  background: var(--card);
+}
+
+.project-panel {
+  max-width: 38rem;
+  padding: 1.4rem 1.6rem;
+}
+
+.panel-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 0;
+  font-size: 0.92rem;
+}
+
+.panel-row + .panel-row {
+  border-top: 1px solid var(--border);
+}
+
+.panel-row span:first-child {
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.project-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 2rem;
+  padding: 0.7rem 1.3rem;
+  border-radius: 999px;
+  background: var(--text);
+  color: var(--bg);
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: opacity 0.25s ease;
+}
+
+.project-cta:hover {
+  opacity: 0.85;
+}
+
+/* ---------- Project case study ---------- */
+.case-block {
+  margin-top: 4.5rem;
+  padding-top: 3.5rem;
+  border-top: 1px solid var(--border);
+  max-width: none;
+}
+
+.case-block--wide {
+  max-width: none;
+}
+
+.case-label {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 1.1rem;
+}
+
+.case-text {
+  color: var(--text);
+  font-size: 1.08rem;
+  margin-bottom: 1.1rem;
+}
+
+.case-text:last-child {
+  margin-bottom: 0;
+}
+
+.case-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.case-list li {
+  position: relative;
+  padding-left: 1.2rem;
+  color: var(--text);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.case-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--warn);
+}
+
+.highlight-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.highlight-list li {
+  list-style: none;
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--card);
+  font-size: 0.98rem;
+  color: var(--text);
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.flow-diagram {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1.5rem;
+}
+
+.flow-step {
+  flex: 1 1 160px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.1rem 1.2rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.flow-step--accent {
+  border-color: var(--warn);
+}
+
+.flow-step-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.flow-step-desc {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+.flow-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  color: var(--text-dim);
+  font-size: 1.2rem;
+}
+
+.feature-item {
+  margin-bottom: 3rem;
+}
+
+.feature-item:last-child {
+  margin-bottom: 0;
+}
+
+.feature-item h5 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.feature-item > p {
+  max-width: none;
+  color: var(--text);
+  font-size: 1.05rem;
+  margin-bottom: 1.2rem;
+}
+
+.case-figure {
+  max-width: var(--fig-width, none);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--card);
+}
+
+.case-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 200px;
+  background: var(--border);
+  object-fit: cover;
+}
+
+.case-figure figcaption {
+  padding: 0.7rem 1rem;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  border-top: 1px solid var(--border);
+}
+
+.figure-pair {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* =========================================================
+   Forest plot & Dumbbell chart
+========================================================= */
+.chart-forest {
+  max-width: 88%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1.2rem 1.4rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  margin-bottom: 1rem;
+}
+
+.chart-forest-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.chart-forest-svg text {
+  font-family: var(--font-en), var(--font-kr);
+  fill: var(--text-dim);
+  font-size: 12px;
+}
+
+.chart-forest-age {
+  font-family: var(--font-kr);
+  font-weight: 700;
+  fill: var(--text);
+  font-size: 13px;
+}
+
+.chart-forest-sex {
+  font-family: var(--font-kr);
+  fill: var(--text-dim);
+  font-size: 12px;
+}
+
+.chart-forest-val {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  fill: var(--text);
+  font-weight: 600;
+}
+
+.chart-forest-sig {
+  font-family: var(--font-mono);
+  fill: var(--text-dim);
+  font-size: 11px;
+}
+
+.chart-forest-tick {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  fill: var(--text-dim);
+  font-size: 11px;
+  text-anchor: middle;
+}
+
+.chart-forest-row circle {
+  transition: r 0.15s ease;
+}
+
+.chart-forest-row:hover .chart-forest-hit,
+.chart-forest-row:focus .chart-forest-hit {
+  fill: rgba(15, 17, 21, 0.045);
+}
+
+.chart-forest-row:hover circle,
+.chart-forest-row:focus circle {
+  r: 6.5;
+}
+
+.chart-forest-row:focus {
+  outline: none;
+}
+
+.chart-forest-row:focus-visible .chart-forest-hit {
+  fill: var(--accent-soft);
+}
+
+.chart-forest-hint {
+  margin-top: 0.7rem;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.forest-tooltip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  width: 17rem;
+  max-width: calc(100vw - 2.4rem);
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--text-dim);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.12);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(4px);
+  transition: opacity 0.12s ease, transform 0.12s ease;
+}
+
+.forest-tooltip.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.forest-tooltip[data-tier="A"] {
+  border-left-color: var(--text);
+}
+
+.forest-tooltip[data-tier="C"] {
+  border-left-color: var(--warn);
+}
+
+.ft-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.ft-tier {
+  flex: 0 0 auto;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.16rem 0.55rem;
+  border-radius: 999px;
+  color: #fff;
+  background: var(--text-dim);
+}
+
+.forest-tooltip[data-tier="A"] .ft-tier {
+  background: var(--text);
+}
+
+.forest-tooltip[data-tier="C"] .ft-tier {
+  background: var(--warn);
+}
+
+.ft-name {
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+
+.ft-stat {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 0.35rem;
+}
+
+.ft-text {
+  font-size: 0.86rem;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.chart-forest-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--text);
+}
+
+.legend-dot--warn {
+  background: var(--warn);
+}
+
+.chart-table-toggle {
+  margin-top: 0.8rem;
+}
+
+.chart-table-toggle summary {
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--warn);
+  padding: 0.4rem 0;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  margin-top: 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table th,
+.data-table td {
+  padding: 0.55rem 0.9rem;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table th {
+  background: var(--bg-soft);
+  font-weight: 700;
+  color: var(--text-dim);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.problem-card {
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card);
+  transition: border-color 0.2s ease;
+}
+
+.problem-card:hover {
+  border-color: var(--text);
+}
+
+.problem-card:last-child {
+  margin-bottom: 0;
+}
+
+.problem-card h5 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.problem-card p {
+  max-width: none;
+  color: var(--text-dim);
+  font-size: 1rem;
+}
+
+.insight-quote {
+  border-left: 3px solid var(--warn);
+  padding: 1.2rem 1.6rem;
+  background: var(--panel);
+  border-radius: 16px;
+  margin-top: 1rem;
+}
+
+.insight-quote .quote-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  margin-bottom: 0.6rem;
+  text-transform: uppercase;
+}
+
+.insight-quote .quote-line {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+}
+
+.insight-quote p {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  padding: 3rem 5rem;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}
+
+/* =========================================================
+   Reveal (scroll fade-in / slide-up)
+========================================================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(48px);
+}
+
+.reveal.is-in {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.6s var(--ease-soft), transform 0.6s var(--ease-soft);
+}
+
+/* =========================================================
+   Responsive
+========================================================= */
+@media (max-width: 900px) {
+  body {
+    overflow: auto;
+  }
+
+  .app {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .sidebar,
+  .main-content {
+    flex: 1 1 100%;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-left: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section {
+    padding: 4rem 1.6rem;
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+  }
+
+  .about-cards,
+  .skill-grid,
+  .figure-pair,
+  .strength-grid,
+  .competency-grid,
+  .home-grid,
+  .home-project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-flex {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+
+  .hero-photo {
+    width: 10rem;
+  }
+}
+</style>
 </head>
 <body>
 
 <div class="app">
 
-  <!-- ============ LEFT : FIXED NAV (18%) ============ -->
-  <aside class="sidenav">
-    <div class="sidenav-top" id="sidenavTop" role="button" tabindex="0" aria-label="홈으로 이동">
-      <p class="sidebar-eyebrow">DATA ANALYST &amp; AUTOMATION DEV</p>
-      <h2 class="sidebar-logo">Portfolio<span class="dot">.</span></h2>
-    </div>
+  <!-- ============ RIGHT : FIXED RAIL NAV (20%) ============ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-inner">
 
-    <nav class="project-nav" aria-label="포트폴리오 목차">
-      <p class="nav-caption">PROFILE</p>
-      <ul id="navList">
-        <li class="nav-item nav-item--meta" data-target="#career">
-          <a href="#career" class="nav-link">
-            <span class="nav-title">CAREER</span>
-          </a>
-        </li>
-        <li class="nav-item nav-item--meta" data-target="#skills">
-          <a href="#skills" class="nav-link">
-            <span class="nav-title">SKILL</span>
-          </a>
-        </li>
-        <li class="nav-item nav-item--meta" data-target="#strength">
-          <a href="#strength" class="nav-link">
-            <span class="nav-title">STRENGTH</span>
-          </a>
-        </li>
+      <div class="sidebar-top">
+        <p class="sidebar-eyebrow">DATA ANALYST &amp; AUTOMATION DEV</p>
+        <h2 class="sidebar-logo" id="sidenavTop" role="button" tabindex="0" aria-label="홈으로 이동">Portfolio<span class="dot">.</span></h2>
+      </div>
 
-        <!-- 구분 1: 인턴 실무 및 업무 자동화 프로젝트 -->
-        <li class="nav-caption-row">
-          <span class="nav-caption nav-caption--projects">WORKPLACE AUTOMATION</span>
-        </li>
+      <nav class="project-nav" aria-label="포트폴리오 목차">
+        <p class="nav-caption">PROFILE</p>
+        <ul id="navList">
+          <li class="nav-item nav-item--meta" data-target="#career">
+            <a href="#career" class="nav-link">
+              <span class="nav-index">(01)</span>
+              <span class="nav-title">CAREER</span>
+            </a>
+          </li>
+          <li class="nav-item nav-item--meta" data-target="#skills">
+            <a href="#skills" class="nav-link">
+              <span class="nav-index">(02)</span>
+              <span class="nav-title">SKILL</span>
+            </a>
+          </li>
+          <li class="nav-item nav-item--meta" data-target="#strength">
+            <a href="#strength" class="nav-link">
+              <span class="nav-index">(03)</span>
+              <span class="nav-title">STRENGTH</span>
+            </a>
+          </li>
 
-        <li class="nav-item" data-target="#project1">
-          <a href="#project1" class="nav-link">
-            <span class="nav-index">01</span>
-            <span class="nav-title">프로젝트1</span>
-          </a>
-        </li>
-        <li class="nav-item" data-target="#project2">
-          <a href="#project2" class="nav-link">
-            <span class="nav-index">02</span>
-            <span class="nav-title">프로젝트2</span>
-          </a>
-        </li>
-        <li class="nav-item" data-target="#project3">
-          <a href="#project3" class="nav-link">
-            <span class="nav-index">03</span>
-            <span class="nav-title">프로젝트3</span>
-          </a>
-        </li>
+          <li class="nav-caption-row">
+            <span class="nav-caption nav-caption--projects">PROJECTS</span>
+          </li>
 
-        <!-- 구분 2: 학술 및 데이터 분석 프로젝트 -->
-        <li class="nav-caption-row">
-          <span class="nav-caption nav-caption--projects" style="margin-top: 1.2rem;">DATA ANALYSIS</span>
-        </li>
+          <li class="nav-item" data-target="#project1">
+            <a href="#project1" class="nav-link">
+              <span class="nav-index">(04)</span>
+              <span class="nav-title">프로젝트1</span>
+            </a>
+          </li>
+          <li class="nav-item" data-target="#project2">
+            <a href="#project2" class="nav-link">
+              <span class="nav-index">(05)</span>
+              <span class="nav-title">프로젝트2</span>
+            </a>
+          </li>
+          <li class="nav-item" data-target="#project4">
+            <a href="#project4" class="nav-link">
+              <span class="nav-index">(06)</span>
+              <span class="nav-title">프로젝트4</span>
+            </a>
+          </li>
+          <li class="nav-item" data-target="#project5">
+            <a href="#project5" class="nav-link">
+              <span class="nav-index">(07)</span>
+              <span class="nav-title">프로젝트5</span>
+            </a>
+          </li>
+        </ul>
+        <span class="nav-indicator" id="navIndicator" aria-hidden="true"></span>
+      </nav>
 
-        <li class="nav-item" data-target="#project4">
-          <a href="#project4" class="nav-link">
-            <span class="nav-index">04</span>
-            <span class="nav-title">프로젝트4</span>
-          </a>
-        </li>
-        <li class="nav-item" data-target="#project5">
-          <a href="#project5" class="nav-link">
-            <span class="nav-index">05</span>
-            <span class="nav-title">프로젝트5</span>
-          </a>
-        </li>
-      </ul>
-      <span class="nav-indicator" id="navIndicator" aria-hidden="true"></span>
-    </nav>
+      <div class="sidebar-bottom">
+        <p class="sidebar-note">Scroll &amp; Click &rarr;</p>
+      </div>
 
-    <div class="sidenav-bottom">
-      <p class="sidebar-note">Scroll to explore &darr;</p>
     </div>
   </aside>
 
-  <!-- ============ RIGHT : STAGE (82%) ============ -->
-  <main class="stage" id="stage">
+  <!-- ============ LEFT : STAGE (80%) — one panel visible at a time ============ -->
+  <main class="main-content" id="stage">
     <div class="stage-viewport" id="stageViewport">
 
       <!-- ============ HOME ============ -->
@@ -157,12 +1481,7 @@
             <a class="home-project-card reveal" href="#project2" data-target="#project2">
               <span class="home-project-num">02 / SIMULATOR</span>
               <h3 class="home-project-title">프로젝트2</h3>
-              <p class="home-project-sub">AIDC Revenue Simulator — GPU 랙 임대 사업성 실시간 시뮬레이션 대시보드</p>
-            </a>
-            <a class="home-project-card reveal" href="#project3" data-target="#project3">
-              <span class="home-project-num">03 / DATA ASSET</span>
-              <h3 class="home-project-title">프로젝트3</h3>
-              <p class="home-project-sub">비정형 문서(PDF) OCR 처리 및 구조화 표 데이터 자산화 파이프라인</p>
+              <p class="home-project-sub">AIDC Revenue Simulator — GPU 랙 임대 사업성 실시간 시뮬레이터 개발</p>
             </a>
           </div>
 
@@ -230,7 +1549,6 @@
             <ul class="timeline-list">
               <li class="timeline-row"><span class="t-label">AI 데이터센터(AIDC) 일일동향 수집 및 분석 24시간 무인 자동화 파이프라인 구축</span><span class="t-fill"></span><span class="t-date">2025.07 – 2025.08</span></li>
               <li class="timeline-row"><span class="t-label">AIDC Revenue Simulator — GPU 랙 임대 사업성 실시간 시뮬레이터 개발</span><span class="t-fill"></span><span class="t-date">2025.07 – 2025.08</span></li>
-              <li class="timeline-row"><span class="t-label">비정형 문서(PDF) OCR 처리 및 구조화 데이터 자산화 파이프라인 개발</span><span class="t-fill"></span><span class="t-date">2025.06 – 2025.07</span></li>
             </ul>
             <p class="resume-subgroup">학술 및 데이터 분석 프로젝트 (Data Analysis)</p>
             <ul class="timeline-list">
@@ -354,8 +1672,7 @@
                 <span class="about-card-num">01</span>
                 <h4>반복 업무 소거 &amp; 24시간 자동화 파이프라인</h4>
                 <p>
-                  인턴 실무 환경에서 매시간 기사 모니터링을 100% 무인화(프로젝트1)하고, 문서 속 표 서식을 1분 만에
-                  엑셀 DB로 구조화(프로젝트3)하여 팀 내 수기 업무 시간을 90% 이상 단축한 실천력이 있습니다.
+                  인턴 실무 환경에서 매시간 기사 모니터링을 100% 무인화(프로젝트1)하여 팀 내 수기 업무 시간을 90% 이상 단축한 실천력이 있습니다.
                 </p>
               </div>
               <div class="competency-card reveal">
@@ -397,7 +1714,7 @@
             <div class="index-row">
               <h3 class="section-title index-title">프로젝트1</h3>
             </div>
-            <p class="project-subtitle">AI 데이터센터(AIDC) 일일동향 수집·분석 24시간 무인 자동화 시스템</p>
+            <p class="project-subtitle">AI 데이터센터(AIDC) 일일동향 수집·분석 24시간 무인 자동화 파이프라인 구축</p>
           </div>
           <p class="project-desc reveal">
             정부·공기업·기업 뉴스를 매시간 자동 수집하고 Claude API로 분석·배포하여 팀의 수기 모니터링 업무를 없앤 자동화 파이프라인입니다.
@@ -635,6 +1952,7 @@
           <p class="project-desc reveal">
             GPU 랙 스펙·전력 단가·공사비 등 산재한 스프레드시트 수기 산식을 실시간 인터랙티브 시뮬레이터로 대체한 프로젝트입니다.
           </p>
+          <a class="project-cta reveal" href="https://jangingeon.github.io/PORTFOLIO/simulator.html" target="_blank" rel="noopener">라이브 데모 보기 ↗</a>
           <ul class="project-tags reveal">
             <li>HTML/CSS/JavaScript</li>
             <li>산식 모델링 &amp; 자동 계산</li>
@@ -868,202 +2186,6 @@
         </div>
       </section>
 
-      <!-- ============ PROJECT 3 (INTERNSHIP & AUTOMATION) ============ -->
-      <section class="panel" id="panel-project3">
-        <div class="panel-inner">
-          <div class="project-header-wrap reveal">
-            <p class="section-tag">INTERNSHIP &amp; AUTOMATION PROJECT</p>
-            <div class="index-row">
-              <h3 class="section-title index-title">프로젝트3</h3>
-            </div>
-            <p class="project-subtitle">비정형 문서(PDF) OCR 처리 및 구조화 데이터 자산화 파이프라인</p>
-          </div>
-          <p class="project-desc reveal">
-            스캔 문서 속 표 서식을 브라우저에서 안전하게 병합·OCR 처리해 엑셀로 정제·자산화하는 파이프라인입니다.
-          </p>
-          <ul class="project-tags reveal">
-            <li>데이터 자산화 (Data Assetization)</li>
-            <li>업무 자동화 (Workplace Automation)</li>
-            <li>HTML / JavaScript (pdf-lib)</li>
-            <li>OCR Pipeline</li>
-          </ul>
-          <div class="project-panel reveal">
-            <div class="panel-row"><span>역할</span><span>인턴 실무 — 기획·개발·배포 전담</span></div>
-            <div class="panel-row"><span>워크플로우</span><span>PDF 병합 → OCR → 엑셀 DB화</span></div>
-            <div class="panel-row"><span>해결한 문제</span><span>클라이언트단 보안 처리 + 예외 처리</span></div>
-            <div class="panel-row"><span>사용 도구</span><span>HTML · JS · pdf-lib · PDF24</span></div>
-          </div>
-      
-          <div class="project-body">
-            <div class="case-block reveal">
-              <p class="case-label">핵심 성과 (Automation Impact)</p>
-              <ul class="highlight-list">
-                <li>실무자의 비정형 서류(PDF) 처리 및 엑셀 DB화 작업 시간을 기존 10분에서 1분 이내로 줄여 90% 이상 단축</li>
-                <li>팀원의 반복적인 수기 타이핑 및 문서 재입력 업무를 체계적인 데이터 파이프라인으로 전환</li>
-                <li>미래사업전략실 인원 5명이 하루 약 10건 이상의 문서를 처리하는 핵심 실무 도구로 정착</li>
-                <li>외부 서버 전송 없이 브라우저 단에서만 처리되도록 구현하여 사내 보안 문서 규정 준수</li>
-              </ul>
-            </div>
-
-            <div class="case-block reveal">
-              <p class="case-label">프로젝트 개요</p>
-              <p class="case-text">
-                미래사업전략실에서는 외부 건축 관련 보도자료나 사내 보안 문서 등 공식 문서를 다룰 때, 팀원들이 필요한
-                내용을 일일이 타이핑하거나 AI에게 OCR을 부탁하는 방식으로 비효율적으로 처리하고 있었습니다.<br>
-                파이썬 OCR 라이브러리를 시도해봤지만 처리 성능이 기대에 못 미쳐, 이를 대체할 방법이 필요했습니다.<br>
-                이를 해결하기 위해 여러 PDF에서 필요한 페이지 범위만 골라 병합하는 브라우저 기반 도구를 직접 만들고,
-                텍스트 인식은 스캔 품질 안정성과 한국어 인식률이 더 나은 PDF24와 조합해 하나의 워크플로우로 구성했습니다.
-              </p>
-              <figure class="case-figure reveal">
-                <img src="images/project3-00-overview.png" alt="PDF 페이지 범위 추출 및 병합 도구 메인 화면" loading="lazy">
-                <figcaption>도구 메인 화면 — 파일 업로드, 페이지 범위 입력, 병합·OCR 연동 영역</figcaption>
-              </figure>
-            </div>
-
-            <div class="case-block case-block--wide reveal">
-              <p class="case-label">시스템 구조</p>
-              <p class="case-text">
-                문서 하나가 완전히 활용 가능한 상태가 되기까지, 도구 3개(직접 개발한 병합 도구, PDF24, 엑셀)를 하나의
-                흐름으로 이어지도록 설계했습니다.
-              </p>
-              <div class="flow-diagram">
-                <div class="flow-step">
-                  <span class="flow-step-title">페이지 추출 · 병합 (브라우저 도구)</span>
-                  <span class="flow-step-desc">여러 PDF에서 필요한 페이지 범위만 골라 하나로 병합 (pdf-lib, 서버 업로드 없음)</span>
-                </div>
-                <span class="flow-arrow">→</span>
-                <div class="flow-step">
-                  <span class="flow-step-title">PDF24 강제 OCR</span>
-                  <span class="flow-step-desc">병합 PDF를 PDF24로 전달해 한국어 텍스트 인식</span>
-                </div>
-                <span class="flow-arrow">→</span>
-                <div class="flow-step flow-step--accent">
-                  <span class="flow-step-title">표 데이터 → 엑셀 DB화</span>
-                  <span class="flow-step-desc">검색 가능해진 PDF에서 표를 드래그해 엑셀로 옮겨 DB 축적</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="case-block reveal">
-              <p class="case-label">내가 맡은 역할</p>
-              <p class="case-text">
-                기획부터 요구사항 정의, 개발, 테스트, 배포까지 전 과정을 단독으로(기여도 100%) 진행했습니다.
-              </p>
-              <ul class="case-list">
-                <li>기존 파이썬 OCR 방식의 한계를 파악하고, 페이지 추출·병합(브라우저 도구)과 텍스트 인식(PDF24)의
-                  역할을 분리하는 워크플로우 설계</li>
-                <li>pdf-lib 기반 페이지 추출·병합 도구 직접 개발 (드래그 앤 드롭, 페이지 범위 실시간 검증 포함)</li>
-                <li>실제 업무 문서로 반복 테스트하며 페이지 범위 파싱 예외 케이스 보완</li>
-                <li>미래사업전략실 팀 내 배포 및 사용 안내</li>
-              </ul>
-            </div>
-
-            <div class="case-block reveal">
-              <p class="case-label">팀(미래사업전략실)에 준 도움</p>
-              <ul class="case-list">
-                <li>PDF 안에 이미지로 스캔되어 있던 표를 텍스트로 인식할 수 있게 되면서, 표 데이터를 엑셀로 옮겨
-                  정리할 수 있게 됨 (기존에는 이미지라 손도 대지 못했음)</li>
-                <li>문서 한 건 처리에 걸리던 시간이 기존 약 10분에서 1분 이내로 줄어, 팀원 5명이 하루 약 10건의
-                  문서를 처리하는 부담이 크게 줄어듦</li>
-                <li>팀원 개개인이 일일이 타이핑하거나 AI에게 OCR을 따로 부탁하던 반복 작업을 하나의 도구로 대체</li>
-              </ul>
-            </div>
-
-            <div class="case-block case-block--wide reveal">
-              <p class="case-label">주요 기능</p>
-
-              <div class="feature-item reveal">
-                <h5>① 여러 PDF 파일 한 번에 업로드</h5>
-                <p>
-                  드래그 앤 드롭으로 여러 개의 PDF 파일을 한 번에 올릴 수 있습니다.<br>
-                  각 파일의 전체 페이지 수를 자동으로 표시해, 몇 쪽짜리 문서인지 바로 확인할 수 있습니다.
-                </p>
-                <figure class="case-figure">
-                  <img src="images/project3-01-upload.png" alt="PDF 다중 업로드 및 드래그 앤 드롭 화면" loading="lazy">
-                  <figcaption>다중 PDF 업로드 — 드래그 앤 드롭 지원, 파일별 총 페이지 수 표시</figcaption>
-                </figure>
-              </div>
-
-              <div class="feature-item reveal">
-                <h5>② 파일별 페이지 범위 지정</h5>
-                <p>
-                  <code>1-3,5,8-10</code> 형식으로 파일마다 원하는 페이지만 골라 지정할 수 있습니다.<br>
-                  입력하는 즉시 범위가 유효한지 검사해, 잘못된 입력은 빨간 테두리로 바로 표시됩니다.
-                </p>
-                <figure class="case-figure">
-                  <img src="images/project3-02-range.png" alt="페이지 범위 입력 및 실시간 유효성 검사 화면" loading="lazy">
-                  <figcaption>파일별 페이지 범위 지정 — 실시간 유효성 검사</figcaption>
-                </figure>
-              </div>
-
-              <div class="feature-item reveal">
-                <h5>③ 지정 순서대로 페이지 병합</h5>
-                <p>
-                  파일을 올린 순서, 그리고 각 파일 안에서 지정한 페이지 순서 그대로 잘라내 하나의 PDF로 합칩니다.<br>
-                  병합이 끝나면 바로 다운로드할 수 있는 링크가 생성됩니다.
-                </p>
-                <figure class="case-figure">
-                  <img src="images/project3-03-merge.png" alt="페이지 병합 완료 및 다운로드 화면" loading="lazy">
-                  <figcaption>지정 순서대로 페이지 병합 — 완료 후 즉시 다운로드</figcaption>
-                </figure>
-              </div>
-
-              <div class="feature-item reveal">
-                <h5>④ PDF24 강제 OCR 연동 가이드</h5>
-                <p>
-                  병합한 PDF를 PDF24 OCR 페이지로 바로 이동해 처리할 수 있도록, 언어 설정(한국어)과 강제 OCR 옵션
-                  체크 방법을 단계별로 안내합니다.<br>
-                  별도로 페이지를 찾아다닐 필요 없이 도구 안에서 바로 다음 단계로 이어집니다.
-                </p>
-                <figure class="case-figure">
-                  <img src="images/project3-04-ocr-guide.png" alt="PDF24 강제 OCR 연동 가이드 화면" loading="lazy">
-                  <figcaption>PDF24 강제 OCR 연동 가이드 — 한국어 설정 및 Force OCR 안내</figcaption>
-                </figure>
-              </div>
-            </div>
-
-            <div class="case-block case-block--wide reveal">
-              <p class="case-label">기술적으로 해결한 문제</p>
-
-              <div class="problem-card reveal">
-                <h5>① 서버 업로드 없는 클라이언트사이드 PDF 처리</h5>
-                <p>
-                  사내 보안 문서를 다루는 도구라, 파일을 어디로도 전송하지 않고 pdf-lib로 브라우저 안에서만 PDF를
-                  파싱·병합하도록 구현했습니다.<br>
-                  별도 서버나 설치 과정 없이도 문서가 외부로 나가지 않는다는 점을 보장할 수 있었습니다.
-                </p>
-              </div>
-
-              <div class="problem-card reveal">
-                <h5>② 페이지 범위 입력 예외 처리</h5>
-                <p>
-                  오탈자나 존재하지 않는 페이지 번호, 잘못된 범위(예: 끝 번호가 시작 번호보다 작은 경우) 등을 걸러내는
-                  파싱 로직을 설계했습니다.<br>
-                  입력하는 즉시 유효성을 검사해 빨간 테두리로 표시하고, 병합을 시도할 때는 어떤 파일의 몇 쪽짜리
-                  문서에서 문제가 발생했는지까지 안내하도록 만들었습니다.
-                </p>
-              </div>
-            </div>
-
-            <div class="case-block reveal">
-              <p class="case-label">배운 점</p>
-              <ul class="case-list">
-                <li><strong>보안 제약 조건을 충족하는 실용적 아키텍처 설계.</strong> 사내 보안 문서 전송 규정을
-                  준수하기 위해 로컬 클라이언트 브라우저 단에서 데이터를 처리하는 설계를 선택함으로써, 보안 컴플라이언스
-                  준수와 업무 처리 시간 90% 단축을 동시에 실현하는 현실적 문제 해결 관점을 확보함.</li>
-                <li><strong>비정형 문서의 '데이터 자산화(Data Assetization)' 가치 확인.</strong> 수기 입력으로 처리되던
-                  문서 속 표(Table) 데이터를 검색 및 분석이 가능한 엑셀 데이터베이스로 구조화함으로써, 파편화된 자료를
-                  2차 데이터 분석 프로젝트에 즉각 활용 가능한 실질적 자산으로 전환함.</li>
-                <li><strong>실무 도구 채택률을 결정하는 사용자 중심 경험(UX) 설계.</strong> 비개발 직군 동료들이 매일
-                  사용하는 업무 지원 도구라는 점을 고려해 별도 매뉴얼 없이 직관적으로 쓸 수 있는 드래그 앤 드롭 방식과
-                  예외 처리 알림을 구현함. 사용자의 실제 업무 흐름에 자연스럽게 녹아드는 설계가 실무 임팩트를
-                  결정한다는 점을 확인함.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <!-- ============ PROJECT 4 (DATA ANALYSIS & RESEARCH) ============ -->
       <section class="panel" id="panel-project4">
         <div class="panel-inner">
@@ -1212,7 +2334,7 @@
                     <line x1="236.1" y1="6" x2="236.1" y2="436.0" stroke="var(--text-dim)" stroke-width="1.2" />
                     <line x1="154.3" y1="8" x2="154.3" y2="434.0" stroke="var(--border)" stroke-width="1" /><text x="154.3" y="451.0" class="chart-forest-tick">−0.05</text><line x1="236.1" y1="8" x2="236.1" y2="434.0" stroke="var(--border)" stroke-width="1" /><text x="236.1" y="451.0" class="chart-forest-tick">0</text><line x1="317.8" y1="8" x2="317.8" y2="434.0" stroke="var(--border)" stroke-width="1" /><text x="317.8" y="451.0" class="chart-forest-tick">+0.05</text><line x1="399.5" y1="8" x2="399.5" y2="434.0" stroke="var(--border)" stroke-width="1" /><text x="399.5" y="451.0" class="chart-forest-tick">+0.10</text><line x1="481.2" y1="8" x2="481.2" y2="434.0" stroke="var(--border)" stroke-width="1" /><text x="481.2" y="451.0" class="chart-forest-tick">+0.15</text><line x1="563.0" y1="8" x2="563.0" y2="434.0" stroke="var(--border)" stroke-width="1" /><text x="563.0" y="451.0" class="chart-forest-tick">+0.20</text>
                     <text x="8" y="42.0" class="chart-forest-age">10대</text><text x="8" y="98.5" class="chart-forest-age">20대</text><text x="8" y="159.5" class="chart-forest-age">30대</text><text x="8" y="220.5" class="chart-forest-age">40대</text><text x="8" y="281.5" class="chart-forest-age">50대</text><text x="8" y="342.5" class="chart-forest-age">60대</text><text x="8" y="403.5" class="chart-forest-age">70대</text>
-                    <g class="chart-forest-row" tabindex="0" data-age="10대" data-sex="남" data-tier="A" data-tier-label="확실한 효과 있음" data-stat="−0.0046 · p &lt; 0.001 (***)" data-interp="체력 측정에 참여할수록 비만 환자가 뚜렷하게 감소했습니다. 국민체력100이 가장 효과적으로 작동하는 핵심 타깃입니다."><title>10대 남 · β=-0.0046, 95% CI[-0.0069, -0.0024], p &lt; 0.001 ***</title><rect class="chart-forest-hit" x="0" y="12.0" width="800" height="26" fill="transparent" /><line x1="224.8" y1="25.0" x2="232.1" y2="25.0" stroke="#0e9f6e" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="224.8" y1="21.0" x2="224.8" y2="29.0" stroke="#0e9f6e" stroke-width="1.5" opacity="0.7" /><line x1="232.1" y1="21.0" x2="232.1" y2="29.0" stroke="#0e9f6e" stroke-width="1.5" opacity="0.7" /><circle cx="228.5" cy="25.0" r="4.5" fill="#0e9f6e" stroke="#0e9f6e" stroke-width="2" /><text x="86" y="29.0" class="chart-forest-sex">남</text><text x="622" y="29.0" class="chart-forest-val">−0.0046</text><text x="670" y="29.0" class="chart-forest-sig">***</text></g><g class="chart-forest-row" tabindex="0" data-age="10대" data-sex="여" data-tier="A" data-tier-label="확실한 효과 있음" data-stat="−0.0032 · p &lt; 0.001 (***)" data-interp="체력 측정에 참여할수록 비만 환자가 뚜렷하게 감소했습니다. 국민체력100이 가장 효과적으로 작동하는 핵심 타깃입니다."><title>10대 여 · β=-0.0032, 95% CI[-0.0042, -0.0022], p &lt; 0.001 ***</title><rect class="chart-forest-hit" x="0" y="38.0" width="800" height="26" fill="transparent" /><line x1="229.2" y1="51.0" x2="232.5" y2="51.0" stroke="#0e9f6e" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="229.2" y1="47.0" x2="229.2" y2="55.0" stroke="#0e9f6e" stroke-width="1.5" opacity="0.7" /><line x1="232.5" y1="47.0" x2="232.5" y2="55.0" stroke="#0e9f6e" stroke-width="1.5" opacity="0.7" /><circle cx="230.9" cy="51.0" r="4.5" fill="#0e9f6e" stroke="#0e9f6e" stroke-width="2" /><text x="86" y="55.0" class="chart-forest-sex">여</text><text x="622" y="55.0" class="chart-forest-val">−0.0032</text><text x="670" y="55.0" class="chart-forest-sig">***</text></g><g class="chart-forest-row" tabindex="0" data-age="20대" data-sex="남" data-tier="A" data-tier-label="확실한 효과 있음" data-stat="−0.0154 · p = 0.0088 (**)" data-interp="체력 측정에 참여할수록 비만 환자가 뚜렷하게 감소했습니다. 국민체력100이 가장 효과적으로 작동하는 핵심 타깃입니다."><title>20대 남 · β=-0.0154, 95% CI[-0.0263, -0.0045], p = 0.0088 **</title><rect class="chart-forest-hit" x="0" y="73.0" width="800" height="26" fill="transparent" /><line x1="193.1" y1="86.0" x2="228.7" y2="86.0" stroke="#0e9f6e" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="193.1" y1="82.0" x2="193.1" y2="90.0" stroke="#0e9f6e" stroke-width="1.5" opacity="0.7" /><line x1="228.7" y1="82.0" x2="228.7" y2="90.0" stroke="#0e9f6e" stroke-width="1.5" opacity="0.7" /><circle cx="210.9" cy="86.0" r="4.5" fill="#0e9f6e" stroke="#0e9f6e" stroke-width="2" /><text x="86" y="90.0" class="chart-forest-sex">남</text><text x="622" y="90.0" class="chart-forest-val">−0.0154</text><text x="670" y="90.0" class="chart-forest-sig">**</text></g><g class="chart-forest-row" tabindex="0" data-age="20대" data-sex="여" data-tier="A" data-tier-label="확실한 효과 있음" data-stat="−0.0163 · p &lt; 0.001 (***)" data-interp="체력 측정에 참여할수록 비만 환자가 뚜렷하게 감소했습니다. 국민체력100이 가장 효과적으로 작동하는 핵심 타깃입니다."><title>20대 여 · β=-0.0163, 95% CI[-0.0244, -0.0082], p &lt; 0.001 ***</title><rect class="chart-forest-hit" x="0" y="99.0" width="800" height="26" fill="transparent" /><line x1="196.2" y1="112.0" x2="222.7" y2="112.0" stroke="#0e9f6e" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="196.2" y1="108.0" x2="196.2" y2="116.0" stroke="#0e9f6e" stroke-width="1.5" opacity="0.7" /><line x1="222.7" y1="108.0" x2="222.7" y2="116.0" stroke="#0e9f6e" stroke-width="1.5" opacity="0.7" /><circle cx="209.5" cy="112.0" r="4.5" fill="#0e9f6e" stroke="#0e9f6e" stroke-width="2" /><text x="86" y="116.0" class="chart-forest-sex">여</text><text x="622" y="116.0" class="chart-forest-val">−0.0163</text><text x="670" y="116.0" class="chart-forest-sig">***</text></g><g class="chart-forest-row" tabindex="0" data-age="30대" data-sex="남" data-tier="A" data-tier-label="확실한 효과 있음" data-stat="−0.0152 · p = 0.0439 (*)" data-interp="체력 측정에 참여할수록 비만 환자가 뚜렷하게 감소했습니다. 국민체력100이 가장 효과적으로 작동하는 핵심 타깃입니다."><title>30대 남 · β=-0.0152, 95% CI[-0.0295, -0.0009], p = 0.0439 *</title><rect class="chart-forest-hit" x="0" y="134.0" width="800" height="26" fill="transparent" /><line x1="187.9" y1="147.0" x2="234.6" y2="147.0" stroke="#0e9f6e" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="187.9" y1="143.0" x2="187.9" y2="151.0" stroke="#0e9f6e" stroke-width="1.5" opacity="0.7" /><line x1="234.6" y1="143.0" x2="234.6" y2="151.0" stroke="#0e9f6e" stroke-width="1.5" opacity="0.7" /><circle cx="211.2" cy="147.0" r="4.5" fill="#0e9f6e" stroke="#0e9f6e" stroke-width="2" /><text x="86" y="151.0" class="chart-forest-sex">남</text><text x="622" y="151.0" class="chart-forest-val">−0.0152</text><text x="670" y="151.0" class="chart-forest-sig">*</text></g><g class="chart-forest-row" tabindex="0" data-age="30대" data-sex="여" data-tier="B" data-tier-label="효과 미미" data-stat="+0.0038 · p = 0.9450 (n.s.)" data-interp="단순 체력 측정만으로는 비만이 감소한다는 뚜렷한 통계적 증거가 없습니다."><title>30대 여 · β=+0.0038, 95% CI[-0.1026, 0.1102], p = 0.9450 n.s.</title><rect class="chart-forest-hit" x="0" y="160.0" width="800" height="26" fill="transparent" /><line x1="138.0" y1="173.0" x2="416.2" y2="173.0" stroke="#c2410c" stroke-width="2" stroke-linecap="round" opacity="0.85" /><path d="M 145.0,169.0 L 138.0,173.0 L 145.0,177.0" fill="none" stroke="#c2410c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.85" /><line x1="416.2" y1="169.0" x2="416.2" y2="177.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><circle cx="242.2" cy="173.0" r="4.5" fill="var(--panel)" stroke="#c2410c" stroke-width="2" /><text x="86" y="177.0" class="chart-forest-sex">여</text><text x="622" y="177.0" class="chart-forest-val">+0.0038</text><text x="670" y="177.0" class="chart-forest-sig">n.s.</text></g><g class="chart-forest-row" tabindex="0" data-age="40대" data-sex="남" data-tier="B" data-tier-label="효과 미미" data-stat="−0.0087 · p = 0.5011 (n.s.)" data-interp="단순 체력 측정만으로는 비만이 감소한다는 뚜렷한 통계적 증거가 없습니다."><title>40대 남 · β=-0.0087, 95% CI[-0.0338, 0.0164], p = 0.5011 n.s.</title><rect class="chart-forest-hit" x="0" y="195.0" width="800" height="26" fill="transparent" /><line x1="180.8" y1="208.0" x2="262.9" y2="208.0" stroke="#0e9f6e" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="180.8" y1="204.0" x2="180.8" y2="212.0" stroke="#0e9f6e" stroke-width="1.5" opacity="0.7" /><line x1="262.9" y1="204.0" x2="262.9" y2="212.0" stroke="#0e9f6e" stroke-width="1.5" opacity="0.7" /><circle cx="221.8" cy="208.0" r="4.5" fill="var(--panel)" stroke="#0e9f6e" stroke-width="2" /><text x="86" y="212.0" class="chart-forest-sex">남</text><text x="622" y="212.0" class="chart-forest-val">−0.0087</text><text x="670" y="212.0" class="chart-forest-sig">n.s.</text></g><g class="chart-forest-row" tabindex="0" data-age="40대" data-sex="여" data-tier="C" data-tier-label="주의 필요 · 역방향" data-stat="+0.1388 · p &lt; 0.001 (***)" data-interp="측정 참여만으로는 비만이 줄지 않고, 오히려 늘어나는 경향이 통계적으로 확인됐습니다. 방문형 운동지도·장기 모니터링 등 별도 맞춤 프로그램이 필요합니다."><title>40대 여 · β=+0.1388, 95% CI[0.0700, 0.2075], p &lt; 0.001 ***</title><rect class="chart-forest-hit" x="0" y="221.0" width="800" height="26" fill="transparent" /><line x1="350.5" y1="234.0" x2="575.2" y2="234.0" stroke="#c2410c" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="350.5" y1="230.0" x2="350.5" y2="238.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><line x1="575.2" y1="230.0" x2="575.2" y2="238.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><circle cx="462.9" cy="234.0" r="4.5" fill="#c2410c" stroke="#c2410c" stroke-width="2" /><text x="86" y="238.0" class="chart-forest-sex">여</text><text x="622" y="238.0" class="chart-forest-val">+0.1388</text><text x="670" y="238.0" class="chart-forest-sig">***</text></g><g class="chart-forest-row" tabindex="0" data-age="50대" data-sex="남" data-tier="B" data-tier-label="효과 미미" data-stat="+0.0089 · p = 0.7124 (n.s.)" data-interp="단순 체력 측정만으로는 비만이 감소한다는 뚜렷한 통계적 증거가 없습니다."><title>50대 남 · β=+0.0089, 95% CI[-0.0380, 0.0557], p = 0.7124 n.s.</title><rect class="chart-forest-hit" x="0" y="256.0" width="800" height="26" fill="transparent" /><line x1="174.0" y1="269.0" x2="327.1" y2="269.0" stroke="#c2410c" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="174.0" y1="265.0" x2="174.0" y2="273.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><line x1="327.1" y1="265.0" x2="327.1" y2="273.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><circle cx="250.6" cy="269.0" r="4.5" fill="var(--panel)" stroke="#c2410c" stroke-width="2" /><text x="86" y="273.0" class="chart-forest-sex">남</text><text x="622" y="273.0" class="chart-forest-val">+0.0089</text><text x="670" y="273.0" class="chart-forest-sig">n.s.</text></g><g class="chart-forest-row" tabindex="0" data-age="50대" data-sex="여" data-tier="C" data-tier-label="주의 필요 · 역방향" data-stat="+0.0675 · p = 0.0063 (**)" data-interp="측정 참여만으로는 비만이 줄지 않고, 오히려 늘어나는 경향이 통계적으로 확인됐습니다. 방문형 운동지도·장기 모니터링 등 별도 맞춤 프로그램이 필요합니다."><title>50대 여 · β=+0.0675, 95% CI[0.0220, 0.1130], p = 0.0063 **</title><rect class="chart-forest-hit" x="0" y="282.0" width="800" height="26" fill="transparent" /><line x1="272.0" y1="295.0" x2="420.8" y2="295.0" stroke="#c2410c" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="272.0" y1="291.0" x2="272.0" y2="299.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><line x1="420.8" y1="291.0" x2="420.8" y2="299.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><circle cx="346.4" cy="295.0" r="4.5" fill="#c2410c" stroke="#c2410c" stroke-width="2" /><text x="86" y="299.0" class="chart-forest-sex">여</text><text x="622" y="299.0" class="chart-forest-val">+0.0675</text><text x="670" y="299.0" class="chart-forest-sig">**</text></g><g class="chart-forest-row" tabindex="0" data-age="60대" data-sex="남" data-tier="C" data-tier-label="주의 필요 · 역방향" data-stat="+0.0311 · p &lt; 0.001 (***)" data-interp="측정 참여만으로는 비만이 줄지 않고, 오히려 늘어나는 경향이 통계적으로 확인됐습니다. 방문형 운동지도·장기 모니터링 등 별도 맞춤 프로그램이 필요합니다."><title>60대 남 · β=+0.0311, 95% CI[0.0167, 0.0455], p &lt; 0.001 ***</title><rect class="chart-forest-hit" x="0" y="317.0" width="800" height="26" fill="transparent" /><line x1="263.4" y1="330.0" x2="310.4" y2="330.0" stroke="#c2410c" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="263.4" y1="326.0" x2="263.4" y2="334.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><line x1="310.4" y1="326.0" x2="310.4" y2="334.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><circle cx="287.0" cy="330.0" r="4.5" fill="#c2410c" stroke="#c2410c" stroke-width="2" /><text x="86" y="334.0" class="chart-forest-sex">남</text><text x="622" y="334.0" class="chart-forest-val">+0.0311</text><text x="670" y="334.0" class="chart-forest-sig">***</text></g><g class="chart-forest-row" tabindex="0" data-age="60대" data-sex="여" data-tier="C" data-tier-label="주의 필요 · 역방향" data-stat="+0.0533 · p &lt; 0.001 (***)" data-interp="측정 참여만으로는 비만이 줄지 않고, 오히려 늘어나는 경향이 통계적으로 확인됐습니다. 방문형 운동지도·장기 모니터링 등 별도 맞춤 프로그램이 필요합니다."><title>60대 여 · β=+0.0533, 95% CI[0.0296, 0.0770], p &lt; 0.001 ***</title><rect class="chart-forest-hit" x="0" y="343.0" width="800" height="26" fill="transparent" /><line x1="284.4" y1="356.0" x2="361.9" y2="361.9" stroke="#c2410c" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="284.4" y1="352.0" x2="284.4" y2="360.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><line x1="361.9" y1="352.0" x2="361.9" y2="360.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><circle cx="323.2" cy="356.0" r="4.5" fill="#c2410c" stroke="#c2410c" stroke-width="2" /><text x="86" y="360.0" class="chart-forest-sex">여</text><text x="622" y="360.0" class="chart-forest-val">+0.0533</text><text x="670" y="360.0" class="chart-forest-sig">***</text></g><g class="chart-forest-row" tabindex="0" data-age="70대" data-sex="남" data-tier="C" data-tier-label="주의 필요 · 역방향" data-stat="+0.0588 · p &lt; 0.001 (***)" data-interp="측정 참여만으로는 비만이 줄지 않고, 오히려 늘어나는 경향이 통계적으로 확인됐습니다. 방문형 운동지도·장기 모니터링 등 별도 맞춤 프로그램이 필요합니다."><title>70대 남 · β=+0.0588, 95% CI[0.0338, 0.0838], p &lt; 0.001 ***</title><rect class="chart-forest-hit" x="0" y="378.0" width="800" height="26" fill="transparent" /><line x1="291.3" y1="391.0" x2="373.0" y2="391.0" stroke="#c2410c" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="291.3" y1="387.0" x2="291.3" y2="395.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><line x1="373.0" y1="387.0" x2="373.0" y2="395.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><circle cx="332.2" cy="391.0" r="4.5" fill="#c2410c" stroke="#c2410c" stroke-width="2" /><text x="86" y="395.0" class="chart-forest-sex">남</text><text x="622" y="395.0" class="chart-forest-val">+0.0588</text><text x="670" y="395.0" class="chart-forest-sig">***</text></g><g class="chart-forest-row" tabindex="0" data-age="70대" data-sex="여" data-tier="C" data-tier-label="주의 필요 · 역방향" data-stat="+0.0331 · p = 0.0045 (**)" data-interp="측정 참여만으로는 비만이 줄지 않고, 오히려 늘어나는 경향이 통계적으로 확인됐습니다. 방문형 운동지도·장기 모니터링 등 별도 맞춤 프로그램이 필요합니다."><title>70대 여 · β=+0.0331, 95% CI[0.0117, 0.0544], p = 0.0045 **</title><rect class="chart-forest-hit" x="0" y="404.0" width="800" height="26" fill="transparent" /><line x1="255.2" y1="417.0" x2="325.0" y2="417.0" stroke="#c2410c" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="255.2" y1="413.0" x2="255.2" y2="421.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><line x1="325.0" y1="413.0" x2="325.0" y2="421.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><circle cx="290.1" cy="417.0" r="4.5" fill="#c2410c" stroke="#c2410c" stroke-width="2" /><text x="86" y="421.0" class="chart-forest-sex">여</text><text x="622" y="421.0" class="chart-forest-val">+0.0331</text><text x="670" y="421.0" class="chart-forest-sig">**</text></g>
+                    <g class="chart-forest-row" tabindex="0" data-age="10대" data-sex="남" data-tier="A" data-tier-label="확실한 효과 있음" data-stat="−0.0046 · p &lt; 0.001 (***)" data-interp="체력 측정에 참여할수록 비만 환자가 뚜렷하게 감소했습니다. 국민체력100이 가장 효과적으로 작동하는 핵심 타깃입니다."><title>10대 남 · β=-0.0046, 95% CI[-0.0069, -0.0024], p &lt; 0.001 ***</title><rect class="chart-forest-hit" x="0" y="12.0" width="800" height="26" fill="transparent" /><line x1="224.8" y1="25.0" x2="232.1" y2="25.0" stroke="#0e9f6e" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="224.8" y1="21.0" x2="224.8" y2="29.0" stroke="#0e9f6e" stroke-width="1.5" opacity="0.7" /><line x1="232.1" y1="21.0" x2="232.1" y2="29.0" stroke="#0e9f6e" stroke-width="1.5" opacity="0.7" /><circle cx="228.5" cy="25.0" r="4.5" fill="#0e9f6e" stroke="#0e9f6e" stroke-width="2" /><text x="86" y="29.0" class="chart-forest-sex">남</text><text x="622" y="29.0" class="chart-forest-val">−0.0046</text><text x="670" y="29.0" class="chart-forest-sig">***</text></g><g class="chart-forest-row" tabindex="0" data-age="10대" data-sex="여" data-tier="A" data-tier-label="확실한 효과 있음" data-stat="−0.0032 · p &lt; 0.001 (***)" data-interp="체력 측정에 참여할수록 비만 환자가 뚜렷하게 감소했습니다. 국민체력100이 가장 효과적으로 작동하는 핵심 타깃입니다."><title>10대 여 · β=-0.0032, 95% CI[-0.0042, -0.0022], p &lt; 0.001 ***</title><rect class="chart-forest-hit" x="0" y="38.0" width="800" height="26" fill="transparent" /><line x1="229.2" y1="51.0" x2="232.5" y2="51.0" stroke="#0e9f6e" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="229.2" y1="47.0" x2="229.2" y2="55.0" stroke="#0e9f6e" stroke-width="1.5" opacity="0.7" /><line x1="232.5" y1="47.0" x2="232.5" y2="55.0" stroke="#0e9f6e" stroke-width="1.5" opacity="0.7" /><circle cx="230.9" cy="51.0" r="4.5" fill="#0e9f6e" stroke="#0e9f6e" stroke-width="2" /><text x="86" y="55.0" class="chart-forest-sex">여</text><text x="622" y="55.0" class="chart-forest-val">−0.0032</text><text x="670" y="55.0" class="chart-forest-sig">***</text></g><g class="chart-forest-row" tabindex="0" data-age="20대" data-sex="남" data-tier="A" data-tier-label="확실한 효과 있음" data-stat="−0.0154 · p = 0.0088 (**)" data-interp="체력 측정에 참여할수록 비만 환자가 뚜렷하게 감소했습니다. 국민체력100이 가장 효과적으로 작동하는 핵심 타깃입니다."><title>20대 남 · β=-0.0154, 95% CI[-0.0263, -0.0045], p = 0.0088 **</title><rect class="chart-forest-hit" x="0" y="73.0" width="800" height="26" fill="transparent" /><line x1="193.1" y1="86.0" x2="228.7" y2="86.0" stroke="#0e9f6e" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="193.1" y1="82.0" x2="193.1" y2="90.0" stroke="#0e9f6e" stroke-width="1.5" opacity="0.7" /><line x1="228.7" y1="82.0" x2="228.7" y2="90.0" stroke="#0e9f6e" stroke-width="1.5" opacity="0.7" /><circle cx="210.9" cy="86.0" r="4.5" fill="#0e9f6e" stroke="#0e9f6e" stroke-width="2" /><text x="86" y="90.0" class="chart-forest-sex">남</text><text x="622" y="90.0" class="chart-forest-val">−0.0154</text><text x="670" y="90.0" class="chart-forest-sig">**</text></g><g class="chart-forest-row" tabindex="0" data-age="20대" data-sex="여" data-tier="A" data-tier-label="확실한 효과 있음" data-stat="−0.0163 · p &lt; 0.001 (***)" data-interp="체력 측정에 참여할수록 비만 환자가 뚜렷하게 감소했습니다. 국민체력100이 가장 효과적으로 작동하는 핵심 타깃입니다."><title>20대 여 · β=-0.0163, 95% CI[-0.0244, -0.0082], p &lt; 0.001 ***</title><rect class="chart-forest-hit" x="0" y="99.0" width="800" height="26" fill="transparent" /><line x1="196.2" y1="112.0" x2="222.7" y2="112.0" stroke="#0e9f6e" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="196.2" y1="108.0" x2="196.2" y2="116.0" stroke="#0e9f6e" stroke-width="1.5" opacity="0.7" /><line x1="222.7" y1="108.0" x2="222.7" y2="116.0" stroke="#0e9f6e" stroke-width="1.5" opacity="0.7" /><circle cx="209.5" cy="112.0" r="4.5" fill="#0e9f6e" stroke="#0e9f6e" stroke-width="2" /><text x="86" y="116.0" class="chart-forest-sex">여</text><text x="622" y="116.0" class="chart-forest-val">−0.0163</text><text x="670" y="116.0" class="chart-forest-sig">***</text></g><g class="chart-forest-row" tabindex="0" data-age="30대" data-sex="남" data-tier="A" data-tier-label="확실한 효과 있음" data-stat="−0.0152 · p = 0.0439 (*)" data-interp="체력 측정에 참여할수록 비만 환자가 뚜렷하게 감소했습니다. 국민체력100이 가장 효과적으로 작동하는 핵심 타깃입니다."><title>30대 남 · β=-0.0152, 95% CI[-0.0295, -0.0009], p = 0.0439 *</title><rect class="chart-forest-hit" x="0" y="134.0" width="800" height="26" fill="transparent" /><line x1="187.9" y1="147.0" x2="234.6" y2="147.0" stroke="#0e9f6e" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="187.9" y1="143.0" x2="187.9" y2="151.0" stroke="#0e9f6e" stroke-width="1.5" opacity="0.7" /><line x1="234.6" y1="143.0" x2="234.6" y2="151.0" stroke="#0e9f6e" stroke-width="1.5" opacity="0.7" /><circle cx="211.2" cy="147.0" r="4.5" fill="#0e9f6e" stroke="#0e9f6e" stroke-width="2" /><text x="86" y="151.0" class="chart-forest-sex">남</text><text x="622" y="151.0" class="chart-forest-val">−0.0152</text><text x="670" y="151.0" class="chart-forest-sig">*</text></g><g class="chart-forest-row" tabindex="0" data-age="30대" data-sex="여" data-tier="B" data-tier-label="효과 미미" data-stat="+0.0038 · p = 0.9450 (n.s.)" data-interp="단순 체력 측정만으로는 비만이 감소한다는 뚜렷한 통계적 증거가 없습니다."><title>30대 여 · β=+0.0038, 95% CI[-0.1026, 0.1102], p = 0.9450 n.s.</title><rect class="chart-forest-hit" x="0" y="160.0" width="800" height="26" fill="transparent" /><line x1="138.0" y1="173.0" x2="416.2" y2="173.0" stroke="#c2410c" stroke-width="2" stroke-linecap="round" opacity="0.85" /><path d="M 145.0,169.0 L 138.0,173.0 L 145.0,177.0" fill="none" stroke="#c2410c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.85" /><line x1="416.2" y1="169.0" x2="416.2" y2="177.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><circle cx="242.2" cy="173.0" r="4.5" fill="var(--panel)" stroke="#c2410c" stroke-width="2" /><text x="86" y="177.0" class="chart-forest-sex">여</text><text x="622" y="177.0" class="chart-forest-val">+0.0038</text><text x="670" y="177.0" class="chart-forest-sig">n.s.</text></g><g class="chart-forest-row" tabindex="0" data-age="40대" data-sex="남" data-tier="B" data-tier-label="효과 미미" data-stat="−0.0087 · p = 0.5011 (n.s.)" data-interp="단순 체력 측정만으로는 비만이 감소한다는 뚜렷한 통계적 증거가 없습니다."><title>40대 남 · β=-0.0087, 95% CI[-0.0338, 0.0164], p = 0.5011 n.s.</title><rect class="chart-forest-hit" x="0" y="195.0" width="800" height="26" fill="transparent" /><line x1="180.8" y1="208.0" x2="262.9" y2="208.0" stroke="#0e9f6e" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="180.8" y1="204.0" x2="180.8" y2="212.0" stroke="#0e9f6e" stroke-width="1.5" opacity="0.7" /><line x1="262.9" y1="204.0" x2="262.9" y2="212.0" stroke="#0e9f6e" stroke-width="1.5" opacity="0.7" /><circle cx="221.8" cy="208.0" r="4.5" fill="var(--panel)" stroke="#0e9f6e" stroke-width="2" /><text x="86" y="212.0" class="chart-forest-sex">남</text><text x="622" y="212.0" class="chart-forest-val">−0.0087</text><text x="670" y="212.0" class="chart-forest-sig">n.s.</text></g><g class="chart-forest-row" tabindex="0" data-age="40대" data-sex="여" data-tier="C" data-tier-label="주의 필요 · 역방향" data-stat="+0.1388 · p &lt; 0.001 (***)" data-interp="측정 참여만으로는 비만이 줄지 않고, 오히려 늘어나는 경향이 통계적으로 확인됐습니다. 방문형 운동지도·장기 모니터링 등 별도 맞춤 프로그램이 필요합니다."><title>40대 여 · β=+0.1388, 95% CI[0.0700, 0.2075], p &lt; 0.001 ***</title><rect class="chart-forest-hit" x="0" y="221.0" width="800" height="26" fill="transparent" /><line x1="350.5" y1="234.0" x2="575.2" y2="234.0" stroke="#c2410c" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="350.5" y1="230.0" x2="350.5" y2="238.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><line x1="575.2" y1="230.0" x2="575.2" y2="238.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><circle cx="462.9" cy="234.0" r="4.5" fill="#c2410c" stroke="#c2410c" stroke-width="2" /><text x="86" y="238.0" class="chart-forest-sex">여</text><text x="622" y="238.0" class="chart-forest-val">+0.1388</text><text x="670" y="238.0" class="chart-forest-sig">***</text></g><g class="chart-forest-row" tabindex="0" data-age="50대" data-sex="남" data-tier="B" data-tier-label="효과 미미" data-stat="+0.0089 · p = 0.7124 (n.s.)" data-interp="단순 체력 측정만으로는 비만이 감소한다는 뚜렷한 통계적 증거가 없습니다."><title>50대 남 · β=+0.0089, 95% CI[-0.0380, 0.0557], p = 0.7124 n.s.</title><rect class="chart-forest-hit" x="0" y="256.0" width="800" height="26" fill="transparent" /><line x1="174.0" y1="269.0" x2="327.1" y2="269.0" stroke="#c2410c" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="174.0" y1="265.0" x2="174.0" y2="273.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><line x1="327.1" y1="265.0" x2="327.1" y2="273.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><circle cx="250.6" cy="269.0" r="4.5" fill="var(--panel)" stroke="#c2410c" stroke-width="2" /><text x="86" y="273.0" class="chart-forest-sex">남</text><text x="622" y="273.0" class="chart-forest-val">+0.0089</text><text x="670" y="273.0" class="chart-forest-sig">n.s.</text></g><g class="chart-forest-row" tabindex="0" data-age="50대" data-sex="여" data-tier="C" data-tier-label="주의 필요 · 역방향" data-stat="+0.0675 · p = 0.0063 (**)" data-interp="측정 참여만으로는 비만이 줄지 않고, 오히려 늘어나는 경향이 통계적으로 확인됐습니다. 방문형 운동지도·장기 모니터링 등 별도 맞춤 프로그램이 필요합니다."><title>50대 여 · β=+0.0675, 95% CI[0.0220, 0.1130], p = 0.0063 **</title><rect class="chart-forest-hit" x="0" y="282.0" width="800" height="26" fill="transparent" /><line x1="272.0" y1="295.0" x2="420.8" y2="295.0" stroke="#c2410c" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="272.0" y1="291.0" x2="272.0" y2="299.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><line x1="420.8" y1="291.0" x2="420.8" y2="299.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><circle cx="346.4" cy="295.0" r="4.5" fill="#c2410c" stroke="#c2410c" stroke-width="2" /><text x="86" y="299.0" class="chart-forest-sex">여</text><text x="622" y="299.0" class="chart-forest-val">+0.0675</text><text x="670" y="299.0" class="chart-forest-sig">**</text></g><g class="chart-forest-row" tabindex="0" data-age="60대" data-sex="남" data-tier="C" data-tier-label="주의 필요 · 역방향" data-stat="+0.0311 · p &lt; 0.001 (***)" data-interp="측정 참여만으로는 비만이 줄지 않고, 오히려 늘어나는 경향이 통계적으로 확인됐습니다. 방문형 운동지도·장기 모니터링 등 별도 맞춤 프로그램이 필요합니다."><title>60대 남 · β=+0.0311, 95% CI[0.0167, 0.0455], p &lt; 0.001 ***</title><rect class="chart-forest-hit" x="0" y="317.0" width="800" height="26" fill="transparent" /><line x1="263.4" y1="330.0" x2="310.4" y2="330.0" stroke="#c2410c" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="263.4" y1="326.0" x2="263.4" y2="334.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><line x1="310.4" y1="326.0" x2="310.4" y2="334.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><circle cx="287.0" cy="330.0" r="4.5" fill="#c2410c" stroke="#c2410c" stroke-width="2" /><text x="86" y="334.0" class="chart-forest-sex">남</text><text x="622" y="334.0" class="chart-forest-val">+0.0311</text><text x="670" y="334.0" class="chart-forest-sig">***</text></g><g class="chart-forest-row" tabindex="0" data-age="60대" data-sex="여" data-tier="C" data-tier-label="주의 필요 · 역방향" data-stat="+0.0533 · p &lt; 0.001 (***)" data-interp="측정 참여만으로는 비만이 줄지 않고, 오히려 늘어나는 경향이 통계적으로 확인됐습니다. 방문형 운동지도·장기 모니터링 등 별도 맞춤 프로그램이 필요합니다."><title>60대 여 · β=+0.0533, 95% CI[0.0296, 0.0770], p &lt; 0.001 ***</title><rect class="chart-forest-hit" x="0" y="343.0" width="800" height="26" fill="transparent" /><line x1="284.4" y1="356.0" x2="361.9" y2="356.0" stroke="#c2410c" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="284.4" y1="352.0" x2="284.4" y2="360.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><line x1="361.9" y1="352.0" x2="361.9" y2="360.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><circle cx="323.2" cy="356.0" r="4.5" fill="#c2410c" stroke="#c2410c" stroke-width="2" /><text x="86" y="360.0" class="chart-forest-sex">여</text><text x="622" y="360.0" class="chart-forest-val">+0.0533</text><text x="670" y="360.0" class="chart-forest-sig">***</text></g><g class="chart-forest-row" tabindex="0" data-age="70대" data-sex="남" data-tier="C" data-tier-label="주의 필요 · 역방향" data-stat="+0.0588 · p &lt; 0.001 (***)" data-interp="측정 참여만으로는 비만이 줄지 않고, 오히려 늘어나는 경향이 통계적으로 확인됐습니다. 방문형 운동지도·장기 모니터링 등 별도 맞춤 프로그램이 필요합니다."><title>70대 남 · β=+0.0588, 95% CI[0.0338, 0.0838], p &lt; 0.001 ***</title><rect class="chart-forest-hit" x="0" y="378.0" width="800" height="26" fill="transparent" /><line x1="291.3" y1="391.0" x2="373.0" y2="391.0" stroke="#c2410c" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="291.3" y1="387.0" x2="291.3" y2="395.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><line x1="373.0" y1="387.0" x2="373.0" y2="395.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><circle cx="332.2" cy="391.0" r="4.5" fill="#c2410c" stroke="#c2410c" stroke-width="2" /><text x="86" y="395.0" class="chart-forest-sex">남</text><text x="622" y="395.0" class="chart-forest-val">+0.0588</text><text x="670" y="395.0" class="chart-forest-sig">***</text></g><g class="chart-forest-row" tabindex="0" data-age="70대" data-sex="여" data-tier="C" data-tier-label="주의 필요 · 역방향" data-stat="+0.0331 · p = 0.0045 (**)" data-interp="측정 참여만으로는 비만이 줄지 않고, 오히려 늘어나는 경향이 통계적으로 확인됐습니다. 방문형 운동지도·장기 모니터링 등 별도 맞춤 프로그램이 필요합니다."><title>70대 여 · β=+0.0331, 95% CI[0.0117, 0.0544], p = 0.0045 **</title><rect class="chart-forest-hit" x="0" y="404.0" width="800" height="26" fill="transparent" /><line x1="255.2" y1="417.0" x2="325.0" y2="417.0" stroke="#c2410c" stroke-width="2" stroke-linecap="round" opacity="0.85" /><line x1="255.2" y1="413.0" x2="255.2" y2="421.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><line x1="325.0" y1="413.0" x2="325.0" y2="421.0" stroke="#c2410c" stroke-width="1.5" opacity="0.7" /><circle cx="290.1" cy="417.0" r="4.5" fill="#c2410c" stroke="#c2410c" stroke-width="2" /><text x="86" y="421.0" class="chart-forest-sex">여</text><text x="622" y="421.0" class="chart-forest-val">+0.0331</text><text x="670" y="421.0" class="chart-forest-sig">**</text></g>
                     <line x1="138" y1="434.0" x2="612" y2="434.0" stroke="var(--border)" stroke-width="1" />
                   </svg>
                   <p class="chart-forest-hint">그래프의 막대(코호트)에 마우스를 올리거나 키보드로 이동하면, 말풍선으로
@@ -1231,20 +2353,20 @@
                         <tr><th>연령대</th><th>성별</th><th>β</th><th>95% CI</th><th>p</th><th>유의성</th></tr>
                       </thead>
                       <tbody>
-                        <tr><td>10대</td><td>남</td><td>-0.0046</td><td>[-0.0069, -0.0024]</td><td>3.39e-04</td><td>***</td></tr>
-                        <tr><td>10대</td><td>여</td><td>-0.0032</td><td>[-0.0042, -0.0022]</td><td>2.65e-07</td><td>***</td></tr>
-                        <tr><td>20대</td><td>남</td><td>-0.0154</td><td>[-0.0263, -0.0045]</td><td>0.0088</td><td>**</td></tr>
-                        <tr><td>20대</td><td>여</td><td>-0.0163</td><td>[-0.0244, -0.0082]</td><td>3.71e-04</td><td>***</td></tr>
-                        <tr><td>30대</td><td>남</td><td>-0.0152</td><td>[-0.0295, -0.0009]</td><td>0.0439</td><td>*</td></tr>
-                        <tr><td>30대</td><td>여</td><td>+0.0038</td><td>[-0.1026, 0.1102]</td><td>0.945</td><td>n.s.</td></tr>
-                        <tr><td>40대</td><td>남</td><td>-0.0087</td><td>[-0.0338, 0.0164]</td><td>0.5011</td><td>n.s.</td></tr>
-                        <tr><td>40대</td><td>여</td><td>+0.1388</td><td>[0.0700, 0.2075]</td><td>3.53e-04</td><td>***</td></tr>
-                        <tr><td>50대</td><td>남</td><td>+0.0089</td><td>[-0.0380, 0.0557]</td><td>0.7124</td><td>n.s.</td></tr>
-                        <tr><td>50대</td><td>여</td><td>+0.0675</td><td>[0.0220, 0.1130]</td><td>0.0063</td><td>**</td></tr>
-                        <tr><td>60대</td><td>남</td><td>+0.0311</td><td>[0.0167, 0.0455]</td><td>1.55e-04</td><td>***</td></tr>
-                        <tr><td>60대</td><td>여</td><td>+0.0533</td><td>[0.0296, 0.0770]</td><td>9.38e-05</td><td>***</td></tr>
-                        <tr><td>70대</td><td>남</td><td>+0.0588</td><td>[0.0338, 0.0838]</td><td>5.21e-05</td><td>***</td></tr>
-                        <tr><td>70대</td><td>여</td><td>+0.0331</td><td>[0.0117, 0.0544]</td><td>0.0045</td><td>**</td></tr>
+      <tr><td>10대</td><td>남</td><td>-0.0046</td><td>[-0.0069, -0.0024]</td><td>3.39e-04</td><td>***</td></tr>
+      <tr><td>10대</td><td>여</td><td>-0.0032</td><td>[-0.0042, -0.0022]</td><td>2.65e-07</td><td>***</td></tr>
+      <tr><td>20대</td><td>남</td><td>-0.0154</td><td>[-0.0263, -0.0045]</td><td>0.0088</td><td>**</td></tr>
+      <tr><td>20대</td><td>여</td><td>-0.0163</td><td>[-0.0244, -0.0082]</td><td>3.71e-04</td><td>***</td></tr>
+      <tr><td>30대</td><td>남</td><td>-0.0152</td><td>[-0.0295, -0.0009]</td><td>0.0439</td><td>*</td></tr>
+      <tr><td>30대</td><td>여</td><td>+0.0038</td><td>[-0.1026, 0.1102]</td><td>0.945</td><td>n.s.</td></tr>
+      <tr><td>40대</td><td>남</td><td>-0.0087</td><td>[-0.0338, 0.0164]</td><td>0.5011</td><td>n.s.</td></tr>
+      <tr><td>40대</td><td>여</td><td>+0.1388</td><td>[0.0700, 0.2075]</td><td>3.53e-04</td><td>***</td></tr>
+      <tr><td>50대</td><td>남</td><td>+0.0089</td><td>[-0.0380, 0.0557]</td><td>0.7124</td><td>n.s.</td></tr>
+      <tr><td>50대</td><td>여</td><td>+0.0675</td><td>[0.0220, 0.1130]</td><td>0.0063</td><td>**</td></tr>
+      <tr><td>60대</td><td>남</td><td>+0.0311</td><td>[0.0167, 0.0455]</td><td>1.55e-04</td><td>***</td></tr>
+      <tr><td>60대</td><td>여</td><td>+0.0533</td><td>[0.0296, 0.0770]</td><td>9.38e-05</td><td>***</td></tr>
+      <tr><td>70대</td><td>남</td><td>+0.0588</td><td>[0.0338, 0.0838]</td><td>5.21e-05</td><td>***</td></tr>
+      <tr><td>70대</td><td>여</td><td>+0.0331</td><td>[0.0117, 0.0544]</td><td>0.0045</td><td>**</td></tr>
                       </tbody>
                     </table>
                   </div>
@@ -1503,7 +2625,7 @@
               <p class="case-label">배운 점 (Key Takeaway)</p>
               <ul class="case-list">
                 <li><strong>소통하는 분석가의 진짜 역할.</strong> 다양한 직군(시민, 지자체 공무원)이 모인 회의에서 데이터 분석은 단지 화려한 기술을 보여주는 것이 아니라, <strong>'서로 다른 이해관계를 데이터라는 공통의 언어로 묶고 합의점을 만들어내는 설득의 도구'</strong>임을 체득함.</li>
-                <li><strong>1인 분석 환경에서의 유연한 의사결정.</strong> 당시 혼자 분석을 맡아 고도화된 실시간 지도 시각화를 구현하기에 제약이 있었지만, 좌절하는 대신 핵심 메시지가 명확한 **덤벨차트**와 현장 인터뷰(정성 데이터)를 상호 보완하여 의사결정권자들의 공감과 정책 긍정 검토를 이끌어냄.</li>
+                <li><strong>1인 분석 환경에서의 유연한 의사결정.</strong> 당시 혼자 분석을 맡아 고도화된 실시간 지도 시각화를 구현하기에 제약이 있었지만, 좌절하는 대신 핵심 메시지가 명확한 덤벨차트와 현장 인터뷰(정성 데이터)를 상호 보완하여 의사결정권자들의 공감과 정책 긍정 검토를 이끌어냄.</li>
               </ul>
             </div>
           </div>
@@ -1514,12 +2636,219 @@
   </main>
 </div>
 
+<!-- ============ Floating Cursor Tooltip (Project 4 Forest Plot) ============ -->
 <div id="forestTooltip" class="forest-tooltip" role="tooltip" aria-hidden="true">
   <p class="ft-head"><span class="ft-tier"></span><span class="ft-name"></span></p>
   <p class="ft-stat"></p>
   <p class="ft-text"></p>
 </div>
 
-<script src="script.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  const navItems = Array.from(document.querySelectorAll('.nav-item'));
+  const navIndicator = document.getElementById('navIndicator');
+  const sidenavTop = document.getElementById('sidenavTop');
+
+  // matches the sidebar nav order exactly: CAREER, SKILL, STRENGTH, then projects 1, 2, 4, 5
+  const navKeyOrder = ['career', 'skills', 'strength', 'project1', 'project2', 'project4', 'project5'];
+  const validKeys = ['home', ...navKeyOrder];
+
+  let activeKey = null;
+  let hoveredItem = null;
+
+  const getPanel = (key) => document.getElementById(`panel-${key}`);
+
+  /* ============================================================
+     1) Panel switching — side-sliding SPA stage
+  ============================================================ */
+  function playReveal(panel) {
+    const reveals = panel.querySelectorAll('.reveal');
+    reveals.forEach((el) => {
+      el.classList.remove('is-in');
+      el.style.transitionDelay = '0ms';
+    });
+    requestAnimationFrame(() => {
+      reveals.forEach((el, i) => {
+        el.style.transitionDelay = `${Math.min(i * 40, 480)}ms`;
+        el.classList.add('is-in');
+      });
+    });
+  }
+
+  function setActiveNav(key) {
+    navItems.forEach((item) => {
+      item.classList.toggle('is-active', item.getAttribute('data-target') === `#${key}`);
+    });
+
+    const index = navKeyOrder.indexOf(key);
+    if (index === -1) {
+      navIndicator.style.opacity = '0';
+      return;
+    }
+
+    const activeItem = navItems[index];
+    const link = activeItem.querySelector('.nav-link');
+    navIndicator.style.transform = `translateY(${activeItem.offsetTop}px)`;
+    navIndicator.style.height = `${link.offsetHeight}px`;
+    navIndicator.style.opacity = '1';
+  }
+
+  function showPanel(key, { updateHash = true } = {}) {
+    const next = getPanel(key);
+    if (!next || key === activeKey) return;
+
+    const current = activeKey ? getPanel(activeKey) : null;
+    if (current) {
+      current.classList.remove('is-active');
+      current.classList.add('is-leaving');
+      setTimeout(() => current.classList.remove('is-leaving'), 650);
+    }
+
+    next.classList.remove('is-leaving');
+    void next.offsetWidth;
+    next.classList.add('is-active');
+    next.scrollTop = 0;
+
+    activeKey = key;
+    setActiveNav(key);
+    playReveal(next);
+
+    if (updateHash) {
+      const url = key === 'home' ? location.pathname + location.search : `#${key}`;
+      history.replaceState(null, '', url);
+    }
+  }
+
+  document.querySelectorAll('[data-target]').forEach((el) => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      const key = el.getAttribute('data-target').replace('#', '');
+      showPanel(key);
+    });
+  });
+
+  if (sidenavTop) {
+    sidenavTop.addEventListener('click', () => showPanel('home'));
+  }
+
+  const initialKey = validKeys.includes(location.hash.replace('#', ''))
+    ? location.hash.replace('#', '')
+    : 'home';
+  showPanel(initialKey, { updateHash: false });
+
+  /* ============================================================
+     2) Sidebar nav hover state
+  ============================================================ */
+  function refreshNavVisualState() {
+    navItems.forEach((item) => {
+      const link = item.querySelector('.nav-link');
+      if (hoveredItem) {
+        const isHovered = item === hoveredItem;
+        link.style.transform = isHovered ? 'scale(1.06)' : 'scale(1)';
+        item.style.opacity = isHovered ? '1' : '0.4';
+      } else {
+        link.style.transform = 'scale(1)';
+        item.style.opacity = '1';
+      }
+    });
+  }
+
+  navItems.forEach((item) => {
+    item.addEventListener('mouseenter', () => {
+      hoveredItem = item;
+      refreshNavVisualState();
+    });
+    item.addEventListener('mouseleave', () => {
+      hoveredItem = null;
+      refreshNavVisualState();
+    });
+  });
+
+  /* ============================================================
+     3) Forest plot (project4) — floating cursor tooltip
+  ============================================================ */
+  const forestRows = document.querySelectorAll('.chart-forest-row');
+  const forestTooltip = document.getElementById('forestTooltip');
+
+  if (forestRows.length && forestTooltip) {
+    const ftTier = forestTooltip.querySelector('.ft-tier');
+    const ftName = forestTooltip.querySelector('.ft-name');
+    const ftStat = forestTooltip.querySelector('.ft-stat');
+    const ftText = forestTooltip.querySelector('.ft-text');
+    const OFFSET = 18;
+
+    const fillTooltip = (row) => {
+      const { age, sex, tier, tierLabel, stat, interp } = row.dataset;
+      forestTooltip.setAttribute('data-tier', tier);
+      ftTier.textContent = tierLabel;
+      ftName.textContent = `${age} ${sex} 코호트`;
+      ftStat.textContent = stat;
+      ftText.textContent = interp;
+    };
+
+    const positionAt = (x, y) => {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const rect = forestTooltip.getBoundingClientRect();
+      const width = rect.width || 272;
+      const height = rect.height || 100;
+
+      let left = x + OFFSET;
+      let flipped = false;
+      if (left + width > vw - 12) {
+        left = x - width - OFFSET;
+        flipped = true;
+      }
+      let top = y - height / 2;
+      top = Math.max(12, Math.min(top, vh - height - 12));
+
+      forestTooltip.style.left = `${left}px`;
+      forestTooltip.style.top = `${top}px`;
+      forestTooltip.classList.toggle('is-flipped', flipped);
+    };
+
+    const showTooltip = (row, x, y) => {
+      fillTooltip(row);
+      forestTooltip.classList.add('is-visible');
+      forestTooltip.setAttribute('aria-hidden', 'false');
+      positionAt(x, y);
+    };
+
+    const hideTooltip = () => {
+      forestTooltip.classList.remove('is-visible');
+      forestTooltip.setAttribute('aria-hidden', 'true');
+      forestTooltip.removeAttribute('data-tier');
+    };
+
+    forestRows.forEach((row) => {
+      row.addEventListener('mouseenter', (e) => showTooltip(row, e.clientX, e.clientY));
+      row.addEventListener('mousemove', (e) => {
+        fillTooltip(row);
+        positionAt(e.clientX, e.clientY);
+      });
+      row.addEventListener('mouseleave', hideTooltip);
+
+      row.addEventListener('focus', () => {
+        const box = row.getBoundingClientRect();
+        showTooltip(row, box.right, box.top + box.height / 2);
+      });
+      row.addEventListener('blur', hideTooltip);
+    });
+
+    const project4Panel = getPanel('project4');
+    if (project4Panel) {
+      project4Panel.addEventListener('scroll', hideTooltip, { passive: true });
+    }
+  }
+
+  window.addEventListener('popstate', () => {
+    const key = validKeys.includes(location.hash.replace('#', ''))
+      ? location.hash.replace('#', '')
+      : 'home';
+    showPanel(key, { updateHash: false });
+  });
+});
+</script>
 </body>
 </html>
