@@ -2525,63 +2525,11 @@ img {
                 복잡한 지도나 기술 언어 대신, <strong>'평상시 속도(하늘색)와 출퇴근 시간대 속도(주황색)의 하락 폭(선 길이)'</strong>을 직관적으로 보여주는 덤벨차트를 설계했습니다. 비전공자인 시민과 지자체 담당자도 "왜 송도 아트센터대로를 최우선 타깃으로 잡아야 하는가"를 단 한눈에 이해하고 동의할 수 있었습니다.
               </p>
 
-              <div class="chart-forest" style="margin-top: 1.4rem;">
-                <svg class="chart-forest-svg" viewBox="0 0 700 240" role="img" aria-label="인천광역시 주요 대로 평시 대비 출퇴근 속도 감소 덤벨차트">
-                  <title>인천광역시 주요 도로 평시 vs 출퇴근 속도 덤벨차트</title>
-                  <line x1="160" y1="20" x2="160" y2="190" stroke="var(--border)" stroke-width="1"/>
-                  <line x1="280" y1="20" x2="280" y2="190" stroke="var(--border)" stroke-width="1"/>
-                  <line x1="400" y1="20" x2="400" y2="190" stroke="var(--border)" stroke-width="1"/>
-                  <line x1="520" y1="20" x2="520" y2="190" stroke="var(--border)" stroke-width="1"/>
-                  <line x1="640" y1="20" x2="640" y2="190" stroke="var(--border)" stroke-width="1"/>
-                  <text x="160" y="210" class="chart-forest-tick">10 km/h</text>
-                  <text x="280" y="210" class="chart-forest-tick">20 km/h</text>
-                  <text x="400" y="210" class="chart-forest-tick">30 km/h</text>
-                  <text x="520" y="210" class="chart-forest-tick">40 km/h</text>
-                  <text x="640" y="210" class="chart-forest-tick">50 km/h</text>
-
-                  <g class="chart-forest-row">
-                    <rect class="chart-forest-hit" x="0" y="25" width="700" height="36" fill="transparent" />
-                    <text x="15" y="48" class="chart-forest-age" style="fill: var(--warn); font-weight: 800;">송도 아트센터대로 ★</text>
-                    <line x1="210" y1="43" x2="622" y2="43" stroke="var(--warn)" stroke-width="3.5" stroke-linecap="round"/>
-                    <circle cx="622" cy="43" r="6" fill="#38bdf8" />
-                    <circle cx="210" cy="43" r="7" fill="var(--warn)" />
-                    <text x="210" y="28" style="font-size: 11px; fill: var(--warn); font-weight: 700; text-anchor: middle;">14.2 km/h (-71%)</text>
-                    <text x="622" y="28" style="font-size: 11px; fill: var(--text-dim); text-anchor: middle;">48.5 km/h</text>
-                  </g>
-
-                  <g class="chart-forest-row">
-                    <rect class="chart-forest-hit" x="0" y="75" width="700" height="32" fill="transparent" />
-                    <text x="15" y="95" class="chart-forest-age">경인로 (주안역 일대)</text>
-                    <line x1="274" y1="91" x2="508" y2="91" stroke="var(--text-dim)" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
-                    <circle cx="508" cy="91" r="5" fill="#38bdf8" />
-                    <circle cx="274" cy="91" r="5" fill="var(--accent)" />
-                    <text x="274" y="80" style="font-size: 11px; fill: var(--text-dim); text-anchor: middle;">19.5 km/h</text>
-                  </g>
-
-                  <g class="chart-forest-row">
-                    <rect class="chart-forest-hit" x="0" y="115" width="700" height="32" fill="transparent" />
-                    <text x="15" y="135" class="chart-forest-age">인주대로 (구월동 일대)</text>
-                    <line x1="292" y1="131" x2="460" y2="131" stroke="var(--text-dim)" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
-                    <circle cx="460" cy="131" r="5" fill="#38bdf8" />
-                    <circle cx="292" cy="131" r="5" fill="var(--accent)" />
-                    <text x="292" y="120" style="font-size: 11px; fill: var(--text-dim); text-anchor: middle;">21.0 km/h</text>
-                  </g>
-
-                  <g class="chart-forest-row">
-                    <rect class="chart-forest-hit" x="0" y="155" width="700" height="32" fill="transparent" />
-                    <text x="15" y="175" class="chart-forest-age">봉수대로 (청라 진입로)</text>
-                    <line x1="358" y1="171" x2="568" y2="171" stroke="var(--text-dim)" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
-                    <circle cx="568" cy="171" r="5" fill="#38bdf8" />
-                    <circle cx="358" cy="171" r="5" fill="var(--accent)" />
-                    <text x="358" y="160" style="font-size: 11px; fill: var(--text-dim); text-anchor: middle;">26.5 km/h</text>
-                  </g>
-                </svg>
-                <div class="chart-forest-legend">
-                  <span class="legend-item"><i class="legend-dot" style="background: #38bdf8;"></i>평상시 평균 통행 속도</span>
-                  <span class="legend-item"><i class="legend-dot legend-dot--warn"></i>출퇴근 시간대 속도 (하락폭 최다 지점)</span>
-                  <span class="legend-item">※ 송도 아트센터대로: 평시 대비 속도 하락 폭 1위 규명</span>
-                </div>
-              </div>
+              <!-- 새로 추가하는 직접 만든 그래프 캡처 이미지 -->
+<figure class="case-figure" style="margin-top: 1.4rem; --fig-width: 100%;">
+  <img src="images/project5-graph.png" alt="인천광역시 주요 도로 평시 vs 출퇴근 속도 비교 그래프" loading="lazy">
+  <figcaption>송도 아트센터대로 평시 대비 출퇴근 속도 하락 폭 비교 분석 그래프</figcaption>
+</figure>
             </div>
 
             <div class="case-block case-block--wide reveal">
