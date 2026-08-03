@@ -275,12 +275,15 @@ img {
 }
 
 /* ---------- Dark editorial scope: hero + skills ---------- */
+#panel-home #hero,
+#panel-skills {
+  --bg: var(--dark-bg);
   --bg-soft: var(--dark-panel);
   --panel: var(--dark-panel);
-  --card: var(--dark-panel); 
+  --card: var(--dark-panel);
   --border: var(--dark-border);
-  --text: #ffffff;          
-  --text-dim: #c8c9ce;   
+  --text: #ffffff;
+  --text-dim: #c8c9ce;
   --accent: var(--dark-text);
   --accent-soft: rgba(245, 245, 243, 0.1);
   background: var(--bg);
@@ -289,6 +292,7 @@ img {
   border-radius: 24px;
   margin-bottom: 3.5rem;
 }
+
 /* ---------- Hero ---------- */
 .hero {
   display: flex;
@@ -653,14 +657,20 @@ img {
   left: 50%;
   bottom: -1rem;
   transform: translateX(-50%);
-  background: transparent;  /* 배경색 투명하게 변경 */
-  border: none;             /* 테두리 네모칸 삭제 */
-  padding: 0.2rem 0;        /* 불필요한 좌우 여백 축소 */
+  background: transparent;
+  border: none;
+  padding: 0.2rem 0;
   font-size: 0.85rem;
   font-weight: 700;
   font-family: var(--font-mono);
-  color: var(--text);       /* 글자색 유지 */
+  color: var(--text);
   white-space: nowrap;
+}
+
+.strength-desc {
+  font-size: 0.95rem;
+  color: var(--text);
+  line-height: 1.65;
 }
 
 /* ---------- Project sections Header ---------- */
@@ -761,6 +771,8 @@ img {
 }
 
 .panel-row span:first-child {
+  flex: 0 0 auto;
+  white-space: nowrap;
   color: var(--text-dim);
   font-family: var(--font-mono);
   font-size: 0.75rem;
@@ -952,6 +964,29 @@ img {
   align-items: flex-end;
   flex-wrap: wrap;
   gap: 1rem;
+}
+
+.photo-placeholder-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.photo-placeholder {
+  flex: 1 1 30%;
+  min-width: 12rem;
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px dashed var(--border);
+  border-radius: 18px;
+  background: var(--bg-soft);
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  text-align: center;
+  padding: 1.4rem;
 }
 
 /* =========================================================
@@ -1400,6 +1435,12 @@ img {
               <span class="nav-title">프로젝트4</span>
             </a>
           </li>
+          <li class="nav-item" data-target="#project6">
+            <a href="#project6" class="nav-link">
+              <span class="nav-index">(08)</span>
+              <span class="nav-title">프로젝트5</span>
+            </a>
+          </li>
         </ul>
         <span class="nav-indicator" id="navIndicator" aria-hidden="true"></span>
       </nav>
@@ -1485,6 +1526,16 @@ img {
               <span class="home-project-num">05 / PUBLIC DATA &amp; POLICY</span>
               <h3 class="home-project-title">프로젝트4</h3>
               <p class="home-project-sub">인천광역시 교통 정체 완화 빅데이터 실증 및 3대 리빙랩 정책 제안</p>
+            </a>
+          </div>
+
+          <!-- 섹션 3: 통계 분석 프로젝트 -->
+          <p class="home-section-title reveal" style="margin-top: 2.2rem;">PROJECTS — 통계 분석 (STATISTICAL ANALYSIS)</p>
+          <div class="home-project-grid" style="grid-template-columns: 1fr;">
+            <a class="home-project-card reveal" href="#project6" data-target="#project6">
+              <span class="home-project-num">06 / REGRESSION ANALYSIS</span>
+              <h3 class="home-project-title">프로젝트5</h3>
+              <p class="home-project-sub">대학생 생활습관이 시험성적에 미치는 영향 분석 — 회귀분석 2인 팀 프로젝트 (기여도 60%)</p>
             </a>
           </div>
 
@@ -2106,19 +2157,21 @@ img {
               </div>
 
               <div class="feature-item reveal">
-                <h5>⑦ 시나리오 프리셋 &amp; 한/영 전환</h5>
-                <p>
-                  기본값 · 보수적 · 공격적 프리셋 버튼으로 전체 가정치를 한 번에 전환할 수 있습니다.<br>
-                  한국어·영어 화면 전환도 지원합니다.
-                </p>
-                <figure class="case-figure" style="text-align: center; padding: 1.5rem 0;">
+                 <h5>⑦ 시나리오 프리셋 &amp; 한/영 전환</h5>
+                 <p>
+                   기본값 · 보수적 · 공격적 프리셋 버튼으로 전체 가정치를 한 번에 전환할 수 있습니다.<br>
+                   한국어·영어 화면 전환도 지원합니다.
+                 </p>
+                 
+                 <!-- width: fit-content로 박스 길이를 내용물에 맞추고, 기본 왼쪽 정렬 유지 -->
+                 <figure class="case-figure" style="width: fit-content; margin: 0;">
                    <img 
                      src="images/project2-07-preset.png" 
                      alt="시나리오 프리셋 및 언어 전환 버튼" 
                      loading="lazy"
-                     style="width: 50%; max-width: 320px; min-height: auto; margin: 0 auto; object-fit: contain;"
+                     style="min-height: auto; padding: 1.2rem 1.8rem 0.5rem; width: auto; max-width: 100%;"
                    >
-                   <figcaption style="margin-top: 1rem;">시나리오 프리셋(기본값·보수적·공격적) 및 한/영 전환</figcaption>
+                   <figcaption>시나리오 프리셋(기본값·보수적·공격적) 및 한/영 전환</figcaption>
                  </figure>
                </div>
 
@@ -2529,11 +2582,10 @@ img {
                 복잡한 지도나 기술 언어 대신, <strong>'평상시 속도(하늘색)와 출퇴근 시간대 속도(주황색)의 하락 폭(선 길이)'</strong>을 직관적으로 보여주는 덤벨차트를 설계했습니다. 비전공자인 시민과 지자체 담당자도 "왜 송도 아트센터대로를 최우선 타깃으로 잡아야 하는가"를 단 한눈에 이해하고 동의할 수 있었습니다.
               </p>
 
-              <!-- 새로 추가하는 직접 만든 그래프 캡처 이미지 -->
-<figure class="case-figure" style="margin-top: 1.5rem; --fig-width: 60%;">
-  <img src="images/project5-graph.png" alt="인천광역시 주요 도로 평시 vs 출퇴근 속도 비교 그래프" loading="lazy">
-  <figcaption>송도 아트센터대로 평시 대비 출퇴근 속도 하락 폭 비교 분석 그래프</figcaption>
-</figure>
+              <figure class="case-figure" style="margin-top: 1.4rem; --fig-width: 50%;">
+                <img src="images/project5-graph.png" alt="인천광역시 주요 도로 평시 vs 출퇴근 속도 비교 그래프" loading="lazy">
+                <figcaption>송도 아트센터대로 평시 대비 출퇴근 속도 하락 폭 비교 분석 그래프</figcaption>
+              </figure>
             </div>
 
             <div class="case-block case-block--wide reveal">
@@ -2569,6 +2621,85 @@ img {
         </div>
       </section>
 
+      <!-- ============ PROJECT 5 (REGRESSION ANALYSIS) ============ -->
+      <section class="panel" id="panel-project6">
+        <div class="panel-inner">
+          <div class="project-header-wrap reveal">
+            <p class="section-tag">DATA ANALYSIS &amp; REGRESSION PROJECT</p>
+            <div class="index-row">
+              <h3 class="section-title index-title">프로젝트5</h3>
+            </div>
+            <p class="project-subtitle">대학생 생활습관이 시험성적에 미치는 영향 분석 — 회귀분석 2인 팀 프로젝트</p>
+          </div>
+          <p class="project-desc reveal">
+            학습시간·수면·SNS 사용 등 생활습관 데이터로 시험 성적을 예측하는 회귀분석 프로젝트입니다. 2인이 함께 진행했고, 저는 데이터 정제와 최종 모델 비교·검증을 맡아 기여도 60%로 참여했습니다.
+          </p>
+          <ul class="project-tags reveal">
+            <li>회귀분석</li>
+            <li>통계적 모델링</li>
+            <li>데이터 전처리</li>
+            <li>팀 프로젝트</li>
+            <li>Python</li>
+          </ul>
+          <div class="project-panel reveal">
+            <div class="panel-row"><span>팀 구성</span><span>2인 팀 프로젝트 · 기여도 60%</span></div>
+            <div class="panel-row"><span>담당 역할</span><span>데이터 전처리·EDA부터 최종 모델 비교·통계적 검증까지 주도</span></div>
+            <div class="panel-row"><span>데이터</span><span>대학생 1,000명의 생활습관·시험성적 데이터 (16개 변수)</span></div>
+            <div class="panel-row"><span>핵심 성과</span><span>설명력 90% 수준의 회귀분석 모델 완성 및 성적에 영향을 주는 습관 정량화</span></div>
+          </div>
+
+          <div class="project-body">
+            <div class="case-block reveal">
+              <p class="case-label">Why · What · How</p>
+              <p class="case-text">
+                <strong>WHY (왜 시작했는가?)</strong><br>
+                학습시간, 소셜미디어·넷플릭스 사용시간, 수면, 정신건강 같은 생활습관이 시험 성적에 실제로 얼마나 영향을 주는지 '느낌'이 아니라 숫자로 확인해보고 싶어서 시작한 프로젝트입니다.
+              </p>
+              <p class="case-text">
+                <strong>WHAT (무엇을 했는가?)</strong><br>
+                학생 1,000명의 생활습관 데이터를 정리하고, 여러 예측 모델을 비교해본 결과 회귀분석 모델이 성적을 가장 정확하게 설명했습니다(설명력 90%). 어떤 습관이 성적을 올리고 어떤 습관이 깎아먹는지 숫자로 정리했습니다.
+              </p>
+              <p class="case-text">
+                <strong>HOW (제가 맡은 부분은?)</strong><br>
+                팀에서 저는 데이터를 정리하고 모델을 검증하는 역할을 맡았습니다. 이상한 값은 없는지, 변수끼리 같은 정보를 중복으로 담고 있진 않은지, 만든 모델을 실제로 믿고 써도 되는지를 하나씩 확인하며 결과의 신뢰도를 끌어올리는 데 집중했습니다.
+              </p>
+            </div>
+
+            <div class="case-block reveal">
+              <p class="case-label">핵심 결과</p>
+              <ul class="highlight-list">
+                <li>학습시간이 1시간 늘어날 때마다 성적이 평균 9.6점 올라가는 것으로 나타나, 성적에 가장 큰 영향을 주는 습관임을 확인</li>
+                <li>반대로 소셜미디어·넷플릭스 사용시간이 1시간 늘어날 때마다 성적이 각각 2.6점, 2.3점씩 떨어지는 것으로 확인</li>
+                <li>수면시간과 정신건강 상태도 성적과 뚜렷한 양의 관계를 보여, 단순히 공부량뿐 아니라 생활 전반의 균형이 중요하다는 것을 데이터로 뒷받침</li>
+                <li>여러 검증 과정을 거쳐 신뢰할 수 있는 모델임을 확인했고, 100번 중 90번은 실제 성적과 비슷하게 맞히는 수준(설명력 90%)의 예측 모델을 완성</li>
+              </ul>
+            </div>
+
+            <div class="case-block case-block--wide reveal">
+              <p class="case-label">분석 자료</p>
+              <p class="case-text">
+                보고서에 담은 상관관계 분석, 모델 비교, 최종 결과 화면을 이곳에 추가할 예정입니다.
+              </p>
+              <div class="photo-placeholder-grid reveal">
+                <div class="photo-placeholder">사진 추가 예정<br>생활습관·성적 상관관계 분석 화면</div>
+                <div class="photo-placeholder">사진 추가 예정<br>회귀모델 비교·검증 결과</div>
+                <div class="photo-placeholder">사진 추가 예정<br>최종 분석 결과 요약</div>
+              </div>
+            </div>
+
+            <div class="case-block reveal">
+              <p class="case-label">배운 점</p>
+              <ul class="case-list">
+                <li><strong>꼼꼼한 검증이 신뢰를 만든다는 것.</strong> 화려한 모델보다 데이터를 의심하고 하나씩 확인하는 과정이 결과의 신뢰도를 결정한다는 것을 데이터 정제와 검증을 맡으며 체감함.</li>
+                <li><strong>숫자를 실제 조언으로 바꿔 말하는 연습.</strong> "회귀계수 9.6"이라는 숫자를 "하루 1시간 더 공부하면 평균 9.6점이 오른다"는 문장으로 바꿔 말할 수 있어야 통계가 실제로 쓸모 있어진다는 것을 깨달음.</li>
+                <li><strong>둘이서 맞춰가는 분석의 과정.</strong> 팀원과 같은 데이터를 두고 서로 다른 해석을 주고받으며, 결과를 혼자 확신하기보다 함께 검증했을 때 더 신뢰할 수 있는 결론이 나온다는 것을 배움.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
     </div>
   </main>
 </div>
@@ -2587,8 +2718,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const navIndicator = document.getElementById('navIndicator');
   const sidenavTop = document.getElementById('sidenavTop');
 
-  // matches the sidebar nav order exactly: CAREER, SKILL, STRENGTH, then projects 1, 2, 4, 5
-  const navKeyOrder = ['career', 'skills', 'strength', 'project1', 'project2', 'project4', 'project5'];
+  // matches the sidebar nav order exactly: CAREER, SKILL, STRENGTH, then projects 1, 2, 4, 5, 6
+  const navKeyOrder = ['career', 'skills', 'strength', 'project1', 'project2', 'project4', 'project5', 'project6'];
   const validKeys = ['home', ...navKeyOrder];
 
   let activeKey = null;
@@ -2635,8 +2766,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const next = getPanel(key);
     if (!next || key === activeKey) return;
 
-    const current = activeKey ? getPanel(activeKey) : null;
-    if (current) {
+    const current = activeKey ? getPanel(activeKey) : document.querySelector('.panel.is-active');
+    if (current && current !== next) {
       current.classList.remove('is-active');
       current.classList.add('is-leaving');
       setTimeout(() => current.classList.remove('is-leaving'), 650);
