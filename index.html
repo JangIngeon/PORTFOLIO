@@ -824,6 +824,17 @@ img {
   margin-bottom: 1.1rem;
 }
 
+.case-text,
+.feature-item > p,
+.problem-card p,
+.insight-quote p,
+.strength-desc {
+  max-width: 48rem;            /* 글이 48rem(약 930px)을 넘어가면 자동으로 줄바꿈 */
+  word-break: keep-all;        /* 한국어 단어 중간에서 끊기지 않고 단어 단위로 줄바꿈 */
+  overflow-wrap: break-word;   /* 긴 영문/기호가 영역을 뚫고 나가지 않도록 처리 */
+  line-height: 1.65;           /* 줄 간격을 여유 있게 설정하여 가독성 향상 */
+}
+
 .case-text:last-child {
   margin-bottom: 0;
 }
