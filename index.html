@@ -140,20 +140,30 @@ img {
   display: block;
   margin-top: 1.8rem;
 }
-   
-.nav-subcaption-row {
-  margin-top: 0.9rem;
-  margin-bottom: 0.2rem;
+
+.nav-brace {
+  position: absolute;
+  right: -1.1rem;
+  width: 15px;
+  pointer-events: none;
 }
-.nav-subcaption {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  opacity: 0.7;
+
+.nav-brace svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
 }
+
+.nav-brace path {
+  fill: none;
+  stroke: var(--warn);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.75;
+}
+
    
 .nav-item {
   position: relative;
@@ -1414,10 +1424,6 @@ img {
             <span class="nav-caption nav-caption--projects">PROJECTS</span>
           </li>
            
-          <li class="nav-subcaption-row">
-            <span class="nav-subcaption">실무 자동화</span>
-          </li>
-           
           <li class="nav-item" data-target="#project1">
             <a href="#project1" class="nav-link">
               <span class="nav-index">(04)</span>
@@ -1430,10 +1436,7 @@ img {
               <span class="nav-title">프로젝트2</span>
             </a>
           </li>
-
-          <li class="nav-subcaption-row">
-            <span class="nav-subcaption">데이터 분석</span>
-          </li>
+           
           <li class="nav-item" data-target="#project4">
             <a href="#project4" class="nav-link">
               <span class="nav-index">(06)</span>
@@ -1454,6 +1457,16 @@ img {
           </li>
         </ul>
         <span class="nav-indicator" id="navIndicator" aria-hidden="true"></span>
+        <span class="nav-brace" data-brace="automation" aria-hidden="true">
+          <svg viewBox="0 0 20 100" preserveAspectRatio="none">
+            <path d="M4,3 C15,3 4,25 15,49 C4,51 4,51 15,53 C4,55 15,77 4,97" />
+          </svg>
+        </span>
+        <span class="nav-brace" data-brace="analysis" aria-hidden="true">
+          <svg viewBox="0 0 20 100" preserveAspectRatio="none">
+            <path d="M4,3 C15,3 4,25 15,49 C4,51 4,51 15,53 C4,55 15,77 4,97" />
+          </svg>
+        </span>
       </nav>
 
 
@@ -2768,9 +2781,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const getPanel = (key) => document.getElementById(`panel-${key}`);
 
+
+
   /* ============================================================
      1) Panel switching — side-sliding SPA stage
   ============================================================ */
+
+  function positionNavBraces() {
+   const groups = [
+     { key: 'automation', keys: ['project1', 'project2'] },
+     { key: 'analysis', keys: ['project4', 'project5', 'project6', 'project7'] },
+   ];
+   groups.forEach(({ key, keys }) => {
+     const brace = document.querySelector(`.nav-brace[data-brace="${key}"]`);
+     if (!brace) return;
+     const items = keys
+       .map((k) => document.querySelector(`.nav-item[data-target="#${k}"]`))
+       .filter(Boolean);
+     if (!items.length) return;
+     const top = items[0].offsetTop;
+     const bottom = items[items.length - 1].offsetTop + items[items.length - 1].offsetHeight;
+     brace.style.top = `${top}px`;
+     brace.style.height = `${bottom - top}px`;
+   });
+ }
+ positionNavBraces();
+ window.addEventListener('resize', positionNavBraces);
+   
   function playReveal(panel) {
     const reveals = panel.querySelectorAll('.reveal');
     reveals.forEach((el) => {
