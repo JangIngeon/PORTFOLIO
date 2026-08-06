@@ -2775,29 +2775,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ============================================================
      1) Panel switching — side-sliding SPA stage
-  ============================================================ */
-
-  function positionNavBraces() {
-   const groups = [
-     { key: 'automation', keys: ['project1', 'project2'] },
-     { key: 'analysis', keys: ['project4', 'project5', 'project6', 'project7'] },
-   ];
-   groups.forEach(({ key, keys }) => {
-     const brace = document.querySelector(`.nav-brace[data-brace="${key}"]`);
-     if (!brace) return;
-     const items = keys
-       .map((k) => document.querySelector(`.nav-item[data-target="#${k}"]`))
-       .filter(Boolean);
-     if (!items.length) return;
-     const top = items[0].offsetTop;
-     const bottom = items[items.length - 1].offsetTop + items[items.length - 1].offsetHeight;
-     brace.style.top = `${top}px`;
-     brace.style.height = `${bottom - top}px`;
-   });
- }
- positionNavBraces();
- window.addEventListener('resize', positionNavBraces);
-   
+  ============================================================ */ 
   function playReveal(panel) {
     const reveals = panel.querySelectorAll('.reveal');
     reveals.forEach((el) => {
