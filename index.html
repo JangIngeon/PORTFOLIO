@@ -141,29 +141,6 @@ img {
   margin-top: 1.8rem;
 }
 
-.nav-brace {
-  position: absolute;
-  right: -1.1rem;
-  width: 15px;
-  pointer-events: none;
-}
-
-.nav-brace svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-.nav-brace path {
-  fill: none;
-  stroke: var(--warn);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  opacity: 0.75;
-}
-
    
 .nav-item {
   position: relative;
@@ -1403,56 +1380,83 @@ img {
         <ul id="navList">
           <li class="nav-item nav-item--meta" data-target="#career">
             <a href="#career" class="nav-link">
-              <span class="nav-index">(01)</span>
-              <span class="nav-title">CAREER</span>
+              <span class="nav-link-left">
+                <span class="nav-index">(01)</span>
+                <span class="nav-title">CAREER</span>
+              </span>
             </a>
           </li>
           <li class="nav-item nav-item--meta" data-target="#skills">
             <a href="#skills" class="nav-link">
-              <span class="nav-index">(02)</span>
-              <span class="nav-title">SKILL</span>
+              <span class="nav-link-left">
+                <span class="nav-index">(02)</span>
+                <span class="nav-title">SKILL</span>
+              </span>
             </a>
           </li>
           <li class="nav-item nav-item--meta" data-target="#strength">
             <a href="#strength" class="nav-link">
-              <span class="nav-index">(03)</span>
-              <span class="nav-title">STRENGTH</span>
+              <span class="nav-link-left">
+                <span class="nav-index">(03)</span>
+                <span class="nav-title">STRENGTH</span>
+              </span>
             </a>
           </li>
 
+          <!-- [1] 실무 자동화 프로젝트 그룹 헤더 -->
           <li class="nav-caption-row">
-            <span class="nav-caption nav-caption--projects">PROJECTS</span>
+            <span class="nav-caption--group">AUTOMATION <span>/ 실무 자동화</span></span>
           </li>
            
-          <li class="nav-item" data-target="#project1">
+          <li class="nav-item" data-target="#project1" data-category="auto">
             <a href="#project1" class="nav-link">
-              <span class="nav-index">(04)</span>
-              <span class="nav-title">프로젝트1</span>
+              <span class="nav-link-left">
+                <span class="nav-index">(04)</span>
+                <span class="nav-title">프로젝트1</span>
+              </span>
+              <span class="nav-badge">AUTO</span>
             </a>
           </li>
-          <li class="nav-item" data-target="#project2">
+          <li class="nav-item" data-target="#project2" data-category="auto">
             <a href="#project2" class="nav-link">
-              <span class="nav-index">(05)</span>
-              <span class="nav-title">프로젝트2</span>
+              <span class="nav-link-left">
+                <span class="nav-index">(05)</span>
+                <span class="nav-title">프로젝트2</span>
+              </span>
+              <span class="nav-badge">AUTO</span>
             </a>
           </li>
            
-          <li class="nav-item" data-target="#project4">
+          <!-- [2] 데이터 분석 프로젝트 그룹 헤더 -->
+          <li class="nav-caption-row">
+            <span class="nav-caption--group">ANALYSIS <span>/ 데이터 분석</span></span>
+          </li>
+
+          <li class="nav-item" data-target="#project4" data-category="data">
             <a href="#project4" class="nav-link">
-              <span class="nav-index">(06)</span>
-              <span class="nav-title">프로젝트3</span>
+              <span class="nav-link-left">
+                <span class="nav-index">(06)</span>
+                <span class="nav-title">프로젝트3</span>
+              </span>
+              <span class="nav-badge">DATA</span>
             </a>
           </li>
-          <li class="nav-item" data-target="#project5">
+          <li class="nav-item" data-target="#project5" data-category="data">
             <a href="#project5" class="nav-link">
-              <span class="nav-index">(07)</span>
-              <span class="nav-title">프로젝트4</span>
+              <span class="nav-link-left">
+                <span class="nav-index">(07)</span>
+                <span class="nav-title">프로젝트4</span>
+              </span>
+              <span class="nav-badge">DATA</span>
             </a>
           </li>
-          <li class="nav-item" data-target="#project6">
+          <li class="nav-item" data-target="#project6" data-category="data">
             <a href="#project6" class="nav-link">
-              <span class="nav-index">(08)</span>
-              <span class="nav-title">프로젝트5</span>
+              <span class="nav-link-left">
+                <span class="nav-index">(08)</span>
+                <span class="nav-title">프로젝트5</span>
+              </span>
+              <span class="nav-badge">DATA</span>
             </a>
           </li>
         </ul>
