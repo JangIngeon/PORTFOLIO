@@ -140,7 +140,25 @@ img {
   display: block;
   margin-top: 1.8rem;
 }
+.nav-main {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
 
+.nav-tag {
+  margin-left: auto;
+  font-family: var(--font-en);
+  font-size: 0.56rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--warn);
+  border: 1px solid var(--warn);
+  border-radius: 4px;
+  padding: 0.18rem 0.4rem;
+  white-space: nowrap;
+  opacity: 0.85;
+}
    
 .nav-item {
   position: relative;
@@ -154,8 +172,9 @@ img {
 
 .nav-link {
   display: flex;
-  align-items: baseline;
-  gap: 0.6rem;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem 0.6rem;
   padding: 0.75rem 0;
   transform-origin: left center;
   will-change: transform, opacity, filter;
@@ -1403,8 +1422,11 @@ img {
            
           <li class="nav-item" data-target="#project1">
             <a href="#project1" class="nav-link">
-              <span class="nav-index">(04)</span>
-              <span class="nav-title">프로젝트1</span>
+              <span class="nav-main">
+                <span class="nav-index">(04)</span>
+                <span class="nav-title">프로젝트1</span>
+              </span>
+              <span class="nav-tag">AUTOMATION</span>
             </a>
           </li>
           <li class="nav-item" data-target="#project2">
