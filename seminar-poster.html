@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>동국대학교 화공세미나 포스터 템플릿</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   동국대학교 화공생물공학과 세미나 포스터 템플릿
+   - PANTONE 144 C 계열 오렌지를 메인 포인트 컬러로 사용
+   - 포스터 본문은 mm 단위로 조판 → A4 인쇄 시 1:1 출력
+   ============================================================ */
+:root{
+  --c-primary:#E65100;      /* 메인 딥 오렌지 */
+  --c-accent:#F26522;       /* 밝은 포인트 오렌지 */
+  --c-deep:#8A3208;         /* 좌측 바 하단 딥톤 */
+  --c-gold:#C0803A;         /* 보조 골드 */
+  --c-ink:#2B2320;          /* 본문 먹색 */
+  --c-mute:#6B5C54;         /* 보조 텍스트 */
+  --c-paper:#FDF8F2;        /* 종이 바탕 */
+  --c-line:#DCCFC2;         /* 구분선 */
+  --font-ko:'Pretendard','Noto Sans KR','Malgun Gothic','맑은 고딕',sans-serif;
+  --font-en:'Inter','Pretendard','Noto Sans KR',sans-serif;
+  --zoom:0.62;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--font-ko);
+  background:#20191a;
+  color:#EFE7E0;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- 앱 레이아웃 ---------- */
+.app{display:flex;min-height:100vh;align-items:stretch}
+
+/* ---------- 좌측 편집 패널 ---------- */
+.panel{
+  width:352px;flex:0 0 352px;background:#181112;border-right:1px solid #35272a;
+  padding:22px 20px 60px;overflow-y:auto;height:100vh;position:sticky;top:0;
+}
+.panel h1{
+  font-size:16px;font-weight:800;margin:0 0 4px;letter-spacing:-.01em;color:#fff;
+}
+.panel h1 span{color:var(--c-accent)}
+.panel .sub{font-size:11.5px;color:#9c8c85;margin:0 0 18px;line-height:1.6}
+.group{margin-bottom:20px;border-top:1px solid #302326;padding-top:16px}
+.group:first-of-type{border-top:0;padding-top:0}
+.group>legend,.group>.gtitle{
+  font-size:10.5px;font-weight:700;letter-spacing:.16em;color:var(--c-accent);
+  text-transform:uppercase;margin-bottom:11px;display:block;
+}
+.field{margin-bottom:10px}
+.field label{display:block;font-size:11px;color:#a99a93;margin-bottom:5px;font-weight:500}
+.field input[type=text],.field textarea,.field select{
+  width:100%;background:#241a1c;border:1px solid #3d2c2f;border-radius:7px;
+  color:#f3ece8;font-family:var(--font-ko);font-size:13px;padding:8px 10px;
+  transition:border-color .15s, box-shadow .15s;
+}
+.field textarea{resize:vertical;min-height:56px;line-height:1.45}
+.field input:focus,.field textarea:focus,.field select:focus{
+  outline:none;border-color:var(--c-accent);box-shadow:0 0 0 3px rgba(242,101,34,.16)
+}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.row4{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.hint{font-size:10.5px;color:#7d6d67;line-height:1.55;margin:8px 0 0}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  border:0;border-radius:8px;cursor:pointer;font-family:var(--font-ko);
+  font-size:13px;font-weight:700;padding:11px 14px;width:100%;margin-bottom:8px;
+  transition:filter .15s, transform .05s;
+}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--c-accent),var(--c-primary));color:#fff}
+.btn-primary:hover{filter:brightness(1.08)}
+.btn-ghost{background:#251a1c;color:#e5d9d4;border:1px solid #3d2c2f}
+.btn-ghost:hover{background:#2e2023}
+.swatches{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.sw{width:30px;height:30px;border-radius:50%;border:2px solid #3d2c2f;cursor:pointer;padding:0}
+.sw.on{border-color:#fff}
+.colorline{display:flex;align-items:center;gap:9px}
+.colorline input[type=color]{
+  width:42px;height:34px;padding:0;border:1px solid #3d2c2f;border-radius:7px;background:#241a1c;cursor:pointer
+}
+
+/* ---------- 우측 무대 ---------- */
+.stage{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  padding:24px 24px 60px;overflow:auto;
+  background:
+    radial-gradient(1100px 620px at 50% -10%, #3a2622 0%, transparent 65%),
+    #20191a;
+}
+.toolbar{
+  display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap;
+  background:#181112;border:1px solid #35272a;border-radius:999px;padding:7px 14px;
+}
+.toolbar button{
+  background:#291d20;border:1px solid #3d2c2f;color:#e8ded9;border-radius:999px;
+  padding:6px 12px;font-size:12px;cursor:pointer;font-family:var(--font-ko);font-weight:600
+}
+.toolbar button:hover{background:#332427}
+.toolbar .zval{font-size:12px;color:#a99a93;min-width:46px;text-align:center}
+.toolbar .tsep{width:1px;height:18px;background:#3d2c2f}
+.frame{
+  transform:scale(var(--zoom));transform-origin:top center;
+  filter:drop-shadow(0 26px 60px rgba(0,0,0,.55));
+  transition:transform .18s ease;
+}
+
+/* ============================================================
+   포스터 본체 (A4 210 x 297mm)
+   ============================================================ */
+.poster{
+  width:210mm;height:297mm;position:relative;overflow:hidden;
+  background:var(--c-paper);color:var(--c-ink);display:flex;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.poster *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+
+/* 편집 가능한 영역 표시 */
+[contenteditable]{outline:none;border-radius:1.2mm;transition:background .12s,box-shadow .12s}
+body.guides [contenteditable]:hover{background:rgba(242,101,34,.10);box-shadow:0 0 0 .7mm rgba(242,101,34,.18)}
+[contenteditable]:focus{background:rgba(242,101,34,.13);box-shadow:0 0 0 .7mm rgba(242,101,34,.42)}
+
+/* ---------- 좌측 브랜드 바 ---------- */
+.rail{
+  width:46mm;flex:0 0 46mm;position:relative;overflow:hidden;
+  background:linear-gradient(178deg,var(--c-accent) 0%,var(--c-primary) 34%,#B24408 66%,var(--c-deep) 100%);
+  color:#fff;
+}
+.rail .rail-tex{position:absolute;inset:0;opacity:.20;mix-blend-mode:screen}
+.rail .refinery{position:absolute;left:0;right:0;bottom:0;width:100%;opacity:.36}
+.rail .rail-fade{
+  position:absolute;left:0;right:0;bottom:0;height:120mm;
+  background:linear-gradient(to top,rgba(70,22,4,.55),transparent);
+}
+.brandmark{position:absolute;top:13mm;left:0;width:100%;text-align:center;z-index:3}
+.brandmark .mark{width:15mm;height:15mm;margin:0 auto 2.2mm;display:block}
+.brandmark img.mark{object-fit:contain}
+.brandmark .wm1,.brandmark .wm2{
+  font-family:var(--font-en);font-size:5.1mm;line-height:1.12;font-weight:600;letter-spacing:.005em
+}
+.brandmark .wm2{font-weight:400}
+.rail-vline{position:absolute;left:50%;top:36mm;width:.35mm;height:9mm;background:rgba(255,255,255,.55);transform:translateX(-50%);z-index:3}
+.rail-vtext{
+  position:absolute;left:50%;top:48mm;transform:translateX(-50%);z-index:3;
+  writing-mode:vertical-rl;font-family:var(--font-en);font-size:3.05mm;
+  letter-spacing:.30em;font-weight:500;color:rgba(255,255,255,.92);
+  text-align:left;line-height:1.9;max-height:150mm;
+}
+.rail-cbe{
+  position:absolute;left:3.5mm;bottom:6mm;z-index:3;font-family:var(--font-en);
+  font-size:18mm;font-weight:300;letter-spacing:.01em;line-height:1;white-space:nowrap;
+  color:transparent;-webkit-text-stroke:.45mm rgba(255,255,255,.42);
+}
+
+/* ---------- 우측 본문 ---------- */
+.body{flex:1;position:relative;display:flex;flex-direction:column;padding:14mm 13mm 0}
+.deco{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.deco .molecules{position:absolute;top:-4mm;right:-14mm;width:92mm;color:var(--c-primary);opacity:.15}
+.deco .glass{position:absolute;right:2mm;bottom:30mm;width:60mm;color:var(--c-primary);opacity:.26}
+.deco .contour{position:absolute;left:0;right:0;bottom:-4mm;width:100%;color:var(--c-gold);opacity:.20}
+
+/* 리본 */
+.ribbon{
+  position:absolute;top:0;right:12mm;width:30mm;padding:6.5mm 0 8mm;z-index:4;
+  background:linear-gradient(160deg,var(--c-primary),var(--c-deep));
+  clip-path:polygon(0 0,100% 0,100% 100%,50% 84%,0 100%);
+  text-align:center;color:#fff;box-shadow:0 1mm 3mm rgba(90,35,5,.25);
+}
+.ribbon .r1{font-family:var(--font-en);font-size:6.6mm;font-weight:700;line-height:1;letter-spacing:-.01em}
+.ribbon .r2{font-size:4.6mm;font-weight:700;margin-top:1.1mm;letter-spacing:-.01em}
+
+/* 상단 아이브로우 */
+.eyebrow{position:relative;z-index:3;padding-right:34mm}
+.eyebrow .etext{
+  font-family:var(--font-en);font-size:3.3mm;font-weight:700;letter-spacing:.19em;
+  color:var(--c-primary);text-transform:uppercase;white-space:nowrap;overflow:hidden;
+}
+.eyebrow .erule{height:.4mm;background:var(--c-primary);opacity:.55;margin-top:2.6mm;width:100%}
+
+/* 타이틀 */
+.titleblock{position:relative;z-index:3;margin-top:9mm}
+.tb-term{
+  font-family:var(--font-en);font-size:13.5mm;font-weight:300;letter-spacing:.01em;
+  color:var(--c-gold);line-height:1;margin-bottom:1mm;
+}
+.tb-term .wk{font-size:8.4mm;font-weight:600;letter-spacing:-.01em;color:var(--c-primary);margin-left:2.5mm;font-family:var(--font-ko)}
+.tb-main{
+  font-size:25.5mm;font-weight:900;letter-spacing:-.028em;line-height:1.02;
+  color:var(--c-primary);margin:0;
+}
+.tb-en{
+  font-family:var(--font-en);font-size:4.5mm;font-weight:400;letter-spacing:.085em;
+  color:var(--c-mute);margin-top:2.6mm;text-transform:uppercase;
+}
+.rule{height:.32mm;background:var(--c-line);margin:8mm 0 0;position:relative;z-index:3}
+.rule.short{width:64%}
+
+/* 연사 / 제목 */
+.sec{position:relative;z-index:3;margin-top:7mm}
+.sec .lab{
+  font-family:var(--font-en);font-size:3.6mm;font-weight:700;letter-spacing:.26em;
+  color:var(--c-primary);text-transform:uppercase;margin-bottom:3.4mm;
+}
+.speaker-name{font-size:var(--speaker-size,11mm);font-weight:800;letter-spacing:-.02em;color:var(--c-primary);line-height:1.12}
+.speaker-affil{font-size:5.3mm;font-weight:500;color:#4A3E38;margin-top:1.8mm;line-height:1.4}
+.talk-title{font-size:var(--talk-size,9mm);font-weight:800;letter-spacing:-.025em;line-height:1.3;color:var(--c-ink);margin-top:.5mm}
+
+/* 정보 행 */
+.info{position:relative;z-index:3;margin-top:7.5mm;display:flex;flex-direction:column;gap:3.2mm}
+.irow{display:flex;align-items:center;gap:4.5mm}
+.icircle{
+  width:12.6mm;height:12.6mm;flex:0 0 12.6mm;border-radius:50%;
+  background:linear-gradient(140deg,var(--c-accent),var(--c-primary));
+  display:flex;align-items:center;justify-content:center;color:#fff;
+  box-shadow:0 .8mm 2mm rgba(180,70,15,.22);
+}
+.icircle svg{width:6.6mm;height:6.6mm}
+.ilab{
+  font-family:var(--font-en);font-size:3.5mm;font-weight:700;letter-spacing:.2em;
+  color:var(--c-mute);width:19.5mm;flex:0 0 19.5mm;white-space:nowrap;border-left:.3mm solid var(--c-line);padding-left:4mm;
+}
+.ival{flex:1;min-width:0}
+.ival .v1{font-size:6.2mm;font-weight:700;letter-spacing:-.015em;color:var(--c-ink);line-height:1.2}
+.ival .v2{font-size:4.3mm;font-weight:400;color:var(--c-mute);margin-top:.7mm;line-height:1.3}
+.idash{height:0;border-top:.3mm dashed var(--c-line);margin-left:17.1mm;margin-right:14mm}
+
+/* 푸터 */
+.footer{position:relative;z-index:3;margin-top:auto;padding-bottom:9mm}
+.foot-rule{height:.32mm;background:var(--c-line);margin-bottom:5.5mm}
+.keywords{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:6.5mm}
+.keywords .kw{
+  font-size:4.2mm;font-weight:600;letter-spacing:.3em;color:var(--c-ink);padding:0 5mm;white-space:nowrap
+}
+.keywords .kdiv{width:.3mm;height:4mm;background:var(--c-line);flex:0 0 .3mm}
+.dept{text-align:center}
+.dept .dko{font-size:7mm;font-weight:800;letter-spacing:-.02em;color:var(--c-ink)}
+.dept .den{
+  font-family:var(--font-en);font-size:3.45mm;font-weight:500;letter-spacing:.085em;
+  color:var(--c-primary);margin-top:1.8mm;text-transform:uppercase;white-space:nowrap;
+}
+
+/* ---------- 인쇄 ---------- */
+@page{size:A4 portrait;margin:0}
+@media print{
+  html,body{background:#fff!important;margin:0!important;padding:0!important}
+  .panel,.toolbar{display:none!important}
+  .app{display:block}
+  .stage{padding:0!important;background:#fff!important;overflow:visible;display:block}
+  .frame{transform:none!important;filter:none!important}
+  .poster{box-shadow:none!important;margin:0!important;width:210mm;height:297mm;page-break-after:avoid}
+  [contenteditable]{background:transparent!important;box-shadow:none!important}
+}
+@media (max-width:1080px){
+  .app{flex-direction:column}
+  .panel{width:100%;flex:none;height:auto;position:static;border-right:0;border-bottom:1px solid #35272a}
+}
+</style>
+</head>
+<body class="guides">
+
+<div class="app">
+  <!-- ===================== 편집 패널 ===================== -->
+  <aside class="panel">
+    <h1>화공세미나 <span>포스터 편집기</span></h1>
+    <p class="sub">아래 폼을 수정하거나, 포스터의 글자를 <b>직접 클릭해서</b> 바로 고칠 수 있습니다. 완성되면 PDF/PNG로 내보내세요.</p>
+
+    <div class="group">
+      <span class="gtitle">강연 회차 불러오기</span>
+      <div class="field">
+        <label for="preset">2026-2학기 강의일정 (PDF 기준)</label>
+        <select id="preset">
+          <option value="">— 회차를 선택하세요 —</option>
+        </select>
+      </div>
+      <p class="hint">선택하면 주차 · 날짜 · 연사 · 강연 제목이 한 번에 채워집니다.</p>
+    </div>
+
+    <div class="group">
+      <span class="gtitle">머리말 / 주차</span>
+      <div class="field"><label>상단 영문 라인</label><input type="text" data-bind="eyebrow"></div>
+      <div class="row2">
+        <div class="field"><label>리본 1행</label><input type="text" data-bind="ribbon1"></div>
+        <div class="field"><label>리본 2행</label><input type="text" data-bind="ribbon2"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label>학기</label><input type="text" data-bind="term"></div>
+        <div class="field"><label>주차</label><input type="text" data-bind="week"></div>
+      </div>
+      <div class="field"><label>메인 타이틀</label><input type="text" data-bind="mainTitle"></div>
+      <div class="field"><label>영문 부제</label><input type="text" data-bind="mainEn"></div>
+    </div>
+
+    <div class="group">
+      <span class="gtitle">연사 정보</span>
+      <div class="field"><label>라벨</label><input type="text" data-bind="speakerLabel"></div>
+      <div class="field"><label>연사 성함</label><input type="text" data-bind="speakerName"></div>
+      <div class="field"><label>소속 및 직위</label><input type="text" data-bind="speakerAffil"></div>
+    </div>
+
+    <div class="group">
+      <span class="gtitle">강연 제목</span>
+      <div class="field"><label>라벨</label><input type="text" data-bind="titleLabel"></div>
+      <div class="field"><label>제목</label><textarea data-bind="talkTitle"></textarea></div>
+    </div>
+
+    <div class="group">
+      <span class="gtitle">일시 · 장소</span>
+      <div class="row2">
+        <div class="field"><label>DATE 라벨</label><input type="text" data-bind="dateLabel"></div>
+        <div class="field"><label>날짜</label><input type="text" data-bind="dateValue"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label>TIME 라벨</label><input type="text" data-bind="timeLabel"></div>
+        <div class="field"><label>시간</label><input type="text" data-bind="timeValue"></div>
+      </div>
+      <div class="field"><label>시간 부가 설명</label><input type="text" data-bind="timeNote"></div>
+      <div class="row2">
+        <div class="field"><label>VENUE 라벨</label><input type="text" data-bind="venueLabel"></div>
+        <div class="field"><label>장소</label><input type="text" data-bind="venueValue"></div>
+      </div>
+      <div class="field"><label>장소 영문</label><input type="text" data-bind="venueEn"></div>
+    </div>
+
+    <div class="group">
+      <span class="gtitle">하단 키워드 · 학과</span>
+      <div class="row4">
+        <div class="field"><label>키워드 1</label><input type="text" data-bind="kw1"></div>
+        <div class="field"><label>키워드 2</label><input type="text" data-bind="kw2"></div>
+        <div class="field"><label>키워드 3</label><input type="text" data-bind="kw3"></div>
+        <div class="field"><label>키워드 4</label><input type="text" data-bind="kw4"></div>
+      </div>
+      <div class="field"><label>학과명 (국문)</label><input type="text" data-bind="deptKo"></div>
+      <div class="field"><label>학과명 (영문)</label><input type="text" data-bind="deptEn"></div>
+    </div>
+
+    <div class="group">
+      <span class="gtitle">좌측 브랜드 바</span>
+      <div class="row2">
+        <div class="field"><label>워드마크 1행</label><input type="text" data-bind="wm1"></div>
+        <div class="field"><label>워드마크 2행</label><input type="text" data-bind="wm2"></div>
+      </div>
+      <div class="field"><label>세로 텍스트</label><input type="text" data-bind="railText"></div>
+      <div class="field"><label>하단 이니셜</label><input type="text" data-bind="railInitial"></div>
+      <div class="field">
+        <label>대학 로고 이미지 교체 (PNG · SVG)</label>
+        <input type="file" id="logoFile" accept="image/*" style="font-size:11.5px;color:#a99a93">
+      </div>
+      <p class="hint">기본 마크는 자리표시용 도안입니다. 실제 배포본에는 학교에서 배포하는 공식 로고 파일을 올려 사용하세요.</p>
+    </div>
+
+    <div class="group">
+      <span class="gtitle">포인트 컬러</span>
+      <div class="colorline">
+        <input type="color" id="colorPick" value="#E65100">
+        <span class="hint" style="margin:0">PANTONE 144 C 계열 기본값</span>
+      </div>
+      <div class="swatches" id="swatches"></div>
+    </div>
+
+    <div class="group">
+      <span class="gtitle">내보내기</span>
+      <button class="btn btn-primary" id="btnPrint">PDF로 저장 · 인쇄</button>
+      <button class="btn btn-ghost" id="btnPng">PNG 이미지 다운로드 (고해상도)</button>
+      <button class="btn btn-ghost" id="btnReset">기본값으로 되돌리기</button>
+      <p class="hint">PDF 저장: 인쇄 대화상자에서 «대상 → PDF로 저장», 용지 A4, 여백 «없음», «배경 그래픽» 체크를 켜주세요.</p>
+    </div>
+  </aside>
+
+  <!-- ===================== 포스터 ===================== -->
+  <main class="stage">
+    <div class="toolbar">
+      <button id="zoomOut">−</button>
+      <span class="zval" id="zoomVal">62%</span>
+      <button id="zoomIn">+</button>
+      <button id="zoomFit">화면 맞춤</button>
+      <span class="tsep"></span>
+      <button id="toggleGuides">편집영역 표시 끄기</button>
+    </div>
+
+    <div class="frame" id="frame">
+    <div class="poster" id="poster">
+
+      <!-- ---------- 좌측 브랜드 바 ---------- -->
+      <div class="rail">
+        <!-- 분자 텍스처 -->
+        <svg class="rail-tex" viewBox="0 0 174 1123" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <g fill="none" stroke="#fff" stroke-width="1.4">
+            <g id="railhex">
+              <polygon points="26,0 13,22.5 -13,22.5 -26,0 -13,-22.5 13,-22.5"/>
+            </g>
+          </g>
+          <g fill="none" stroke="#fff" stroke-width="1.4" opacity=".9">
+            <use href="#railhex" x="40" y="90"/><use href="#railhex" x="79" y="112"/>
+            <use href="#railhex" x="118" y="90"/><use href="#railhex" x="79" y="67"/>
+            <use href="#railhex" x="130" y="300"/><use href="#railhex" x="91" y="322"/>
+            <use href="#railhex" x="30" y="470"/><use href="#railhex" x="69" y="492"/>
+          </g>
+          <g fill="#fff" opacity=".8">
+            <circle cx="66" cy="90" r="3.4"/><circle cx="105" cy="112" r="3.4"/>
+            <circle cx="144" cy="90" r="3.4"/><circle cx="105" cy="67" r="3.4"/>
+            <circle cx="156" cy="300" r="3.4"/><circle cx="65" cy="322" r="3.4"/>
+            <circle cx="56" cy="470" r="3.4"/><circle cx="95" cy="492" r="3.4"/>
+          </g>
+        </svg>
+
+        <div class="rail-fade"></div>
+
+        <!-- 정유 · 석유화학 플랜트 실루엣 -->
+        <svg class="refinery" viewBox="0 0 174 380" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+          <g fill="#3E1704">
+            <!-- 증류탑 · 반응기 -->
+            <path d="M10 380V150q0-13 11-13h14q11 0 11 13v230z"/>
+            <path d="M8 144h40v7H8z" opacity=".55"/>
+            <path d="M54 380V212q0-10 9-10h11q9 0 9 10v168z"/>
+            <path d="M92 380V104q0-15 12-15h17q12 0 12 15v276z"/>
+            <path d="M89 96h46v7H89z" opacity=".55"/>
+            <path d="M142 380V196q0-9 8-9h10q8 0 8 9v184z"/>
+            <!-- 구형 저장탱크 -->
+            <circle cx="45" cy="300" r="18"/><rect x="42" y="312" width="6" height="34"/>
+            <!-- 원통형 탱크 -->
+            <rect x="120" y="322" width="46" height="58" rx="3"/>
+            <!-- 배관 트레이 -->
+            <rect x="0" y="262" width="174" height="6"/>
+            <rect x="0" y="336" width="174" height="5"/>
+            <rect x="0" y="366" width="174" height="14"/>
+            <!-- 플레어 스택 -->
+            <path d="M130 380V60h7v320z"/>
+            <path d="M131 60q-3-18 8-28-2 15 7 20-5 5-3 8z" opacity=".9"/>
+            <!-- 소형 구조물 -->
+            <rect x="62" y="292" width="26" height="54"/>
+            <rect x="0" y="308" width="18" height="38"/>
+          </g>
+          <g stroke="#FFD9C2" stroke-width="2.2" fill="none" opacity=".42">
+            <!-- 트레이 라인 · 사다리 -->
+            <path d="M21 172h14M21 196h14M21 220h14M21 244h14M21 286h14"/>
+            <path d="M104 128h17M104 152h17M104 176h17M104 200h17M104 224h17M104 248h17"/>
+            <path d="M150 218h10M150 240h10"/>
+            <!-- 연결 배관 -->
+            <path d="M35 158h57M77 224h15M121 190h21M45 282v-14h47"/>
+          </g>
+        </svg>
+
+        <div class="brandmark">
+          <!-- 자리표시 로고 마크 : 공식 로고로 교체 가능 -->
+          <svg class="mark" id="logoMark" viewBox="0 0 100 100" aria-hidden="true">
+            <g fill="#fff">
+              <path d="M50 8c6 10 8 20 4 30-4-9-9-14-4-30z"/>
+              <path d="M50 42c-9-3-15-11-16-22 10 3 16 11 16 22z"/>
+              <path d="M50 42c9-3 15-11 16-22-10 3-16 11-16 22z"/>
+              <path d="M50 46c-12 2-22-3-28-13 12-2 23 3 28 13z"/>
+              <path d="M50 46c12 2 22-3 28-13-12-2-23 3-28 13z"/>
+              <path d="M46 50c-11 6-23 5-32-3 11-6 23-5 32 3z"/>
+              <path d="M54 50c11 6 23 5 32-3-11-6-23-5-32 3z"/>
+              <rect x="47.6" y="46" width="4.8" height="30" rx="2.4"/>
+            </g>
+          </svg>
+          <img class="mark" id="logoImg" alt="" style="display:none">
+          <div class="wm1" contenteditable="true" data-f="wm1">dongguk</div>
+          <div class="wm2" contenteditable="true" data-f="wm2">university</div>
+        </div>
+
+        <div class="rail-vline"></div>
+        <div class="rail-vtext" contenteditable="true" data-f="railText">DEPARTMENT OF CHEMICAL AND BIOCHEMICAL ENGINEERING</div>
+        <div class="rail-cbe" contenteditable="true" data-f="railInitial">CBE</div>
+      </div>
+
+      <!-- ---------- 우측 본문 ---------- -->
+      <div class="body">
+
+        <!-- 배경 그래픽 -->
+        <div class="deco">
+          <!-- 분자 구조 패턴 -->
+          <svg class="molecules" viewBox="0 0 380 300" aria-hidden="true">
+            <defs>
+              <g id="hx"><polygon points="34,0 17,29.4 -17,29.4 -34,0 -17,-29.4 17,-29.4"/></g>
+            </defs>
+            <g fill="none" stroke="currentColor" stroke-width="2.2">
+              <use href="#hx" x="120" y="60"/><use href="#hx" x="171" y="89.4"/>
+              <use href="#hx" x="222" y="60"/><use href="#hx" x="171" y="30.6"/>
+              <use href="#hx" x="273" y="89.4"/><use href="#hx" x="222" y="118.8"/>
+              <use href="#hx" x="120" y="118.8"/><use href="#hx" x="69" y="89.4"/>
+              <use href="#hx" x="273" y="148.2"/><use href="#hx" x="222" y="177.6"/>
+              <use href="#hx" x="324" y="118.8"/>
+            </g>
+            <g stroke="currentColor" stroke-width="2.2" fill="none" opacity=".85">
+              <path d="M35 89.4H-10M188 206.4l-24 42M307 177.6l26 26M154 4.2l-18-32"/>
+            </g>
+            <g fill="currentColor">
+              <circle cx="154" cy="30.6" r="5"/><circle cx="205" cy="60" r="5"/>
+              <circle cx="256" cy="89.4" r="5"/><circle cx="256" cy="148.2" r="5"/>
+              <circle cx="205" cy="177.6" r="5"/><circle cx="103" cy="89.4" r="5"/>
+              <circle cx="52" cy="118.8" r="5"/><circle cx="307" cy="118.8" r="5"/>
+              <circle cx="-10" cy="89.4" r="6.5"/><circle cx="164" cy="248.4" r="6.5"/>
+              <circle cx="333" cy="203.6" r="6.5"/><circle cx="136" cy="-27.8" r="6.5"/>
+            </g>
+          </svg>
+
+          <!-- 실험 기구 라인 아트 -->
+          <svg class="glass" viewBox="0 0 240 320" aria-hidden="true">
+            <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <!-- 링스탠드 -->
+              <path d="M44 300V36"/>
+              <path d="M18 300h56"/>
+              <path d="M44 92h40"/><path d="M44 176h34"/>
+              <!-- 둥근바닥 플라스크 + 응축기 -->
+              <circle cx="112" cy="222" r="40"/>
+              <path d="M100 186V128h24v58"/>
+              <path d="M94 128h36"/>
+              <path d="M112 128V96q0-22 24-22h34"/>
+              <path d="M170 74q22 0 22 22v58"/>
+              <path d="M182 96q10 2 10 14v42q0 12-10 14"/>
+              <path d="M202 96q-10 2-10 14v42q0 12 10 14"/>
+              <path d="M192 168v34"/>
+              <!-- 응축기 코일 -->
+              <path d="M184 106q16 6 16 12M184 122q16 6 16 12M184 138q16 6 16 12" stroke-width="1.7" opacity=".8"/>
+              <!-- 삼각플라스크 -->
+              <path d="M56 232v-16"/>
+              <path d="M40 216h34"/>
+              <path d="M44 216v-18"/>
+              <path d="M70 216v-18"/>
+              <path d="M44 198L16 282q-4 12 8 12h56q12 0 8-12L60 198"/>
+              <path d="M13 262h74" stroke-width="1.7" opacity=".7"/>
+              <!-- 비커 -->
+              <path d="M146 250v46q0 8 8 8h44q8 0 8-8v-46"/>
+              <path d="M140 250h72"/>
+              <path d="M150 278h12M150 288h12" stroke-width="1.7" opacity=".7"/>
+              <path d="M148 268h48" stroke-width="1.7" opacity=".7"/>
+              <!-- 시험관 -->
+              <path d="M216 176v72q0 12 10 12t10-12v-72"/>
+              <path d="M212 176h28"/>
+            </g>
+          </svg>
+
+          <!-- 하단 등고선 -->
+          <svg class="contour" viewBox="0 0 620 210" preserveAspectRatio="none" aria-hidden="true">
+            <g fill="none" stroke="currentColor" stroke-width="1.1">
+              <path d="M-20 206C90 150 210 196 320 140S540 96 640 140"/>
+              <path d="M-20 194C90 138 210 184 320 128S540 84 640 128"/>
+              <path d="M-20 182C90 126 210 172 320 116S540 72 640 116"/>
+              <path d="M-20 170C90 114 210 160 320 104S540 60 640 104"/>
+              <path d="M-20 158C90 102 210 148 320 92S540 48 640 92"/>
+              <path d="M-20 146C90 90 210 136 320 80S540 36 640 80"/>
+              <path d="M-20 134C90 78 210 124 320 68S540 24 640 68"/>
+              <path d="M-20 122C90 66 210 112 320 56S540 12 640 56"/>
+            </g>
+          </svg>
+        </div>
+
+        <!-- 리본 -->
+        <div class="ribbon">
+          <div class="r1" contenteditable="true" data-f="ribbon1">2026</div>
+          <div class="r2" contenteditable="true" data-f="ribbon2">화공세미나</div>
+        </div>
+
+        <!-- 아이브로우 -->
+        <div class="eyebrow">
+          <div class="etext" contenteditable="true" data-f="eyebrow">Chemical &amp; Biochemical Engineering Seminar</div>
+          <div class="erule"></div>
+        </div>
+
+        <!-- 타이틀 -->
+        <div class="titleblock">
+          <div class="tb-term">
+            <span contenteditable="true" data-f="term">2026-2</span><span class="wk" contenteditable="true" data-f="week">15주차</span>
+          </div>
+          <div class="tb-main" contenteditable="true" data-f="mainTitle">화공세미나</div>
+          <div class="tb-en" contenteditable="true" data-f="mainEn">Chemical &amp; Biochemical Engineering Seminar</div>
+        </div>
+
+        <div class="rule"></div>
+
+        <!-- 연사 -->
+        <div class="sec">
+          <div class="lab" contenteditable="true" data-f="speakerLabel">Speaker</div>
+          <div class="speaker-name" contenteditable="true" data-f="speakerName">이의수 교수</div>
+          <div class="speaker-affil" contenteditable="true" data-f="speakerAffil">동국대학교 화공생물공학과</div>
+        </div>
+
+        <div class="rule short"></div>
+
+        <!-- 강연 제목 -->
+        <div class="sec">
+          <div class="lab" contenteditable="true" data-f="titleLabel">Title</div>
+          <div class="talk-title" contenteditable="true" data-f="talkTitle">AI 시대의 화학생물공학 역할과 미래</div>
+        </div>
+
+        <!-- 일시 · 장소 -->
+        <div class="info">
+          <div class="irow">
+            <div class="icircle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4.5" width="18" height="16.5" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/>
+                <path d="M7.5 13h2M11 13h2M14.5 13h2M7.5 17h2M11 17h2"/>
+              </svg>
+            </div>
+            <div class="ilab" contenteditable="true" data-f="dateLabel">DATE</div>
+            <div class="ival"><div class="v1" contenteditable="true" data-f="dateValue">2026. 12. 09 (수)</div></div>
+          </div>
+          <div class="idash"></div>
+          <div class="irow">
+            <div class="icircle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"/><path d="M12 6.8V12l3.6 2.4"/>
+              </svg>
+            </div>
+            <div class="ilab" contenteditable="true" data-f="timeLabel">TIME</div>
+            <div class="ival">
+              <div class="v1" contenteditable="true" data-f="timeValue">17:00 – 18:20</div>
+              <div class="v2" contenteditable="true" data-f="timeNote">(50분 강의, 30분 질의응답)</div>
+            </div>
+          </div>
+          <div class="idash"></div>
+          <div class="irow">
+            <div class="icircle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 21.5s7-6.1 7-11.1a7 7 0 1 0-14 0c0 5 7 11.1 7 11.1z"/><circle cx="12" cy="10.2" r="2.6"/>
+              </svg>
+            </div>
+            <div class="ilab" contenteditable="true" data-f="venueLabel">VENUE</div>
+            <div class="ival">
+              <div class="v1" contenteditable="true" data-f="venueValue">원흥관 650호</div>
+              <div class="v2" contenteditable="true" data-f="venueEn">Wonheung Building, Room 650</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 푸터 -->
+        <div class="footer">
+          <div class="foot-rule"></div>
+          <div class="keywords">
+            <span class="kw" contenteditable="true" data-f="kw1">최신기술</span><span class="kdiv"></span>
+            <span class="kw" contenteditable="true" data-f="kw2">산업동향</span><span class="kdiv"></span>
+            <span class="kw" contenteditable="true" data-f="kw3">진로탐색</span><span class="kdiv"></span>
+            <span class="kw" contenteditable="true" data-f="kw4">미래비전</span>
+          </div>
+          <div class="dept">
+            <div class="dko" contenteditable="true" data-f="deptKo">동국대학교 화공생물공학과</div>
+            <div class="den" contenteditable="true" data-f="deptEn">Department of Chemical and Biochemical Engineering</div>
+          </div>
+        </div>
+
+      </div><!-- /.body -->
+    </div><!-- /.poster -->
+    </div><!-- /.frame -->
+  </main>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ==========================================================
+     2026-2학기 화공세미나 강의일정 (첨부 PDF에서 추출)
+     매주 수요일 17:00 – 18:20 / 원흥관 650호
+     ========================================================== */
+  var SCHEDULE = [
+    {w:1, d:'2026. 09. 02 (수)', name:'이의수 교수', affil:'동국대학교 화공생물공학과',
+     title:'강좌의 개요, 정유 / 석유화학 산업 소개'},
+    {w:2, d:'2026. 09. 09 (수)', name:'이경록 교수', affil:'동국대학교 화공생물공학과 (신임교원)',
+     title:'탄소저감 사회를 위한 화학적 에너지 매체와 촉매 기술'},
+    {w:3, d:'2026. 09. 16 (수)', name:'강진구 교수', affil:'동국대학교 화공생물공학과 (신임교원)',
+     title:'차세대 반도체를 위한 첨단 소재기술'},
+    {w:4, d:'2026. 09. 23 (수)', name:'이홍주 박사', affil:'한국재료연구원 나노재료연구본부',
+     title:'내가 다시 학부 3학년으로 돌아간다면? – 동국대 화공과에서 학·석·박 그리고 정부출연연까지'},
+    {w:5, d:'2026. 09. 30 (수)', name:'정호균 박사', affil:'삼성전자 파운드리사업부',
+     title:'반도체 소재 이야기'},
+    {w:6, d:'2026. 10. 07 (수)', name:'정혁성 대표', affil:'CJ 바이오머티리얼즈',
+     title:'화이트바이오 신사업의 혁신과 미래'},
+    {w:7, d:'2026. 10. 14 (수)', name:'강태훈 사원 / 홍은찬 사원', affil:'삼성바이오로직스 / 셀트리온',
+     title:'삼성바이오로직스 소개 및 취업 준비 과정 / 셀트리온 소개 및 취업 준비 과정'},
+    {w:8, d:'2026. 10. 21 (수)', name:'강진우 대표', affil:'미원상사',
+     title:'정밀화학 산업과 미원상사 소개'},
+    {w:9, d:'2026. 10. 28 (수)', name:'김성준 박사', affil:'국립암센터',
+     title:'취업과 대학원 사이, 나에게 맞는 경로를 찾는 법'},
+    {w:10, d:'2026. 11. 04 (수)', name:'이태훈 교수', affil:'DGIST 에너지공학과',
+     title:'계산과학과 머신러닝을 활용한 차세대 반도체 연구'},
+    {w:11, d:'2026. 11. 11 (수)', name:'이준상 박사', affil:'삼성전자 DS부문 반도체연구소',
+     title:'삼성에 다니기 전에는 몰랐던 것들'},
+    {w:12, d:'2026. 11. 18 (수)', name:'김도희 연구원', affil:'HD한국조선해양 글로벌 R&D 센터 (졸업생)',
+     title:'조선산업에서 화학공학과의 역할'},
+    {w:13, d:'2026. 11. 25 (수)', name:'안상범 박사', affil:'LG화학 CTO',
+     title:'Digital Materials : AI 시대의 새로운 소재 경쟁력'},
+    {w:14, d:'2026. 12. 02 (수)', name:'한주성 박사', affil:'SK온',
+     title:'유무기 복합 박막의 확장 : 연료전지, 차세대배터리, 그리고 다른 첨단산업'},
+    {w:15, d:'2026. 12. 09 (수)', name:'이의수 교수', affil:'동국대학교 화공생물공학과',
+     title:'AI 시대의 화학생물공학 역할과 미래'}
+  ];
+
+  var poster  = document.getElementById('poster');
+  var fields  = Array.prototype.slice.call(poster.querySelectorAll('[data-f]'));
+  var inputs  = Array.prototype.slice.call(document.querySelectorAll('[data-bind]'));
+  var byName  = {};
+  inputs.forEach(function(i){ byName[i.getAttribute('data-bind')] = i; });
+
+  /* ---------- 폼 ↔ 포스터 양방향 바인딩 ---------- */
+  function posterEl(name){ return poster.querySelector('[data-f="'+name+'"]'); }
+
+  fields.forEach(function(el){
+    var name = el.getAttribute('data-f');
+    var input = byName[name];
+    if (input) input.value = el.textContent.trim();
+
+    // 포스터에서 직접 수정 → 폼 반영
+    el.addEventListener('input', function(){
+      if (input && input.value !== el.textContent) input.value = el.textContent;
+      autofit();
+    });
+    // 서식 없는 붙여넣기
+    el.addEventListener('paste', function(e){
+      e.preventDefault();
+      var t = (e.clipboardData || window.clipboardData).getData('text/plain');
+      document.execCommand('insertText', false, t.replace(/\s*\n\s*/g,' '));
+    });
+    // 엔터로 줄바꿈 대신 편집 종료 (제목 필드는 줄바꿈 허용)
+    el.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' && name !== 'talkTitle') { e.preventDefault(); el.blur(); }
+    });
+  });
+
+  // 폼에서 수정 → 포스터 반영
+  inputs.forEach(function(input){
+    input.addEventListener('input', function(){
+      var el = posterEl(input.getAttribute('data-bind'));
+      if (el && el.textContent !== input.value) el.textContent = input.value;
+      autofit();
+    });
+  });
+
+  function setField(name, value){
+    var el = posterEl(name);
+    if (el) el.textContent = value;
+    if (byName[name]) byName[name].value = value;
+    autofit();
+  }
+
+  /* ---------- 긴 텍스트 자동 축소 ----------
+     제목이나 연사명이 길어져도 레이아웃이 밀리지 않도록
+     지정된 높이 안에 들어올 때까지 글자 크기를 줄인다. */
+  var MM = 96 / 25.4;                       // 1mm → px (zoom 1 기준 레이아웃 단위)
+  var AUTOFIT = [
+    { sel:'.talk-title',   varName:'--talk-size',    base:9,  min:5.2, maxMm:36 },
+    { sel:'.speaker-name', varName:'--speaker-size', base:11, min:6.5, maxMm:17 }
+  ];
+  function autofit(){
+    AUTOFIT.forEach(function(cfg){
+      var el = poster.querySelector(cfg.sel);
+      if (!el) return;
+      var size = cfg.base, limit = cfg.maxMm * MM;
+      el.style.setProperty(cfg.varName, size + 'mm');
+      var guard = 0;
+      while (el.offsetHeight > limit && size > cfg.min && guard++ < 60) {
+        size -= 0.25;
+        el.style.setProperty(cfg.varName, size + 'mm');
+      }
+    });
+  }
+
+  /* ---------- 기본값 스냅샷 ---------- */
+  var DEFAULTS = {};
+  fields.forEach(function(el){ DEFAULTS[el.getAttribute('data-f')] = el.textContent; });
+
+  /* ---------- 회차 프리셋 ---------- */
+  var sel = document.getElementById('preset');
+  SCHEDULE.forEach(function(s){
+    var o = document.createElement('option');
+    o.value = s.w;
+    o.textContent = s.w + '주차 · ' + s.d.replace('2026. ','').replace(' (수)','') + ' · ' + s.name;
+    sel.appendChild(o);
+  });
+  sel.value = '15';
+  sel.addEventListener('change', function(){
+    var s = SCHEDULE.filter(function(x){ return String(x.w) === sel.value; })[0];
+    if (!s) return;
+    setField('week', s.w + '주차');
+    setField('dateValue', s.d);
+    setField('speakerName', s.name);
+    setField('speakerAffil', s.affil);
+    setField('talkTitle', s.title);
+  });
+
+  /* ---------- 포인트 컬러 ---------- */
+  function hexToRgb(h){
+    h = h.replace('#','');
+    if (h.length === 3) h = h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+    return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)];
+  }
+  function toHex(r,g,b){
+    return '#' + [r,g,b].map(function(v){
+      v = Math.max(0, Math.min(255, Math.round(v)));
+      return ('0'+v.toString(16)).slice(-2);
+    }).join('');
+  }
+  function mix(hex, target, amount){
+    var a = hexToRgb(hex), b = hexToRgb(target);
+    return toHex(a[0]+(b[0]-a[0])*amount, a[1]+(b[1]-a[1])*amount, a[2]+(b[2]-a[2])*amount);
+  }
+  function applyColor(hex){
+    var root = document.documentElement.style;
+    root.setProperty('--c-primary', hex);
+    root.setProperty('--c-accent', mix(hex, '#FFB347', 0.42));
+    root.setProperty('--c-deep',   mix(hex, '#3A1200', 0.58));
+    root.setProperty('--c-gold',   mix(hex, '#B98A4E', 0.55));
+    document.getElementById('colorPick').value = hex;
+    Array.prototype.forEach.call(document.querySelectorAll('.sw'), function(b){
+      b.classList.toggle('on', b.dataset.c.toLowerCase() === hex.toLowerCase());
+    });
+  }
+  var PALETTE = ['#E65100','#F26522','#ED8B00','#C24A12','#8C2D14','#7A1F2B'];
+  var swWrap = document.getElementById('swatches');
+  PALETTE.forEach(function(c){
+    var b = document.createElement('button');
+    b.className = 'sw'; b.dataset.c = c; b.style.background = c; b.title = c;
+    b.addEventListener('click', function(){ applyColor(c); });
+    swWrap.appendChild(b);
+  });
+  document.getElementById('colorPick').addEventListener('input', function(e){ applyColor(e.target.value); });
+  applyColor('#E65100');
+
+  /* ---------- 로고 교체 ---------- */
+  document.getElementById('logoFile').addEventListener('change', function(e){
+    var f = e.target.files && e.target.files[0];
+    if (!f) return;
+    var r = new FileReader();
+    r.onload = function(){
+      var img = document.getElementById('logoImg');
+      img.src = r.result;
+      img.style.display = 'block';
+      document.getElementById('logoMark').style.display = 'none';
+    };
+    r.readAsDataURL(f);
+  });
+
+  /* ---------- 확대 / 축소 ---------- */
+  var zoom = 0.62;
+  function setZoom(z){
+    zoom = Math.max(0.2, Math.min(1.6, z));
+    document.documentElement.style.setProperty('--zoom', zoom);
+    document.getElementById('zoomVal').textContent = Math.round(zoom*100) + '%';
+    var frame = document.getElementById('frame');
+    frame.style.height = (poster.offsetHeight * zoom) + 'px';
+  }
+  document.getElementById('zoomIn').addEventListener('click',  function(){ setZoom(zoom + 0.08); });
+  document.getElementById('zoomOut').addEventListener('click', function(){ setZoom(zoom - 0.08); });
+  function fit(){
+    var stage = document.querySelector('.stage');
+    var availH = window.innerHeight - 130;
+    var availW = stage.clientWidth - 60;
+    setZoom(Math.min(availH / poster.offsetHeight, availW / poster.offsetWidth));
+  }
+  document.getElementById('zoomFit').addEventListener('click', fit);
+  window.addEventListener('resize', function(){ setZoom(zoom); });
+  setTimeout(function(){ fit(); autofit(); }, 260);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(autofit);
+  autofit();
+
+  /* ---------- 편집영역 표시 토글 ---------- */
+  var gBtn = document.getElementById('toggleGuides');
+  gBtn.addEventListener('click', function(){
+    var on = document.body.classList.toggle('guides');
+    gBtn.textContent = on ? '편집영역 표시 끄기' : '편집영역 표시 켜기';
+  });
+
+  /* ---------- 초기화 ---------- */
+  document.getElementById('btnReset').addEventListener('click', function(){
+    if (!confirm('모든 텍스트를 기본값으로 되돌릴까요?')) return;
+    Object.keys(DEFAULTS).forEach(function(k){ setField(k, DEFAULTS[k]); });
+    applyColor('#E65100');
+    sel.value = '15';
+  });
+
+  /* ---------- PDF 저장 / 인쇄 ---------- */
+  document.getElementById('btnPrint').addEventListener('click', function(){
+    if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+    window.print();
+  });
+
+  /* ---------- PNG 다운로드 ---------- */
+  function loadScript(src){
+    return new Promise(function(res, rej){
+      var s = document.createElement('script');
+      s.src = src; s.onload = res; s.onerror = rej;
+      document.head.appendChild(s);
+    });
+  }
+  var pngBtn = document.getElementById('btnPng');
+  pngBtn.addEventListener('click', function(){
+    var label = pngBtn.textContent;
+    pngBtn.textContent = '이미지 생성 중…';
+    pngBtn.disabled = true;
+    var ready = window.html2canvas
+      ? Promise.resolve()
+      : loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+
+    ready.then(function(){
+      document.body.classList.remove('guides');
+      return window.html2canvas(poster, {
+        scale: 3,                 // 약 2380 × 3366 px (≈ 288 dpi)
+        backgroundColor: '#FDF8F2',
+        useCORS: true,
+        logging: false,
+        windowWidth: poster.offsetWidth,
+        windowHeight: poster.offsetHeight
+      });
+    }).then(function(canvas){
+      var a = document.createElement('a');
+      var wk = (posterEl('week').textContent || '').replace(/\s/g,'');
+      a.download = '화공세미나_' + (wk || 'poster') + '.png';
+      a.href = canvas.toDataURL('image/png');
+      a.click();
+    }).catch(function(){
+      alert('이미지 변환에 실패했습니다. 대신 «PDF로 저장 · 인쇄» 버튼을 사용해 주세요.\n(오프라인 환경에서는 이미지 변환 라이브러리를 불러올 수 없습니다.)');
+    }).then(function(){
+      document.body.classList.add('guides');
+      pngBtn.textContent = label;
+      pngBtn.disabled = false;
+    });
+  });
+})();
+</script>
+</body>
+</html>
