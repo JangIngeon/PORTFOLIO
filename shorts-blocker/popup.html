@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>숏폼 차단기</title>
+<style>
+  body { width: 300px; margin: 0; padding: 16px; font: 14px/1.5 system-ui, sans-serif; color: #111827; }
+  h1 { font-size: 16px; margin: 0 0 12px; }
+  .card { border: 1px solid #e5e7eb; border-radius: 10px; padding: 12px; margin-bottom: 10px; }
+  .card h2 { font-size: 14px; margin: 0 0 8px; }
+  select, input[type=number] { font: inherit; padding: 4px 6px; }
+  input[type=number] { width: 60px; }
+  .row { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+  .bar { height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; margin-top: 8px; }
+  .bar > div { height: 100%; background: #ef4444; width: 0; }
+  small { color: #6b7280; }
+</style>
+</head>
+<body>
+  <h1>🚫 숏폼 차단기</h1>
+  <div class="card" data-site="youtube">
+    <h2>▶ 유튜브 쇼츠</h2>
+    <select class="mode">
+      <option value="block">완전 차단</option>
+      <option value="limit">하루 시간 제한</option>
+      <option value="off">끄기</option>
+    </select>
+    <div class="row limit"><input type="number" class="min" min="1" max="600"> 분 / 일</div>
+    <div class="bar"><div></div></div>
+    <small class="used"></small>
+  </div>
+  <div class="card" data-site="instagram">
+    <h2>📷 인스타그램 릴스</h2>
+    <select class="mode">
+      <option value="block">완전 차단</option>
+      <option value="limit">하루 시간 제한</option>
+      <option value="off">끄기</option>
+    </select>
+    <div class="row limit"><input type="number" class="min" min="1" max="600"> 분 / 일</div>
+    <div class="bar"><div></div></div>
+    <small class="used"></small>
+  </div>
+  <button id="reset">오늘 사용 시간 초기화</button>
+  <script src="popup.js"></script>
+</body>
+</html>
