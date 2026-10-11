@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "숏폼 차단기 (Shorts & Reels Blocker)",
+  "version": "1.0.0",
+  "description": "유튜브 쇼츠와 인스타그램 릴스를 차단하거나 하루 시청 시간을 제한합니다.",
+  "permissions": ["storage"],
+  "action": { "default_popup": "popup.html", "default_title": "숏폼 차단기" },
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*", "*://*.instagram.com/*"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_start"
+    }
+  ]
+}

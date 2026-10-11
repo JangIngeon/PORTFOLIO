@@ -1,0 +1,29 @@
+/* ---- YouTube: 차단 모드에서 쇼츠 요소 숨김 ---- */
+html.sb-youtube-block ytd-reel-shelf-renderer,
+html.sb-youtube-block ytd-rich-shelf-renderer[is-shorts],
+html.sb-youtube-block ytd-guide-entry-renderer:has(a[title="Shorts"]),
+html.sb-youtube-block ytd-mini-guide-entry-renderer[aria-label="Shorts"],
+html.sb-youtube-block ytd-video-renderer:has(a[href^="/shorts/"]),
+html.sb-youtube-block ytd-grid-video-renderer:has(a[href^="/shorts/"]),
+html.sb-youtube-block ytd-rich-item-renderer:has(a[href^="/shorts/"]),
+html.sb-youtube-block ytd-compact-video-renderer:has(a[href^="/shorts/"]),
+html.sb-youtube-block ytm-shorts-lockup-view-model,
+html.sb-youtube-block ytm-reel-shelf-renderer,
+html.sb-youtube-block grid-shelf-view-model:has(a[href^="/shorts/"]) {
+  display: none !important;
+}
+
+/* ---- Instagram: 차단 모드에서 릴스 진입점 숨김 ---- */
+html.sb-instagram-block a[href="/reels/"],
+html.sb-instagram-block a[href^="/reels"],
+html.sb-instagram-block a[href*="/reel/"] {
+  display: none !important;
+}
+
+/* ---- 안내 토스트 ---- */
+#sb-toast {
+  position: fixed; left: 50%; bottom: 32px; transform: translateX(-50%);
+  z-index: 2147483647; background: #1f2937; color: #fff;
+  padding: 12px 20px; border-radius: 999px; font: 600 14px/1.4 system-ui, sans-serif;
+  box-shadow: 0 6px 24px rgba(0,0,0,.35);
+}
