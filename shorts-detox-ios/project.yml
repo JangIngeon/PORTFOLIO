@@ -1,0 +1,67 @@
+name: ShortsDetox
+options:
+  bundleIdPrefix: com.jangingeon
+  deploymentTarget:
+    iOS: "16.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    # Xcode에서 본인 Team을 선택하거나 여기에 팀 ID를 넣으세요
+    DEVELOPMENT_TEAM: ""
+targets:
+  ShortsDetox:
+    type: application
+    platform: iOS
+    sources: [ShortsDetox]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.jangingeon.ShortsDetox
+    entitlements:
+      path: ShortsDetox/ShortsDetox.entitlements
+      properties:
+        com.apple.developer.family-controls: true
+    info:
+      path: ShortsDetox/Info.plist
+      properties:
+        CFBundleDisplayName: 숏폼 디톡스
+        UILaunchScreen: {}
+        NSFamilyControlsUsageDescription: 선택한 앱을 열 때 알림 화면을 보여주기 위해 사용합니다.
+    dependencies:
+      - target: ShieldConfiguration
+      - target: ShieldAction
+  ShieldConfiguration:
+    type: app-extension
+    platform: iOS
+    sources: [ShieldConfiguration]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.jangingeon.ShortsDetox.ShieldConfiguration
+    entitlements:
+      path: ShieldConfiguration/ShieldConfiguration.entitlements
+      properties:
+        com.apple.developer.family-controls: true
+    info:
+      path: ShieldConfiguration/Info.plist
+      properties:
+        CFBundleDisplayName: ShieldConfiguration
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.ManagedSettingsUI.shield-configuration-service
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).ShieldConfigurationExtension
+  ShieldAction:
+    type: app-extension
+    platform: iOS
+    sources: [ShieldAction]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.jangingeon.ShortsDetox.ShieldAction
+    entitlements:
+      path: ShieldAction/ShieldAction.entitlements
+      properties:
+        com.apple.developer.family-controls: true
+    info:
+      path: ShieldAction/Info.plist
+      properties:
+        CFBundleDisplayName: ShieldAction
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.ManagedSettings.shield-action-service
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).ShieldActionExtension

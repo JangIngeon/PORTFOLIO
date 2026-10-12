@@ -1,0 +1,7 @@
+*.xcodeproj
+xcuserdata/
+DerivedData/
+.build/
+# XcodeGen이 project.yml로부터 생성하는 파일
+*/Info.plist
+*/*.entitlements
